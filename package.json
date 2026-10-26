@@ -1,0 +1,36 @@
+{
+  "name": "foodloop",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev -w apps/api\" \"npm run dev -w apps/web\"",
+    "dev:api": "npm run dev -w apps/api",
+    "dev:web": "npm run dev -w apps/web",
+    "db:setup": "npm run db:setup -w apps/api",
+    "db:migrate": "npm run db:migrate -w apps/api",
+    "db:seed": "npm run db:seed -w apps/api",
+    "db:roles": "npm run db:roles -w apps/api",
+    "retention": "npm run retention -w apps/api --",
+    "db:generate": "npm run db:generate -w apps/api",
+    "test": "npm run test -w apps/api",
+    "lint": "eslint .",
+    "typecheck": "npm run typecheck -w apps/api && npm run typecheck -w apps/web",
+    "build": "npm run build -w apps/api && npm run build -w apps/web",
+    "start": "concurrently -n api,web \"npm run start -w apps/api\" \"npm run start -w apps/web\"",
+    "db:check-postgis": "npm run db:check-postgis -w apps/api"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "concurrently": "^10.0.6",
+    "eslint": "^10.13.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.0"
+  }
+}

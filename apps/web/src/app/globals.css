@@ -1,0 +1,291 @@
+@import 'tailwindcss';
+
+/*
+ * FoodLoop identity (v2): warm oat paper, paprika actions, saffron accent, espresso text.
+ * Everything below is a CSS variable; the paprika-*, saffron-* and stone-* scales are what the components use.
+ * Status colours are never the only signal: every state also carries a glyph and a text label.
+ */
+@theme {
+  /* paprika: the main action colour (600 is the button fill; white on 600 = 5.3:1) */
+  --color-paprika-50: #fff2ec;
+  --color-paprika-100: #ffe1d3;
+  --color-paprika-200: #ffc2a6;
+  --color-paprika-300: #f99a72;
+  --color-paprika-400: #ec7048;
+  --color-paprika-500: #d9532b;
+  --color-paprika-600: #bf3f1b;
+  --color-paprika-700: #9c3115;
+  --color-paprika-800: #7b2711;
+  --color-paprika-900: #56190b;
+
+  /* saffron / marigold: restrained accent (highlights, chips, focus on dark) */
+  --color-saffron-50: #fff8e3;
+  --color-saffron-100: #ffedb5;
+  --color-saffron-200: #ffdc7a;
+  --color-saffron-300: #fcc83f;
+  --color-saffron-400: #f3b414;
+  --color-saffron-500: #e0a000;
+  --color-saffron-600: #b87c00;
+  --color-saffron-700: #8a5a00;
+
+  /* warm oat neutrals and espresso text; stone-500 and darker meet 4.5:1 on the oat background */
+  --color-stone-50: #fbf5e9;
+  --color-stone-100: #f4ebd9;
+  --color-stone-200: #e8dcc4;
+  --color-stone-300: #d5c5a8;
+  --color-stone-400: #a39378;
+  --color-stone-500: #75675a;
+  --color-stone-600: #5e5247;
+  --color-stone-700: #4a3f36;
+  --color-stone-800: #352c25;
+  --color-stone-900: #241b15;
+  --color-stone-950: #170f0b;
+
+  /*
+   * Semantic status colours, kept inside the warm family. Success reads as "ink": dark espresso with a check.
+   * Blue/sky (used for "reserved"/"in transit") become cocoa so nothing in the UI is blue.
+   */
+  --color-green-50: #f4ecdc;
+  --color-green-300: #c9b99a;
+  --color-green-600: #352c25;
+  --color-green-800: #241b15;
+  --color-green-900: #170f0b;
+  --color-blue-50: #f8ebe2;
+  --color-blue-600: #8a4a2e;
+  --color-blue-900: #4d2412;
+  --color-sky-50: #f8ebe2;
+  --color-sky-700: #8a4a2e;
+  --color-sky-900: #4d2412;
+  --color-orange-50: #fff1d6;
+  --color-orange-300: #f0b45a;
+  --color-orange-600: #b05f00;
+  --color-orange-900: #6b3700;
+  --color-orange-950: #4a2600;
+
+  --font-sans: 'Segoe UI', Inter, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+
+  --shadow-card: 0 1px 2px rgb(36 27 21 / 0.05), 0 4px 16px rgb(36 27 21 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(36 27 21 / 0.07), 0 14px 34px rgb(36 27 21 / 0.14);
+}
+
+/* Semantic aliases, for plain CSS and anything that is not a Tailwind class (maps, charts, dialogs) */
+:root {
+  --fl-bg: var(--color-stone-50);
+  --fl-surface: #fffdf8;
+  --fl-text: var(--color-stone-900);
+  --fl-muted: var(--color-stone-600);
+  --fl-border: var(--color-stone-200);
+  --fl-primary: var(--color-paprika-600);
+  --fl-primary-hover: var(--color-paprika-700);
+  --fl-accent: var(--color-saffron-300);
+  --fl-ink: var(--color-stone-950);
+  --fl-focus: var(--color-paprika-600);
+  --fl-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+body {
+  background: var(--fl-bg);
+  color: var(--fl-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+  accent-color: var(--color-paprika-600);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--fl-focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* On espresso headers, hero photos and dialogs the ring flips to saffron */
+.on-dark :focus-visible {
+  outline-color: var(--color-saffron-300);
+}
+.on-dark .on-light :focus-visible {
+  outline-color: var(--fl-focus);
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--color-stone-950);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+.skip-link:focus-visible {
+  outline-color: var(--color-saffron-300);
+}
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+/* ---------- Motion (short, subtle; all of it switched off by prefers-reduced-motion below) ---------- */
+@keyframes fl-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fl-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fl-pop {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fl-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* page transition: <main> fades up when a route mounts */
+.fl-page {
+  animation: fl-rise 0.28s var(--fl-ease) both;
+}
+/* staggered entrance for the cards of a dashboard */
+.stagger > * {
+  animation: fl-rise 0.4s var(--fl-ease) both;
+}
+.stagger > *:nth-child(1) { animation-delay: 0.02s; }
+.stagger > *:nth-child(2) { animation-delay: 0.08s; }
+.stagger > *:nth-child(3) { animation-delay: 0.14s; }
+.stagger > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger > *:nth-child(5) { animation-delay: 0.26s; }
+.stagger > *:nth-child(n + 6) { animation-delay: 0.3s; }
+/* panels, alerts and states that appear after load */
+.fl-appear {
+  animation: fl-pop 0.22s var(--fl-ease) both;
+}
+
+/* cards, rows, links with something behind them */
+.lift {
+  transition: transform 0.18s var(--fl-ease), box-shadow 0.18s var(--fl-ease), border-color 0.18s;
+}
+.lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+  border-color: var(--color-paprika-300);
+}
+.lift:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-card);
+}
+.row-hover {
+  transition: background-color 0.15s;
+}
+.row-hover:hover {
+  background-color: var(--color-saffron-50);
+}
+button,
+[role='tab'],
+a {
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.12s, box-shadow 0.15s;
+}
+button:not(:disabled):active,
+a.press:active {
+  transform: scale(0.97);
+}
+/* photos zoom slowly inside their frame */
+.zoom {
+  overflow: hidden;
+}
+.zoom img {
+  transition: transform 0.6s var(--fl-ease);
+}
+.lift img {
+  transition: transform 0.6s var(--fl-ease);
+}
+.zoom:hover img,
+.lift:hover img {
+  transform: scale(1.05);
+}
+
+.skeleton {
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, var(--color-stone-200) 25%, var(--color-stone-100) 50%, var(--color-stone-200) 75%);
+  background-size: 200% 100%;
+  animation: fl-shimmer 1.8s linear infinite;
+}
+
+/* mobile menu: grid-rows trick animates height without measuring */
+.menu-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.22s var(--fl-ease);
+}
+.menu-panel[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+.menu-panel > div {
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  /* a closed menu is not reachable by keyboard or screen reader, after its closing animation */
+  .menu-panel[data-open='false'] > div {
+    visibility: hidden;
+    transition: visibility 0s linear 0.22s;
+  }
+}
+@media (min-width: 768px) {
+  .menu-panel {
+    display: block;
+  }
+}
+
+dialog.fl-dialog {
+  margin: auto;
+  border: 0;
+  border-radius: 1rem;
+  padding: 0;
+  max-width: min(30rem, calc(100vw - 2rem));
+  width: 100%;
+  box-shadow: var(--shadow-lift);
+  color: var(--fl-text);
+  background: var(--fl-surface);
+}
+dialog.fl-dialog[open] {
+  animation: fl-pop 0.2s var(--fl-ease) both;
+}
+dialog.fl-dialog::backdrop {
+  background: rgb(23 15 11 / 0.6);
+  animation: fl-fade 0.2s both;
+}
+
+/* map tiles are warmed to sit with the palette */
+.leaflet-tile-pane {
+  filter: sepia(0.28) saturate(0.9) contrast(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .skeleton {
+    animation: none;
+  }
+  .lift:hover,
+  button:not(:disabled):active,
+  .zoom:hover img {
+    transform: none;
+  }
+}

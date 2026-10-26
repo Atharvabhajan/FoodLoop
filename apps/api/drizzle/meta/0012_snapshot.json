@@ -1,0 +1,2967 @@
+{
+  "id": "ea8dc96b-1ec4-4899-88eb-8b15681e5712",
+  "prevId": "13922e82-f946-46b0-9bc9-0cb30d5dc432",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.food_listings": {
+      "name": "food_listings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "provider_org_id": {
+          "name": "provider_org_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "food_category": {
+          "name": "food_category",
+          "type": "food_category",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "servings": {
+          "name": "servings",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estimated_kg": {
+          "name": "estimated_kg",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prepared_at": {
+          "name": "prepared_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pickup_start": {
+          "name": "pickup_start",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pickup_deadline": {
+          "name": "pickup_deadline",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "address_line": {
+          "name": "address_line",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "city": {
+          "name": "city",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "packaging": {
+          "name": "packaging",
+          "type": "packaging_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dietary_tags": {
+          "name": "dietary_tags",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "allergen_notes": {
+          "name": "allergen_notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transport_required": {
+          "name": "transport_required",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image_key": {
+          "name": "image_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image_mime": {
+          "name": "image_mime",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "listing_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'DRAFT'"
+        },
+        "declaration_accepted_at": {
+          "name": "declaration_accepted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cancelled_at": {
+          "name": "cancelled_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cancellation_reason": {
+          "name": "cancellation_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expired_at": {
+          "name": "expired_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "food_listings_status_deadline_idx": {
+          "name": "food_listings_status_deadline_idx",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "pickup_deadline",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "food_listings_provider_idx": {
+          "name": "food_listings_provider_idx",
+          "columns": [
+            {
+              "expression": "provider_org_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "food_listings_provider_org_id_organizations_id_fk": {
+          "name": "food_listings_provider_org_id_organizations_id_fk",
+          "tableFrom": "food_listings",
+          "columnsFrom": [
+            "provider_org_id"
+          ],
+          "tableTo": "organizations",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "food_listings_created_by_users_id_fk": {
+          "name": "food_listings_created_by_users_id_fk",
+          "tableFrom": "food_listings",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "food_listings_servings_positive": {
+          "name": "food_listings_servings_positive",
+          "value": "\"food_listings\".\"servings\" > 0"
+        },
+        "food_listings_kg_positive": {
+          "name": "food_listings_kg_positive",
+          "value": "\"food_listings\".\"estimated_kg\" IS NULL OR \"food_listings\".\"estimated_kg\" > 0"
+        },
+        "food_listings_window_valid": {
+          "name": "food_listings_window_valid",
+          "value": "\"food_listings\".\"pickup_start\" < \"food_listings\".\"pickup_deadline\""
+        },
+        "food_listings_prepared_before_deadline": {
+          "name": "food_listings_prepared_before_deadline",
+          "value": "\"food_listings\".\"prepared_at\" <= \"food_listings\".\"pickup_deadline\""
+        },
+        "food_listings_latitude_range": {
+          "name": "food_listings_latitude_range",
+          "value": "\"food_listings\".\"latitude\" IS NULL OR \"food_listings\".\"latitude\" BETWEEN -90 AND 90"
+        },
+        "food_listings_longitude_range": {
+          "name": "food_listings_longitude_range",
+          "value": "\"food_listings\".\"longitude\" IS NULL OR \"food_listings\".\"longitude\" BETWEEN -180 AND 180"
+        },
+        "food_listings_coordinates_pair": {
+          "name": "food_listings_coordinates_pair",
+          "value": "(\"food_listings\".\"latitude\" IS NULL) = (\"food_listings\".\"longitude\" IS NULL)"
+        },
+        "food_listings_cancel_reason": {
+          "name": "food_listings_cancel_reason",
+          "value": "\"food_listings\".\"status\" <> 'CANCELLED' OR \"food_listings\".\"cancellation_reason\" IS NOT NULL"
+        },
+        "food_listings_published": {
+          "name": "food_listings_published",
+          "value": "\"food_listings\".\"status\" = 'DRAFT' OR \"food_listings\".\"published_at\" IS NOT NULL OR \"food_listings\".\"status\" = 'CANCELLED'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.incident_evidence": {
+      "name": "incident_evidence",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "incident_id": {
+          "name": "incident_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "uploaded_by": {
+          "name": "uploaded_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "storage_key": {
+          "name": "storage_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mime_type": {
+          "name": "mime_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "size_bytes": {
+          "name": "size_bytes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sha256": {
+          "name": "sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "incident_evidence_key": {
+          "name": "incident_evidence_key",
+          "columns": [
+            {
+              "expression": "storage_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "incident_evidence_incident_idx": {
+          "name": "incident_evidence_incident_idx",
+          "columns": [
+            {
+              "expression": "incident_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "incident_evidence_incident_id_incident_reports_id_fk": {
+          "name": "incident_evidence_incident_id_incident_reports_id_fk",
+          "tableFrom": "incident_evidence",
+          "columnsFrom": [
+            "incident_id"
+          ],
+          "tableTo": "incident_reports",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "incident_evidence_uploaded_by_users_id_fk": {
+          "name": "incident_evidence_uploaded_by_users_id_fk",
+          "tableFrom": "incident_evidence",
+          "columnsFrom": [
+            "uploaded_by"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.incident_reports": {
+      "name": "incident_reports",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "rescue_id": {
+          "name": "rescue_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reporter_user_id": {
+          "name": "reporter_user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reporter_role": {
+          "name": "reporter_role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category": {
+          "name": "category",
+          "type": "incident_category",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "severity": {
+          "name": "severity",
+          "type": "incident_severity",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "blocking": {
+          "name": "blocking",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "incident_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'OPEN'"
+        },
+        "resolved_by": {
+          "name": "resolved_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "resolved_at": {
+          "name": "resolved_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "resolution_code": {
+          "name": "resolution_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "resolution_note": {
+          "name": "resolution_note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "incident_reports_rescue_idx": {
+          "name": "incident_reports_rescue_idx",
+          "columns": [
+            {
+              "expression": "rescue_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "incident_reports_open_idx": {
+          "name": "incident_reports_open_idx",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "incident_reports_rescue_id_rescues_id_fk": {
+          "name": "incident_reports_rescue_id_rescues_id_fk",
+          "tableFrom": "incident_reports",
+          "columnsFrom": [
+            "rescue_id"
+          ],
+          "tableTo": "rescues",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "incident_reports_reporter_user_id_users_id_fk": {
+          "name": "incident_reports_reporter_user_id_users_id_fk",
+          "tableFrom": "incident_reports",
+          "columnsFrom": [
+            "reporter_user_id"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "incident_reports_resolved_by_users_id_fk": {
+          "name": "incident_reports_resolved_by_users_id_fk",
+          "tableFrom": "incident_reports",
+          "columnsFrom": [
+            "resolved_by"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "incident_resolved_fields": {
+          "name": "incident_resolved_fields",
+          "value": "\"incident_reports\".\"status\" = 'OPEN' OR (\"incident_reports\".\"resolved_by\" IS NOT NULL AND \"incident_reports\".\"resolved_at\" IS NOT NULL AND \"incident_reports\".\"resolution_code\" IS NOT NULL)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.listing_events": {
+      "name": "listing_events",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "listing_id": {
+          "name": "listing_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "action": {
+          "name": "action",
+          "type": "listing_event_action",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "actor_user_id": {
+          "name": "actor_user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "listing_events_listing_idx": {
+          "name": "listing_events_listing_idx",
+          "columns": [
+            {
+              "expression": "listing_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "listing_events_listing_id_food_listings_id_fk": {
+          "name": "listing_events_listing_id_food_listings_id_fk",
+          "tableFrom": "listing_events",
+          "columnsFrom": [
+            "listing_id"
+          ],
+          "tableTo": "food_listings",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "listing_events_actor_user_id_users_id_fk": {
+          "name": "listing_events_actor_user_id_users_id_fk",
+          "tableFrom": "listing_events",
+          "columnsFrom": [
+            "actor_user_id"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.match_candidates": {
+      "name": "match_candidates",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "listing_id": {
+          "name": "listing_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ngo_org_id": {
+          "name": "ngo_org_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "eligible": {
+          "name": "eligible",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rank": {
+          "name": "rank",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "distance_m": {
+          "name": "distance_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estimated_travel_minutes": {
+          "name": "estimated_travel_minutes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "margin_minutes": {
+          "name": "margin_minutes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "breakdown": {
+          "name": "breakdown",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reasons": {
+          "name": "reasons",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "notified_at": {
+          "name": "notified_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "computed_at": {
+          "name": "computed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "match_candidates_listing_ngo_key": {
+          "name": "match_candidates_listing_ngo_key",
+          "columns": [
+            {
+              "expression": "listing_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "ngo_org_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "match_candidates_ngo_idx": {
+          "name": "match_candidates_ngo_idx",
+          "columns": [
+            {
+              "expression": "ngo_org_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "eligible",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "match_candidates_listing_id_food_listings_id_fk": {
+          "name": "match_candidates_listing_id_food_listings_id_fk",
+          "tableFrom": "match_candidates",
+          "columnsFrom": [
+            "listing_id"
+          ],
+          "tableTo": "food_listings",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        },
+        "match_candidates_ngo_org_id_organizations_id_fk": {
+          "name": "match_candidates_ngo_org_id_organizations_id_fk",
+          "tableFrom": "match_candidates",
+          "columnsFrom": [
+            "ngo_org_id"
+          ],
+          "tableTo": "organizations",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "match_candidates_score_range": {
+          "name": "match_candidates_score_range",
+          "value": "\"match_candidates\".\"score\" IS NULL OR \"match_candidates\".\"score\" BETWEEN 0 AND 100"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.ngo_requirements": {
+      "name": "ngo_requirements",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "ngo_org_id": {
+          "name": "ngo_org_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "food_categories": {
+          "name": "food_categories",
+          "type": "food_category[]",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "needed_servings": {
+          "name": "needed_servings",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "capacity_servings": {
+          "name": "capacity_servings",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "service_radius_km": {
+          "name": "service_radius_km",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "available_from": {
+          "name": "available_from",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "available_to": {
+          "name": "available_to",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dietary_must_have": {
+          "name": "dietary_must_have",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "dietary_must_avoid": {
+          "name": "dietary_must_avoid",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "intake_enabled": {
+          "name": "intake_enabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "ngo_requirements_org_key": {
+          "name": "ngo_requirements_org_key",
+          "columns": [
+            {
+              "expression": "ngo_org_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "ngo_requirements_ngo_org_id_organizations_id_fk": {
+          "name": "ngo_requirements_ngo_org_id_organizations_id_fk",
+          "tableFrom": "ngo_requirements",
+          "columnsFrom": [
+            "ngo_org_id"
+          ],
+          "tableTo": "organizations",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "ngo_requirements_updated_by_users_id_fk": {
+          "name": "ngo_requirements_updated_by_users_id_fk",
+          "tableFrom": "ngo_requirements",
+          "columnsFrom": [
+            "updated_by"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "ngo_requirements_categories_nonempty": {
+          "name": "ngo_requirements_categories_nonempty",
+          "value": "cardinality(\"ngo_requirements\".\"food_categories\") >= 1"
+        },
+        "ngo_requirements_needed_positive": {
+          "name": "ngo_requirements_needed_positive",
+          "value": "\"ngo_requirements\".\"needed_servings\" > 0"
+        },
+        "ngo_requirements_capacity_covers_need": {
+          "name": "ngo_requirements_capacity_covers_need",
+          "value": "\"ngo_requirements\".\"capacity_servings\" >= \"ngo_requirements\".\"needed_servings\""
+        },
+        "ngo_requirements_radius_range": {
+          "name": "ngo_requirements_radius_range",
+          "value": "\"ngo_requirements\".\"service_radius_km\" > 0 AND \"ngo_requirements\".\"service_radius_km\" <= 100"
+        },
+        "ngo_requirements_window_valid": {
+          "name": "ngo_requirements_window_valid",
+          "value": "\"ngo_requirements\".\"available_from\" < \"ngo_requirements\".\"available_to\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.notifications": {
+      "name": "notifications",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "entity_type": {
+          "name": "entity_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dedupe_key": {
+          "name": "dedupe_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "read_at": {
+          "name": "read_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "notifications_dedupe_key": {
+          "name": "notifications_dedupe_key",
+          "columns": [
+            {
+              "expression": "dedupe_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "notifications_user_idx": {
+          "name": "notifications_user_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "notifications_user_id_users_id_fk": {
+          "name": "notifications_user_id_users_id_fk",
+          "tableFrom": "notifications",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.organization_members": {
+      "name": "organization_members",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "member_role": {
+          "name": "member_role",
+          "type": "member_role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'owner'"
+        },
+        "status": {
+          "name": "status",
+          "type": "member_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'ACTIVE'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "organization_members_user_org_key": {
+          "name": "organization_members_user_org_key",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "organization_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "organization_members_org_idx": {
+          "name": "organization_members_org_idx",
+          "columns": [
+            {
+              "expression": "organization_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "organization_members_user_id_users_id_fk": {
+          "name": "organization_members_user_id_users_id_fk",
+          "tableFrom": "organization_members",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        },
+        "organization_members_organization_id_organizations_id_fk": {
+          "name": "organization_members_organization_id_organizations_id_fk",
+          "tableFrom": "organization_members",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "tableTo": "organizations",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.organizations": {
+      "name": "organizations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "type": {
+          "name": "type",
+          "type": "organization_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "verification_status": {
+          "name": "verification_status",
+          "type": "verification_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'UNSUBMITTED'"
+        },
+        "contact_name": {
+          "name": "contact_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contact_email": {
+          "name": "contact_email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contact_phone": {
+          "name": "contact_phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address_line": {
+          "name": "address_line",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "city": {
+          "name": "city",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "submission_count": {
+          "name": "submission_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "submitted_at": {
+          "name": "submitted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_reason": {
+          "name": "status_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "organizations_status_idx": {
+          "name": "organizations_status_idx",
+          "columns": [
+            {
+              "expression": "verification_status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "organizations_latitude_range": {
+          "name": "organizations_latitude_range",
+          "value": "\"organizations\".\"latitude\" IS NULL OR \"organizations\".\"latitude\" BETWEEN -90 AND 90"
+        },
+        "organizations_longitude_range": {
+          "name": "organizations_longitude_range",
+          "value": "\"organizations\".\"longitude\" IS NULL OR \"organizations\".\"longitude\" BETWEEN -180 AND 180"
+        },
+        "organizations_coordinates_pair": {
+          "name": "organizations_coordinates_pair",
+          "value": "(\"organizations\".\"latitude\" IS NULL) = (\"organizations\".\"longitude\" IS NULL)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.rescue_assignments": {
+      "name": "rescue_assignments",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "rescue_id": {
+          "name": "rescue_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "runner_user_id": {
+          "name": "runner_user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "assignment_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'ACTIVE'"
+        },
+        "accepted_at": {
+          "name": "accepted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "ended_at": {
+          "name": "ended_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "end_reason": {
+          "name": "end_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "rescue_assignments_rescue_idx": {
+          "name": "rescue_assignments_rescue_idx",
+          "columns": [
+            {
+              "expression": "rescue_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "rescue_assignments_runner_idx": {
+          "name": "rescue_assignments_runner_idx",
+          "columns": [
+            {
+              "expression": "runner_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "rescue_assignments_rescue_id_rescues_id_fk": {
+          "name": "rescue_assignments_rescue_id_rescues_id_fk",
+          "tableFrom": "rescue_assignments",
+          "columnsFrom": [
+            "rescue_id"
+          ],
+          "tableTo": "rescues",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "rescue_assignments_runner_user_id_users_id_fk": {
+          "name": "rescue_assignments_runner_user_id_users_id_fk",
+          "tableFrom": "rescue_assignments",
+          "columnsFrom": [
+            "runner_user_id"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.rescue_events": {
+      "name": "rescue_events",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "seq": {
+          "name": "seq",
+          "type": "bigserial",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rescue_id": {
+          "name": "rescue_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "event_type": {
+          "name": "event_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "from_status": {
+          "name": "from_status",
+          "type": "rescue_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "to_status": {
+          "name": "to_status",
+          "type": "rescue_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "actor_user_id": {
+          "name": "actor_user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "actor_role": {
+          "name": "actor_role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "rescue_events_rescue_idx": {
+          "name": "rescue_events_rescue_idx",
+          "columns": [
+            {
+              "expression": "rescue_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "rescue_events_rescue_id_rescues_id_fk": {
+          "name": "rescue_events_rescue_id_rescues_id_fk",
+          "tableFrom": "rescue_events",
+          "columnsFrom": [
+            "rescue_id"
+          ],
+          "tableTo": "rescues",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "rescue_events_actor_user_id_users_id_fk": {
+          "name": "rescue_events_actor_user_id_users_id_fk",
+          "tableFrom": "rescue_events",
+          "columnsFrom": [
+            "actor_user_id"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.rescue_locations": {
+      "name": "rescue_locations",
+      "schema": "",
+      "columns": {
+        "rescue_id": {
+          "name": "rescue_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "runner_user_id": {
+          "name": "runner_user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "recorded_at": {
+          "name": "recorded_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "rescue_locations_rescue_id_rescues_id_fk": {
+          "name": "rescue_locations_rescue_id_rescues_id_fk",
+          "tableFrom": "rescue_locations",
+          "columnsFrom": [
+            "rescue_id"
+          ],
+          "tableTo": "rescues",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        },
+        "rescue_locations_runner_user_id_users_id_fk": {
+          "name": "rescue_locations_runner_user_id_users_id_fk",
+          "tableFrom": "rescue_locations",
+          "columnsFrom": [
+            "runner_user_id"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "rescue_locations_lat": {
+          "name": "rescue_locations_lat",
+          "value": "\"rescue_locations\".\"latitude\" BETWEEN -90 AND 90"
+        },
+        "rescue_locations_lng": {
+          "name": "rescue_locations_lng",
+          "value": "\"rescue_locations\".\"longitude\" BETWEEN -180 AND 180"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.rescues": {
+      "name": "rescues",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "listing_id": {
+          "name": "listing_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "provider_org_id": {
+          "name": "provider_org_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ngo_org_id": {
+          "name": "ngo_org_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "accepted_by": {
+          "name": "accepted_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "rescue_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'RESERVED'"
+        },
+        "version": {
+          "name": "version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "servings_offered": {
+          "name": "servings_offered",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reserved_at": {
+          "name": "reserved_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "provider_confirm_by": {
+          "name": "provider_confirm_by",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "provider_confirmed_at": {
+          "name": "provider_confirmed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pickup_by": {
+          "name": "pickup_by",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pickup_code_hash": {
+          "name": "pickup_code_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pickup_code_attempts": {
+          "name": "pickup_code_attempts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "pickup_code_issued_at": {
+          "name": "pickup_code_issued_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "picked_up_at": {
+          "name": "picked_up_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "collected_servings": {
+          "name": "collected_servings",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "delivery_confirm_by": {
+          "name": "delivery_confirm_by",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "delivered_servings": {
+          "name": "delivered_servings",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recipient_confirmed_at": {
+          "name": "recipient_confirmed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "completed_at": {
+          "name": "completed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "closed_at": {
+          "name": "closed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "outcome_code": {
+          "name": "outcome_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "outcome_reason": {
+          "name": "outcome_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transport_mode": {
+          "name": "transport_mode",
+          "type": "transport_mode",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'NGO_PICKUP'"
+        },
+        "runner_by": {
+          "name": "runner_by",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transit_started_at": {
+          "name": "transit_started_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "handed_over_at": {
+          "name": "handed_over_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "rescues_listing_idx": {
+          "name": "rescues_listing_idx",
+          "columns": [
+            {
+              "expression": "listing_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "rescues_ngo_idx": {
+          "name": "rescues_ngo_idx",
+          "columns": [
+            {
+              "expression": "ngo_org_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "rescues_provider_idx": {
+          "name": "rescues_provider_idx",
+          "columns": [
+            {
+              "expression": "provider_org_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "rescues_due_idx": {
+          "name": "rescues_due_idx",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "provider_confirm_by",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "pickup_by",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "delivery_confirm_by",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "rescues_listing_id_food_listings_id_fk": {
+          "name": "rescues_listing_id_food_listings_id_fk",
+          "tableFrom": "rescues",
+          "columnsFrom": [
+            "listing_id"
+          ],
+          "tableTo": "food_listings",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "rescues_provider_org_id_organizations_id_fk": {
+          "name": "rescues_provider_org_id_organizations_id_fk",
+          "tableFrom": "rescues",
+          "columnsFrom": [
+            "provider_org_id"
+          ],
+          "tableTo": "organizations",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "rescues_ngo_org_id_organizations_id_fk": {
+          "name": "rescues_ngo_org_id_organizations_id_fk",
+          "tableFrom": "rescues",
+          "columnsFrom": [
+            "ngo_org_id"
+          ],
+          "tableTo": "organizations",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "rescues_accepted_by_users_id_fk": {
+          "name": "rescues_accepted_by_users_id_fk",
+          "tableFrom": "rescues",
+          "columnsFrom": [
+            "accepted_by"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "rescues_collected_range": {
+          "name": "rescues_collected_range",
+          "value": "\"rescues\".\"collected_servings\" IS NULL OR (\"rescues\".\"collected_servings\" > 0 AND \"rescues\".\"collected_servings\" <= \"rescues\".\"servings_offered\")"
+        },
+        "rescues_delivered_range": {
+          "name": "rescues_delivered_range",
+          "value": "\"rescues\".\"delivered_servings\" IS NULL OR (\"rescues\".\"delivered_servings\" >= 0 AND \"rescues\".\"collected_servings\" IS NOT NULL AND \"rescues\".\"delivered_servings\" <= \"rescues\".\"collected_servings\")"
+        },
+        "rescues_parties_differ": {
+          "name": "rescues_parties_differ",
+          "value": "\"rescues\".\"provider_org_id\" <> \"rescues\".\"ngo_org_id\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.sessions": {
+      "name": "sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "refresh_token_hash": {
+          "name": "refresh_token_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_agent": {
+          "name": "user_agent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revoked_at": {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "sessions_refresh_hash_key": {
+          "name": "sessions_refresh_hash_key",
+          "columns": [
+            {
+              "expression": "refresh_token_hash",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "sessions_user_idx": {
+          "name": "sessions_user_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "sessions_user_id_users_id_fk": {
+          "name": "sessions_user_id_users_id_fk",
+          "tableFrom": "sessions",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "password_hash": {
+          "name": "password_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "platform_role": {
+          "name": "platform_role",
+          "type": "platform_role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "user_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'ACTIVE'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "users_email_lower_key": {
+          "name": "users_email_lower_key",
+          "columns": [
+            {
+              "expression": "lower(\"email\")",
+              "isExpression": true,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.verification_documents": {
+      "name": "verification_documents",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "document_type": {
+          "name": "document_type",
+          "type": "document_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "original_filename": {
+          "name": "original_filename",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mime_type": {
+          "name": "mime_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "size_bytes": {
+          "name": "size_bytes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sha256": {
+          "name": "sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "storage_key": {
+          "name": "storage_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "review_status": {
+          "name": "review_status",
+          "type": "document_review_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PENDING'"
+        },
+        "uploaded_by": {
+          "name": "uploaded_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "verification_documents_storage_key_key": {
+          "name": "verification_documents_storage_key_key",
+          "columns": [
+            {
+              "expression": "storage_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "verification_documents_org_idx": {
+          "name": "verification_documents_org_idx",
+          "columns": [
+            {
+              "expression": "organization_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "verification_documents_organization_id_organizations_id_fk": {
+          "name": "verification_documents_organization_id_organizations_id_fk",
+          "tableFrom": "verification_documents",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "tableTo": "organizations",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        },
+        "verification_documents_uploaded_by_users_id_fk": {
+          "name": "verification_documents_uploaded_by_users_id_fk",
+          "tableFrom": "verification_documents",
+          "columnsFrom": [
+            "uploaded_by"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "verification_documents_size_positive": {
+          "name": "verification_documents_size_positive",
+          "value": "\"verification_documents\".\"size_bytes\" > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.verification_events": {
+      "name": "verification_events",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "action": {
+          "name": "action",
+          "type": "verification_action",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "from_status": {
+          "name": "from_status",
+          "type": "verification_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "to_status": {
+          "name": "to_status",
+          "type": "verification_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "actor_user_id": {
+          "name": "actor_user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "submission_number": {
+          "name": "submission_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "verification_events_org_idx": {
+          "name": "verification_events_org_idx",
+          "columns": [
+            {
+              "expression": "organization_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "verification_events_organization_id_organizations_id_fk": {
+          "name": "verification_events_organization_id_organizations_id_fk",
+          "tableFrom": "verification_events",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "tableTo": "organizations",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        },
+        "verification_events_actor_user_id_users_id_fk": {
+          "name": "verification_events_actor_user_id_users_id_fk",
+          "tableFrom": "verification_events",
+          "columnsFrom": [
+            "actor_user_id"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "restrict"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.volunteer_profiles": {
+      "name": "volunteer_profiles",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "availability_status": {
+          "name": "availability_status",
+          "type": "availability_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'OFFLINE'"
+        },
+        "vehicle_type": {
+          "name": "vehicle_type",
+          "type": "vehicle_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "capacity_kg": {
+          "name": "capacity_kg",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "radius_km": {
+          "name": "radius_km",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "volunteer_profiles_user_id_users_id_fk": {
+          "name": "volunteer_profiles_user_id_users_id_fk",
+          "tableFrom": "volunteer_profiles",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "tableTo": "users",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "volunteer_capacity_positive": {
+          "name": "volunteer_capacity_positive",
+          "value": "\"volunteer_profiles\".\"capacity_kg\" IS NULL OR (\"volunteer_profiles\".\"capacity_kg\" > 0 AND \"volunteer_profiles\".\"capacity_kg\" <= 1000)"
+        },
+        "volunteer_radius_range": {
+          "name": "volunteer_radius_range",
+          "value": "\"volunteer_profiles\".\"radius_km\" IS NULL OR (\"volunteer_profiles\".\"radius_km\" > 0 AND \"volunteer_profiles\".\"radius_km\" <= 100)"
+        },
+        "volunteer_latitude_range": {
+          "name": "volunteer_latitude_range",
+          "value": "\"volunteer_profiles\".\"latitude\" IS NULL OR \"volunteer_profiles\".\"latitude\" BETWEEN -90 AND 90"
+        },
+        "volunteer_longitude_range": {
+          "name": "volunteer_longitude_range",
+          "value": "\"volunteer_profiles\".\"longitude\" IS NULL OR \"volunteer_profiles\".\"longitude\" BETWEEN -180 AND 180"
+        },
+        "volunteer_coordinates_pair": {
+          "name": "volunteer_coordinates_pair",
+          "value": "(\"volunteer_profiles\".\"latitude\" IS NULL) = (\"volunteer_profiles\".\"longitude\" IS NULL)"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.assignment_status": {
+      "name": "assignment_status",
+      "schema": "public",
+      "values": [
+        "ACTIVE",
+        "COMPLETED",
+        "RELEASED",
+        "REVOKED"
+      ]
+    },
+    "public.availability_status": {
+      "name": "availability_status",
+      "schema": "public",
+      "values": [
+        "OFFLINE",
+        "AVAILABLE",
+        "BUSY"
+      ]
+    },
+    "public.document_review_status": {
+      "name": "document_review_status",
+      "schema": "public",
+      "values": [
+        "PENDING",
+        "ACCEPTED",
+        "REJECTED"
+      ]
+    },
+    "public.document_type": {
+      "name": "document_type",
+      "schema": "public",
+      "values": [
+        "REGISTRATION_CERTIFICATE",
+        "FOOD_SAFETY_LICENSE",
+        "ID_PROOF",
+        "OTHER"
+      ]
+    },
+    "public.food_category": {
+      "name": "food_category",
+      "schema": "public",
+      "values": [
+        "COOKED_MEALS",
+        "BAKERY",
+        "PRODUCE",
+        "PACKAGED_FOOD",
+        "DAIRY",
+        "BEVERAGES",
+        "OTHER"
+      ]
+    },
+    "public.incident_category": {
+      "name": "incident_category",
+      "schema": "public",
+      "values": [
+        "FOOD_SAFETY",
+        "QUANTITY_MISMATCH",
+        "PICKUP_PROBLEM",
+        "DELIVERY_PROBLEM",
+        "RUNNER_UNAVAILABLE",
+        "OTHER"
+      ]
+    },
+    "public.incident_severity": {
+      "name": "incident_severity",
+      "schema": "public",
+      "values": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "public.incident_status": {
+      "name": "incident_status",
+      "schema": "public",
+      "values": [
+        "OPEN",
+        "RESOLVED"
+      ]
+    },
+    "public.listing_event_action": {
+      "name": "listing_event_action",
+      "schema": "public",
+      "values": [
+        "PUBLISHED",
+        "CANCELLED",
+        "EXPIRED"
+      ]
+    },
+    "public.listing_status": {
+      "name": "listing_status",
+      "schema": "public",
+      "values": [
+        "DRAFT",
+        "AVAILABLE",
+        "CANCELLED",
+        "EXPIRED",
+        "RESERVED",
+        "COLLECTED"
+      ]
+    },
+    "public.member_role": {
+      "name": "member_role",
+      "schema": "public",
+      "values": [
+        "owner",
+        "manager",
+        "operator"
+      ]
+    },
+    "public.member_status": {
+      "name": "member_status",
+      "schema": "public",
+      "values": [
+        "ACTIVE",
+        "INVITED",
+        "REMOVED"
+      ]
+    },
+    "public.organization_type": {
+      "name": "organization_type",
+      "schema": "public",
+      "values": [
+        "PROVIDER",
+        "NGO"
+      ]
+    },
+    "public.packaging_type": {
+      "name": "packaging_type",
+      "schema": "public",
+      "values": [
+        "INDIVIDUAL_BOXES",
+        "BULK_CONTAINERS",
+        "WRAPPED",
+        "LOOSE",
+        "OTHER"
+      ]
+    },
+    "public.platform_role": {
+      "name": "platform_role",
+      "schema": "public",
+      "values": [
+        "provider",
+        "ngo",
+        "runner",
+        "admin"
+      ]
+    },
+    "public.rescue_status": {
+      "name": "rescue_status",
+      "schema": "public",
+      "values": [
+        "RESERVED",
+        "PICKUP_ASSIGNED",
+        "PICKUP_CONFIRMED",
+        "RECIPIENT_CONFIRMED",
+        "COMPLETED",
+        "CANCELLED",
+        "EXPIRED",
+        "PICKUP_FAILED",
+        "DELIVERY_FAILED",
+        "AWAITING_RUNNER",
+        "IN_TRANSIT",
+        "DELIVERED"
+      ]
+    },
+    "public.transport_mode": {
+      "name": "transport_mode",
+      "schema": "public",
+      "values": [
+        "NGO_PICKUP",
+        "RUNNER"
+      ]
+    },
+    "public.user_status": {
+      "name": "user_status",
+      "schema": "public",
+      "values": [
+        "ACTIVE",
+        "SUSPENDED"
+      ]
+    },
+    "public.vehicle_type": {
+      "name": "vehicle_type",
+      "schema": "public",
+      "values": [
+        "FOOT",
+        "BICYCLE",
+        "SCOOTER",
+        "CAR",
+        "VAN"
+      ]
+    },
+    "public.verification_action": {
+      "name": "verification_action",
+      "schema": "public",
+      "values": [
+        "SUBMITTED",
+        "APPROVED",
+        "REJECTED",
+        "RESUBMISSION_REQUESTED"
+      ]
+    },
+    "public.verification_status": {
+      "name": "verification_status",
+      "schema": "public",
+      "values": [
+        "UNSUBMITTED",
+        "UNDER_REVIEW",
+        "VERIFIED",
+        "REJECTED",
+        "RESUBMISSION_REQUESTED"
+      ]
+    }
+  },
+  "schemas": {},
+  "views": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "rescue_events" ADD COLUMN "seq" bigserial NOT NULL;

@@ -1,0 +1,1 @@
+CREATE INDEX "rescues_completed_at_idx" ON "rescues" USING btree ("completed_at") WHERE "rescues"."status" = 'COMPLETED';

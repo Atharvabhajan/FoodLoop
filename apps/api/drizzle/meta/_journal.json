@@ -1,0 +1,118 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1792843595447,
+      "tag": "0000_identity_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792843598414,
+      "tag": "0001_enable_postgis",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792896356168,
+      "tag": "0002_organizations_verification",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792896358711,
+      "tag": "0003_verification_events_append_only",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792897647523,
+      "tag": "0004_supply_and_demand",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792897649942,
+      "tag": "0005_listing_events_append_only",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792907382217,
+      "tag": "0006_matching_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792907386553,
+      "tag": "0007_postgis_geography",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792909810938,
+      "tag": "0008_rescues",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1792909813830,
+      "tag": "0009_rescue_integrity",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792914753765,
+      "tag": "0010_rescue_events_seq",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1792916716824,
+      "tag": "0011_runner_logistics",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1792916721430,
+      "tag": "0012_runner_integrity",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1792952739994,
+      "tag": "0013_retention_and_purge",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1792989411113,
+      "tag": "0014_impact_completed_index",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1792995672110,
+      "tag": "0015_escalation_waves",
+      "breakpoints": true
+    }
+  ]
+}
