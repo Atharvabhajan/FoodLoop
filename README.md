@@ -72,11 +72,18 @@ After `npm run db:seed`, sign in with the password you set as `DEMO_PASSWORD`:
 | Admin | `admin@demo.foodloop.test` |
 | Provider with a *pending* application (Riverside Bakery) | `provider2@demo.foodloop.test` |
 | NGO with a *draft* application (Care Foundation) | `ngo2@demo.foodloop.test` |
+| Provider with a *resubmission requested* application (fixture) | `demo.greenfield@demo.foodloop.test` |
+| NGO with a *rejected* application (fixture) | `demo.sunrise@demo.foodloop.test` |
+| Third runner, car, 60 kg (fixture) | `demo.runner3@demo.foodloop.test` |
 
 Phase 3/4 demo data (`ngo3@demo.foodloop.test` is a second verified NGO for ranking): `provider@` has a live listing, a draft, an expired and a cancelled listing; `ngo@` has an active requirement.
 
 `provider@` and `ngo@` own **verified** organizations. Re-running the seed never overwrites progress made in the demo.
 Seeding refuses to run when `NODE_ENV=production`. New provider/NGO/runner accounts can also be created at `/register`; admins cannot self-register.
+
+### Full demo dataset
+
+`npm run db:seed:demo-fixtures` adds, without touching anything that already exists, a complete set of records for every role: live listings with photos and different matches, rescues in every stage, an open blocking incident and a resolved one with evidence, verification states (pending, resubmission requested, rejected, draft, verified), a third runner and impact history. Preview with `npm run db:seed:demo-fixtures -- --dry-run`; run it with `--live` shortly before a demo to refresh the short-lived stages. The accounts, what each role sees, a step-by-step walkthrough and the before/after numbers are in [docs/demo-data.md](docs/demo-data.md). (`npm run db:seed` is different: it re-syncs the base accounts' password, role and status.)
 
 ### Two verified demo NGOs
 

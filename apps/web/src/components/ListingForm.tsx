@@ -99,11 +99,12 @@ export function ListingForm({ listing, onSaved, submitLabel }: { listing?: Listi
   return (
     <form onSubmit={submit} noValidate aria-label="Listing details" className="rounded-2xl border border-stone-200 bg-white shadow-card p-5">
       <div className="grid gap-4 sm:grid-cols-2">
+        <div className="sm:col-span-2 border-t border-stone-200 pt-4 first:border-t-0 first:pt-0"><h3 className="text-base font-bold">The food</h3><p className="text-xs text-stone-600">What it is and how much. NGOs see this.</p></div>
         <div className="sm:col-span-2">{input('title', 'Title')}</div>
         <div className="sm:col-span-2">
           <label htmlFor="l-description" className="block text-sm font-medium">Description (optional)</label>
           <textarea id="l-description" rows={3} maxLength={1000} value={f.description} disabled={disabled} onChange={(e) => set('description', e.target.value)} className={selectCls(fields.description)} />
-          <p className="mt-1 text-xs text-stone-600">Do not put your street address here. NGOs only see the area until a later pickup step.</p>
+          <p className="mt-1 text-xs text-stone-600">Do not put your street address here. NGOs only see the area until the rescue is confirmed.</p>
         </div>
         <div>
           <label htmlFor="l-foodCategory" className="block text-sm font-medium">Food category</label>
@@ -123,10 +124,12 @@ export function ListingForm({ listing, onSaved, submitLabel }: { listing?: Listi
         </div>
         {input('servings', 'Servings', { type: 'number', inputMode: 'numeric', min: 1, step: 1 })}
         {input('estimatedKg', 'Estimated weight in kg (optional)', { type: 'number', inputMode: 'decimal', min: 0, step: 'any' })}
+        <div className="sm:col-span-2 border-t border-stone-200 pt-4 first:border-t-0 first:pt-0"><h3 className="text-base font-bold">When</h3><p className="text-xs text-stone-600">Food safety depends on these times. Listings expire automatically at the deadline.</p></div>
         {input('preparedAt', 'Prepared at', { type: 'datetime-local' })}
         {input('pickupStart', 'Pickup window opens', { type: 'datetime-local' })}
         <div className="sm:col-span-2">{input('pickupDeadline', 'Pickup deadline', { type: 'datetime-local', hint: 'Listings expire automatically at this time.' })}</div>
-        <div className="sm:col-span-2">{input('addressLine', 'Pickup address (private)', { hint: 'Shown only to your organization and admins for now.' })}</div>
+        <div className="sm:col-span-2 border-t border-stone-200 pt-4 first:border-t-0 first:pt-0"><h3 className="text-base font-bold">Where to collect it</h3><p className="text-xs text-stone-600">Your exact address and pin stay private until a rescue is confirmed.</p></div>
+        <div className="sm:col-span-2">{input('addressLine', 'Pickup address (private)', { hint: 'Shown only to your organization, admins, and the NGO and runner once a rescue is confirmed.' })}</div>
         {input('city', 'City / area (shown to NGOs)')}
         <LocationPicker
           idPrefix="l"
@@ -137,6 +140,7 @@ export function ListingForm({ listing, onSaved, submitLabel }: { listing?: Listi
           onChange={(la, lo) => { set('latitude', la); set('longitude', lo); }}
           note="Click the map or drag the pin to the pickup point, or type the coordinates. NGOs only ever see the area (rounded to about 1 km) until the rescue is confirmed; your exact address and pin stay private."
         />
+        <div className="sm:col-span-2 border-t border-stone-200 pt-4 first:border-t-0 first:pt-0"><h3 className="text-base font-bold">Dietary and transport</h3><p className="text-xs text-stone-600">Helps NGOs judge if the food suits the people they serve.</p></div>
         <fieldset className="sm:col-span-2">
           <legend className="text-sm font-medium">Dietary tags</legend>
           <div className="mt-2 flex flex-wrap gap-x-5 gap-y-2">

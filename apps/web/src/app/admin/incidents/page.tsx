@@ -7,7 +7,7 @@ export default function AdminIncidentsPage() {
   const user = useRoleGuard(['admin']);
   if (!user) return <Loading label="Restoring your session…" />;
   return (
-    <Shell user={user} title="Incidents">
+    <Shell user={user} title="Incidents" eyebrow="Operations" subtitle="Problems reported on rescues. A blocking incident pauses its rescue until you resolve it.">
       <IncidentQueue />
     </Shell>
   );

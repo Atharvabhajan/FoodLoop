@@ -233,16 +233,15 @@ a.press:active {
 .menu-panel > div {
   overflow: hidden;
 }
-@media (max-width: 767px) {
-  /* a closed menu is not reachable by keyboard or screen reader, after its closing animation */
-  .menu-panel[data-open='false'] > div {
-    visibility: hidden;
-    transition: visibility 0s linear 0.22s;
-  }
+/* a closed menu is not reachable by keyboard or screen reader, after its closing animation */
+.menu-panel[data-open='false'] > div {
+  visibility: hidden;
+  transition: visibility 0s linear 0.22s;
 }
+/* the slide-down panel is the phone menu only; wider screens show the inline nav */
 @media (min-width: 768px) {
   .menu-panel {
-    display: block;
+    display: none;
   }
 }
 

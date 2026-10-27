@@ -65,21 +65,19 @@ export function AvailableJobs() {
   }
 
   return (
-    <div className="mt-4">
-      <p className="text-sm text-stone-700">
-        Only jobs you could actually do are listed: within your travel radius, light enough for your capacity, and reachable before the pickup window closes. Estimates are straight-line distances, not routes.
-      </p>
+    <div>
+      <p className="sr-only">Only jobs you could actually do are listed: within your travel radius, light enough for your capacity, and reachable before the pickup window closes. Estimates are straight-line distances, not routes.</p>
       <div className="mt-3"><FormError message={error} /></div>
-      {claimError && <div className="mt-3" role="alert"><p className="rounded-md border border-amber-400 bg-amber-50 px-3 py-2 text-sm text-amber-900">{claimError}</p></div>}
+      {claimError && <div className="mt-3" role="alert"><p className="rounded-lg border border-amber-400 bg-amber-50 px-3 py-2 text-sm text-amber-900">{claimError}</p></div>}
       {!jobs && !error && <Loading label="Looking for jobs near you…" />}
       {jobs && jobs.length === 0 && (
-        <div className="mt-4 rounded-md border border-dashed border-stone-300 p-6 text-center text-stone-700">
-          <p>No jobs for you right now.</p>
-          <p className="mt-1 text-sm">Make sure you are set to Available with a vehicle, capacity, radius and base location in <Link href="/runner/profile" className="font-medium text-paprika-700 underline">your profile</Link>. New jobs appear here automatically.</p>
+        <div className="fl-appear mt-3 rounded-2xl border border-dashed border-stone-300 bg-white/70 p-6 text-center text-stone-700">
+          <p className="font-semibold">No jobs for you right now.</p>
+          <p className="mt-1 text-sm">Make sure you are set to Available with a vehicle, capacity, radius and base location in <Link href="/profile#transport" className="font-medium text-paprika-700 underline">your profile</Link>. New jobs appear here automatically.</p>
         </div>
       )}
       {jobs && jobs.length > 0 && (
-        <ul className="mt-4 space-y-3">
+        <ul className="stagger mt-3 grid gap-4 md:grid-cols-2">
           {jobs.map((j) => (
             <li key={j.rescueId} className="lift overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-card"><Photo name={stockPhoto(j.listingTitle, j.foodCategory as FoodCategory)} decorative className="h-28 w-full object-cover" /><div className="p-4">
               <div className="flex flex-wrap items-start justify-between gap-2">

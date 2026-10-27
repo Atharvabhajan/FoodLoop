@@ -492,9 +492,9 @@ function ListingsTab({ options }: { options: BoardOptions | null }) {
   const c = data?.counts;
   return (
     <div>
-      <div role="group" aria-label="Listing scope" className="inline-flex rounded-md border border-stone-300 bg-white p-0.5">
+      <div role="group" aria-label="Listing scope" className="inline-flex rounded-xl border border-stone-300 bg-white p-0.5">
         {(['live', 'closed'] as const).map((s) => (
-          <button key={s} type="button" aria-pressed={scope === s} onClick={() => { setScope(s); reset(); }} className={`rounded px-4 py-1.5 text-sm font-medium ${scope === s ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>
+          <button key={s} type="button" aria-pressed={scope === s} onClick={() => { setScope(s); reset(); }} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${scope === s ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>
             {s === 'live' ? 'Live, not yet accepted' : 'Expired or cancelled (last 7 days)'}
           </button>
         ))}
@@ -570,9 +570,9 @@ export function OpsBoard() {
   }, []);
   return (
     <div className="mt-4">
-      <div role="tablist" aria-label="Board sections" className="inline-flex rounded-md border border-stone-300 bg-white p-0.5">
+      <div role="tablist" aria-label="Board sections" className="inline-flex rounded-xl border border-stone-300 bg-white p-0.5">
         {([['rescues', 'Rescues'], ['listings', 'Unaccepted listings'], ['map', 'Map']] as const).map(([id, label]) => (
-          <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className={`rounded px-4 py-1.5 text-sm font-medium ${tab === id ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>{label}</button>
+          <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${tab === id ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>{label}</button>
         ))}
       </div>
       <p className="mt-3 text-sm text-stone-700">Read-only overview. Interventions (cancel, reassign, resolve) are made on each rescue&rsquo;s page, with a reason, and are recorded in its audit history. These figures are operational counts: rescued-meal totals are on <Link href="/admin/impact" className="font-medium text-paprika-700 underline">Impact</Link>.</p>

@@ -37,10 +37,27 @@ Runner job cards stay text-only on purpose: the jobs API returns cities and dist
 
 No migration was needed.
 
-## Dashboards
+## Dashboards (workspaces)
+
+Each role's home is a workspace, not a grid of links (`NgoWorkspace`, `ProviderWorkspace`, `RunnerWorkspace`, `AdminWorkspace`, with shared pieces in `ops.tsx`). The old "Signed in as" panel and the server access probe line are gone from every screen.
+
+- **NGO**: welcome band with organization name, verification status, intake state and real Pause/Resume intake; four API-backed figures (active rescues, servings received, available capacity = receiving capacity minus servings in active rescues, urgent nearby); a live-food list with photos beside an interactive map. Selecting a list item (or a map pin) highlights the pin, selects the row and opens a detail panel (photo, food, servings, deadline, approximate distance, urgency, match reasons, Accept). Search and "Urgent only" filter the list. On a phone the list and the map/detail are two tabs; choosing a listing opens the detail.
+- **Provider**: "Post surplus food" is the primary action; listings with filters and search, a map of pickup points, rescues needing the provider first.
+- **Runner**: availability toggle (saved through the runner profile API), the assigned rescue with its next step and map first, then open jobs.
+- **Admin**: counts, delayed/blocked rescues, open incidents and verification items beside the live operations map.
+
+`/profile` has tabs (Account, Organization, Needs and capacity for NGOs, Transport and availability for runners). The sign-in email is masked until the person presses Show. The password cannot be changed in the app yet, and the page says so.
+
 
 The role home pages ([Today](../apps/web/src/components/Today.tsx)) show tasks and live data from the API: provider (rescues waiting for you, live listings), NGO (best matches, active rescues with "your next step"), runner (active rescue, open job count), admin (delayed/blocked/needs-admin counts, unaccepted food, verification queue), plus recent notifications. Impact numbers come from the impact endpoints and only animate when a value changes.
 
 ## Photos
 
 Listings with no uploaded photo show a bundled stock photo chosen from words in the title and then the category (`stockPhoto` in `lib/supply.ts`), always labelled "Illustrative photo". A provider-uploaded photo replaces it and is never labelled that way. The seed adds no photos. See [design-system.md](design-system.md) for sources and licences.
+
+## One page system for every screen
+
+- **Shell**: a single-row espresso header (logo, role navigation as pills, notification bell with unread count, account menu, sign out); on a phone the navigation moves into the Menu panel. Navigation per role: Dashboard plus the role's work areas (provider: Listings, Rescues, Impact; NGO: Live food, Rescues, Impact; runner: Available jobs, My rescues, Impact; admin: Operations, Rescues, Incidents, Verification queue, Impact). Organization, needs and transport settings live in Profile; the old `/organization`, `/ngo/requirements` and `/runner/profile` addresses redirect to the matching profile tab.
+- **PageHeader** (in `Shell.tsx`): back link, eyebrow, serif title, one-line explanation, primary actions and tabs/filters, then a divider. Every inner page uses it; content width is the same everywhere (`PAGE_W`).
+- **Two-column work pages**: rescue detail (summary with photo, progress and next step; then actions, food and history beside map, transport and contacts), listing detail (form beside photo, matches map and history), verification review and incident review (evidence beside a sticky decision panel).
+- **Shared explorers**: `FoodExplorer` (NGO dashboard and Live food), `ListingExplorer` (provider dashboard and Listings). Lists, filters, maps and empty states look and behave the same wherever they appear.

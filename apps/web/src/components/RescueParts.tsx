@@ -13,13 +13,14 @@ import {
   type RescueSummary,
   type RescueView,
 } from '@/lib/rescue';
-import { dietaryTagLabels, foodCategoryLabels, listingImageUrl, packagingLabels, type FoodCategory, type Packaging } from '@/lib/supply';
+import { dietaryTagLabels, foodCategoryLabels, packagingLabels, type FoodCategory, type Packaging } from '@/lib/supply';
 import { Loading } from './Shell';
 import { StageTrack } from './StageTrack';
 import { AdminOpsPanel } from './OpsBoard';
 import { IncidentList, IncidentReportForm, RescueMapSection, RunnerSection, ShareLocation, type SharedPoint } from './RunnerParts';
 import { TimeLeft, fmtDateTime } from './SupplyParts';
-import { FormError } from './ui';
+import { FoodPhoto } from './FoodPhoto';
+import { EmptyState, FormError } from './ui';
 
 export function RescueStatusBadge({ status }: { status: RescueStatus }) {
   const s = statusLabels[status];
@@ -58,54 +59,65 @@ export function RescueList({ role }: { role: RescueRole }) {
 
   return (
     <>
-      <div role="tablist" aria-label="Rescue filter" className="mt-4 inline-flex rounded-md border border-stone-300 bg-white p-0.5">
-        {(['active', 'past'] as const).map((s) => (
-          <button key={s} role="tab" aria-selected={scope === s} onClick={() => setScope(s)} className={`rounded px-4 py-1.5 text-sm font-medium ${scope === s ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>
-            {s === 'active' ? 'In progress' : 'Finished'}
-          </button>
-        ))}
+      <div className="flex flex-wrap items-center gap-3">
+        <div role="tablist" aria-label="Rescue filter" className="inline-flex rounded-xl border border-stone-300 bg-white p-0.5">
+          {(['active', 'past'] as const).map((s) => (
+            <button key={s} role="tab" aria-selected={scope === s} onClick={() => setScope(s)} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${scope === s ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>
+              {s === 'active' ? 'In progress' : 'Finished'}
+            </button>
+          ))}
+        </div>
+        {items && items.length > 0 && (
+          <form role="search" aria-label="Filter rescues" onSubmit={(e) => e.preventDefault()} className="flex min-w-0 flex-1 flex-wrap items-center gap-3">
+            <label htmlFor="rl-q" className="sr-only">Search rescues</label>
+            <input id="rl-q" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search food, provider or NGO" className="min-w-0 flex-1 rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm hover:border-stone-400 sm:max-w-sm" />
+            {scope === 'active' && (
+              <label className="flex items-center gap-2 text-sm font-medium">
+                <input type="checkbox" checked={mineOnly} onChange={(e) => setMineOnly(e.target.checked)} /> Only where I must act next
+              </label>
+            )}
+          </form>
+        )}
       </div>
-      {items && items.length > 0 && (
-        <form role="search" aria-label="Filter rescues" onSubmit={(e) => e.preventDefault()} className="mt-4 flex flex-wrap items-end gap-3">
-          <div className="min-w-48 flex-1">
-            <label htmlFor="rl-q" className="block text-sm font-semibold">Search</label>
-            <input id="rl-q" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Food, provider or NGO" className="mt-1 block w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm hover:border-stone-400" />
-          </div>
-          {scope === 'active' && (
-            <label className="flex items-center gap-2 pb-2 text-sm font-medium">
-              <input type="checkbox" checked={mineOnly} onChange={(e) => setMineOnly(e.target.checked)} /> Only where I must act next
-            </label>
-          )}
-        </form>
+      {items && scope === 'active' && items.length > 0 && (
+        <p className="mt-3 text-sm text-stone-700" role="status">
+          {items.length} in progress · <strong>{items.filter((r) => r.nextAction.party === role).length} waiting for you</strong>
+        </p>
       )}
-      <div className="mt-4"><FormError message={error} /></div>
+      <div className="mt-3"><FormError message={error} /></div>
       {!items && !error && <Loading label="Loading rescues…" />}
       {items && items.length === 0 && (
-        <p className="mt-4 rounded-md border border-dashed border-stone-300 p-6 text-center text-stone-700">
+        <EmptyState title={scope === 'active' ? 'Nothing in progress' : 'No finished rescues yet'} photo={role === 'runner' ? 'volunteer-handoff' : role === 'provider' ? 'provider-kitchen' : 'volunteers-serving'}>
           {scope === 'active'
-            ? role === 'ngo' ? 'No rescues in progress. Accept a recommended listing from Live food to start one.' : role === 'runner' ? 'No rescues in progress. Accept a job from Available jobs to start one.' : 'No rescues in progress. They appear here when an NGO accepts one of your listings.'
-            : 'No finished rescues yet.'}
-        </p>
+            ? role === 'ngo' ? 'Accept food from Live food to start a rescue.' : role === 'runner' ? 'Accept a job from Available jobs to start one.' : role === 'admin' ? 'Rescues appear here as soon as an NGO accepts a listing.' : 'Rescues appear here when an NGO accepts one of your listings.'
+            : 'Completed, cancelled and failed rescues are kept here.'}
+        </EmptyState>
       )}
       {items && items.length > 0 && shown.length === 0 && <p className="fl-appear mt-4 rounded-2xl border border-dashed border-stone-300 bg-white/70 p-6 text-center text-stone-700">No rescues match these filters. <button type="button" onClick={() => { setQ(''); setMineOnly(false); }} className="font-semibold text-paprika-700 underline">Clear filters</button></p>}
       {items && shown.length > 0 && (
-        <ul className="mt-4 space-y-3">
+        <ul className="stagger mt-4 grid gap-3 xl:grid-cols-2">
           {shown.map((r) => {
             const d = activeDeadline(r);
+            const mine = scope === 'active' && r.nextAction.party === role;
             return (
               <li key={r.id}>
-                <Link href={`/${role}/rescues/${r.id}`} className="lift block rounded-2xl border border-stone-200 bg-white shadow-card p-4">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-lg font-semibold">{r.listingTitle}</span>
+                <Link href={`/${role}/rescues/${r.id}`} className={`lift block h-full rounded-2xl border-2 bg-white p-4 shadow-card ${mine ? 'border-paprika-500' : 'border-stone-200'}`}>
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold uppercase tracking-wider text-stone-600">{role === 'ngo' ? `From ${r.providerName}` : role === 'provider' ? `To ${r.ngoName}` : `${r.providerName} → ${r.ngoName}`}</p>
+                      <span className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)' }}>{r.listingTitle}</span>
+                    </div>
                     <RescueStatusBadge status={r.status} />
                   </div>
                   <StageTrack status={r.status} compact />
-                  <p className="mt-1 text-sm text-stone-700">
-                    {role === 'ngo' ? `From ${r.providerName}` : role === 'provider' ? `To ${r.ngoName}` : `${r.providerName} → ${r.ngoName}`} · {r.servingsOffered} servings{r.transportMode === 'RUNNER' && role !== 'runner' ? ' · runner-assisted' : ''}
-                    {r.deliveredServings !== null ? ` (${r.deliveredServings} received)` : ''}
+                  <p className="mt-2 text-sm text-stone-700">
+                    {r.servingsOffered} servings{r.transportMode === 'RUNNER' && role !== 'runner' ? ' · runner-assisted' : ''}
+                    {r.deliveredServings !== null ? ` · ${r.deliveredServings} received` : ''}
+                    {d ? <> · {d.label}: <TimeLeft deadline={d.at} /></> : null}
                   </p>
-                  <p className="mt-1 text-sm text-stone-800"><strong>Next:</strong> {r.nextAction.text}</p>
-                  {d && <p className="text-sm text-stone-600">{d.label}: <TimeLeft deadline={d.at} /></p>}
+                  <p className={`mt-2 rounded-lg px-3 py-2 text-sm ${mine ? 'bg-paprika-50 font-semibold text-stone-900' : 'bg-stone-100 text-stone-800'}`}>
+                    <span className="font-bold">{mine ? 'Your next step: ' : 'Next: '}</span>{r.nextAction.text}
+                  </p>
                 </Link>
               </li>
             );
@@ -235,37 +247,52 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
     </form>
   );
 
+  const mapSection = <RescueMapSection r={r} role={role} refreshKey={refreshKey} mine={mine} />;
   return (
-    <div className="mt-4 space-y-6">
-      {notice && <p role="status" className="fl-appear rounded-lg border border-stone-900 bg-stone-100 px-4 py-3 text-sm font-medium text-stone-900">✓ {notice}</p>}
+    <div className="space-y-4">
+      {notice && <p role="status" className="fl-appear rounded-xl border-2 border-stone-900 bg-white px-4 py-3 text-sm font-semibold text-stone-900 shadow-card">✓ {notice}</p>}
       <FormError message={error} />
 
       {/* Status and who acts next */}
-      <section aria-labelledby="st" className="rounded-2xl border border-stone-200 bg-white shadow-card p-5">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 id="st" className="text-lg font-semibold">{r.listing.title}</h2>
-          <RescueStatusBadge status={r.status} />
+      <section aria-labelledby="st" className="fl-appear overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-card">
+        <div className="flex flex-col sm:flex-row">
+          <div className="h-40 shrink-0 sm:h-auto sm:w-56">
+            <FoodPhoto l={{ id: r.listing.id, title: r.listing.title, foodCategory: r.listing.foodCategory as FoodCategory, hasImage: r.listing.hasImage && role !== 'admin' }} className="h-full w-full object-cover" />
+          </div>
+          <div className="min-w-0 flex-1 p-4 md:p-5">
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="min-w-0">
+                <p className="text-xs font-bold uppercase tracking-wider text-paprika-700">{r.provider.name} → {r.ngo.name}</p>
+                <h2 id="st" className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>{r.listing.title}</h2>
+                <p className="text-sm text-stone-700">{r.listing.servingsOffered} servings · {r.transportMode === 'RUNNER' ? 'runner-assisted' : 'NGO collects'}</p>
+              </div>
+              <RescueStatusBadge status={r.status} />
+            </div>
+            <StageTrack status={r.status} />
+            <div className={`mt-4 rounded-xl p-3 ${r.nextAction.party === role && !finished ? 'border-2 border-paprika-500 bg-paprika-50' : 'bg-stone-100'}`}>
+              <p className="text-xs font-bold uppercase tracking-wide text-stone-700">{finished ? 'Status' : r.nextAction.party === role ? 'Your next step' : r.nextAction.party ? `Next step (${r.nextAction.party})` : 'Next step'}</p>
+              <p className="mt-0.5 font-semibold">{r.nextAction.text}</p>
+              {deadline && <p className="mt-1 text-sm text-stone-700">{deadline.label} by {fmtDateTime(deadline.at)} · <TimeLeft deadline={deadline.at} /></p>}
+            </div>
+            {r.blockedByIncident && (
+              <p role="alert" className="mt-3 rounded-lg border-2 border-red-600 bg-red-50 px-3 py-2 text-sm font-semibold text-red-900">
+                An open incident has paused this rescue. The normal next steps are unavailable until an admin resolves it.
+              </p>
+            )}
+            {finished && r.outcomeCode && (
+              <p className="mt-3 rounded-lg bg-stone-100 px-3 py-2 text-sm">
+                <strong>Outcome:</strong> {outcomeLabels[r.outcomeCode] ?? r.outcomeCode}
+                {r.outcomeReason ? ` (${r.outcomeReason})` : ''}
+                {r.collectedServings !== null ? ` · ${r.collectedServings} collected` : ''}
+                {r.deliveredServings !== null ? ` · ${r.deliveredServings} received` : ''}
+              </p>
+            )}
+          </div>
         </div>
-        <StageTrack status={r.status} />
-        <p className="mt-3 text-sm"><strong>Next step{r.nextAction.party ? ` (${r.nextAction.party})` : ''}:</strong> {r.nextAction.text}</p>
-        {deadline && <p className="mt-1 text-sm text-stone-700">{deadline.label} by {fmtDateTime(deadline.at)} · <TimeLeft deadline={deadline.at} /></p>}
-        {r.blockedByIncident && (
-          <p role="alert" className="mt-2 rounded-md border border-red-400 bg-red-50 px-3 py-2 text-sm font-medium text-red-900">
-            An open incident has paused this rescue. The normal next steps are unavailable until an admin resolves it.
-          </p>
-        )}
-        {finished && r.outcomeCode && (
-          <p className="mt-2 rounded-md bg-stone-100 px-3 py-2 text-sm">
-            <strong>Outcome:</strong> {outcomeLabels[r.outcomeCode] ?? r.outcomeCode}
-            {r.outcomeReason ? ` (${r.outcomeReason})` : ''}
-            {r.collectedServings !== null ? ` · ${r.collectedServings} collected` : ''}
-            {r.deliveredServings !== null ? ` · ${r.deliveredServings} received` : ''}
-          </p>
-        )}
       </section>
 
-      {role === 'admin' && <AdminOpsPanel id={r.id} refreshKey={refreshKey} />}
-
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1.55fr)_minmax(320px,1fr)] lg:items-start">
+        <div className="min-w-0 space-y-4">
       {/* Pickup code (provider only, once) */}
       {role === 'provider' && code && (
         <section aria-labelledby="code" role="status" className="rounded-xl border-2 border-paprika-600 bg-paprika-50 p-5">
@@ -378,10 +405,8 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
         </section>
       )}
 
-      <RunnerSection r={r} role={role} />
       {role === 'runner' && r.trackingActive && <ShareLocation rescueId={r.id} onPosition={setMine} />}
-      <RescueMapSection r={r} role={role} refreshKey={refreshKey} mine={mine} />
-
+      {role === 'runner' && mapSection}
       {r.incidents.length > 0 && (
         <section aria-labelledby="inc-h" className="rounded-2xl border border-stone-200 bg-white shadow-card p-5">
           <h2 id="inc-h" className="text-lg font-semibold">Incidents</h2>
@@ -395,29 +420,13 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
       {/* Food and hand-off details */}
       <section aria-labelledby="food" className="rounded-2xl border border-stone-200 bg-white shadow-card p-5">
         <h2 id="food" className="text-lg font-semibold">The food</h2>
-        {r.listing.hasImage && role !== 'admin' && <img src={listingImageUrl(r.listing.id)} alt={`Photo of ${r.listing.title}`} className="mt-3 max-h-48 rounded-md border border-stone-200" />}
-        <p className="mt-2 text-sm">
+                <p className="mt-2 text-sm">
           {foodCategoryLabels[r.listing.foodCategory as FoodCategory] ?? r.listing.foodCategory} · <strong>{r.listing.servingsOffered} servings</strong> · {packagingLabels[r.listing.packaging as Packaging] ?? r.listing.packaging} · {r.listing.transportRequired ? 'Transport needed' : 'Collect directly'}
         </p>
         {r.listing.dietaryTags.length > 0 && <p className="mt-1 text-sm">{r.listing.dietaryTags.map((t) => dietaryTagLabels[t] ?? t).join(', ')}</p>}
         {r.listing.allergenNotes && <p className="mt-1 text-sm">Allergens: {r.listing.allergenNotes}</p>}
         <p className="mt-1 text-sm text-stone-700">Pickup window: {fmtDateTime(r.listing.pickupStart)} to {fmtDateTime(r.listing.pickupDeadline)}</p>
-        <div className="mt-3 rounded-md border border-stone-200 p-3 text-sm">
-          {exact ? (
-            <p><strong>Pickup address:</strong> {exact.addressLine}, {exact.city}</p>
-          ) : (
-            <p>
-              <strong>Area:</strong> {r.listing.approximateArea.city} (approximate).{' '}
-              {r.status === 'RESERVED' ? 'The exact address is shared once the provider confirms the hand-off.' : 'The exact address is only shown while a hand-off is in progress.'}
-            </p>
-          )}
-        </div>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          <ContactBlock title="Provider" name={r.provider.name} contact={r.provider.contact} hiddenText={r.status === 'RESERVED' ? 'Contact details are shared after the provider confirms.' : 'Contact details are only shown while a hand-off is in progress.'} />
-          <ContactBlock title="NGO" name={r.ngo.name} contact={r.ngo.contact} hiddenText={r.status === 'RESERVED' ? 'Contact details are shared after you confirm the hand-off.' : 'Contact details are only shown while a hand-off is in progress.'} />
-        </div>
       </section>
-
       {/* History */}
       <section aria-labelledby="hist" className="rounded-2xl border border-stone-200 bg-white shadow-card p-5">
         <h2 id="hist" className="text-lg font-semibold">History</h2>
@@ -431,6 +440,31 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
           ))}
         </ol>
       </section>
+        </div>
+
+        <aside className="space-y-4" aria-label="Where and who">
+          {role !== 'runner' && mapSection}
+          <RunnerSection r={r} role={role} />
+          <section aria-labelledby="where-h" className="rounded-2xl border border-stone-200 bg-white p-5 shadow-card">
+            <h2 id="where-h" className="text-lg font-semibold">Pickup and contacts</h2>
+        <div className="mt-3 rounded-xl bg-stone-100 p-3 text-sm">
+          {exact ? (
+            <p><strong>Pickup address:</strong> {exact.addressLine}, {exact.city}</p>
+          ) : (
+            <p>
+              <strong>Area:</strong> {r.listing.approximateArea.city} (approximate).{' '}
+              {r.status === 'RESERVED' ? 'The exact address is shared once the provider confirms the hand-off.' : 'The exact address is only shown while a hand-off is in progress.'}
+            </p>
+          )}
+        </div>
+        <div className="mt-3 grid gap-3">
+          <ContactBlock title="Provider" name={r.provider.name} contact={r.provider.contact} hiddenText={r.status === 'RESERVED' ? 'Contact details are shared after the provider confirms.' : 'Contact details are only shown while a hand-off is in progress.'} />
+          <ContactBlock title="NGO" name={r.ngo.name} contact={r.ngo.contact} hiddenText={r.status === 'RESERVED' ? 'Contact details are shared after you confirm the hand-off.' : 'Contact details are only shown while a hand-off is in progress.'} />
+        </div>
+          </section>
+      {role === 'admin' && <AdminOpsPanel id={r.id} refreshKey={refreshKey} />}
+        </aside>
+      </div>
     </div>
   );
 }

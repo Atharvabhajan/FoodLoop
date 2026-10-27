@@ -85,7 +85,7 @@ describe('separate runtime and privileged connections', () => {
 
   it('API code never reads the privileged URL or resolves it (so it cannot fall back to it)', () => {
     const root = path.resolve(import.meta.dirname, '../src');
-    const operatorOnly = new Set(['db/admin-url.ts', 'db/migrate.ts', 'db/roles-cli.ts', 'db/setup.ts', 'db/seed.ts', 'db/check-postgis.ts', 'ops/retention-cli.ts', 'config.ts']);
+    const operatorOnly = new Set(['db/admin-url.ts', 'db/migrate.ts', 'db/roles-cli.ts', 'db/setup.ts', 'db/seed.ts', 'db/seed-demo-fixtures.ts', 'db/check-postgis.ts', 'ops/retention-cli.ts', 'config.ts']);
     const offenders: string[] = [];
     const walk = (dir: string) => {
       for (const name of readdirSync(dir)) {

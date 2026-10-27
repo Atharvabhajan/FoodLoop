@@ -1,14 +1,14 @@
 'use client';
 
-import { Loading, Shell, useRoleGuard } from '@/components/Shell';
-import { OrganizationPanel } from '@/components/OrgPanel';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Loading } from '@/components/Shell';
 
-export default function OrganizationPage() {
-  const user = useRoleGuard(['provider', 'ngo']);
-  if (!user) return <Loading label="Restoring your session…" />;
-  return (
-    <Shell user={user} title={user.platformRole === 'provider' ? 'Provider organization' : 'NGO organization'}>
-      <OrganizationPanel role={user.platformRole as 'provider' | 'ngo'} />
-    </Shell>
-  );
+/** The organization area now lives on the profile page; this address keeps working. */
+export default function Redirect() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace('/profile#organization');
+  }, [router]);
+  return <Loading label="Opening your profile…" />;
 }

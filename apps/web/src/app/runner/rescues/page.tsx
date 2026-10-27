@@ -7,7 +7,7 @@ export default function RunnerRescuesPage() {
   const user = useRoleGuard(['runner']);
   if (!user) return <Loading label="Restoring your session…" />;
   return (
-    <Shell user={user} title="My rescues">
+    <Shell user={user} title="My rescues" eyebrow="Rescues" subtitle="Deliveries you have taken. The next step is always at the top of each rescue.">
       <RescueList role="runner" />
     </Shell>
   );

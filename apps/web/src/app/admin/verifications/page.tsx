@@ -43,9 +43,9 @@ export default function VerificationQueuePage() {
   if (!user) return <Loading label="Restoring your session…" />;
 
   return (
-    <Shell user={user} title="Organization verification queue">
-      <div className="mt-4 flex flex-wrap items-center gap-3">
-        <label htmlFor="status-filter" className="text-sm font-medium">Show</label>
+    <Shell user={user} title="Verification queue" eyebrow="Organizations" subtitle="Applications from providers and NGOs. Open one to review its details and documents and record a decision.">
+      <div className="flex flex-wrap items-center gap-3">
+        <label htmlFor="status-filter" className="text-sm font-semibold">Show</label>
         <select id="status-filter" value={filter} onChange={(e) => setFilter(e.target.value as Filter)} className="rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm">
           {filters.map((f) => <option key={f.value} value={f.value}>{f.label}</option>)}
         </select>
@@ -54,17 +54,17 @@ export default function VerificationQueuePage() {
       <div className="mt-4"><FormError message={error} /></div>
       {!items && !error && <Loading label="Loading applications…" />}
       {items && items.length === 0 && (
-        <p className="mt-4 rounded-md border border-dashed border-stone-300 p-6 text-center text-stone-700">
+        <p className="fl-appear mt-4 rounded-2xl border border-dashed border-stone-300 bg-white/70 p-6 text-center text-stone-700">
           {filter === 'UNDER_REVIEW' ? 'No applications are waiting for review.' : 'No organizations match this filter.'}
         </p>
       )}
       {items && items.length > 0 && (
-        <ul className="mt-4 space-y-3">
+        <ul className="stagger mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {items.map((o) => (
             <li key={o.id}>
-              <Link href={`/admin/verifications/${o.id}`} className="block rounded-2xl border border-stone-200 bg-white shadow-card p-4 hover:border-paprika-600">
+              <Link href={`/admin/verifications/${o.id}`} className={`lift block h-full rounded-2xl border border-l-8 bg-white p-4 shadow-card ${o.verificationStatus === 'UNDER_REVIEW' ? 'border-stone-200 border-l-saffron-400' : o.verificationStatus === 'VERIFIED' ? 'border-stone-200 border-l-stone-900' : o.verificationStatus === 'REJECTED' ? 'border-stone-200 border-l-red-700' : 'border-stone-200 border-l-stone-300'}`}>
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="text-lg font-semibold">{o.name}</span>
+                  <span className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)' }}>{o.name}</span>
                   <StatusBadge status={o.verificationStatus} />
                 </div>
                 <p className="mt-1 text-sm text-stone-700">

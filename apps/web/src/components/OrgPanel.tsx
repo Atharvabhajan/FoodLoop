@@ -20,7 +20,7 @@ import {
 const statusHelp: Record<VerificationStatus, string> = {
   UNSUBMITTED: 'Complete your profile, upload your registration certificate, then submit for review.',
   UNDER_REVIEW: 'An admin is reviewing your application. You cannot edit it until they respond.',
-  VERIFIED: 'Your organization is verified and can take part in live FoodLoop operations when they launch.',
+  VERIFIED: 'Your organization is verified: it can publish or accept food and take part in rescues.',
   REJECTED: 'This application was rejected and is closed. You can start a new application.',
   RESUBMISSION_REQUESTED: 'The admin needs changes. Update your details or documents, then submit again.',
 };

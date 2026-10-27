@@ -1,14 +1,14 @@
 'use client';
 
-import { Loading, Shell, useRoleGuard } from '@/components/Shell';
-import { RequirementsPanel } from '@/components/RequirementsPanel';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Loading } from '@/components/Shell';
 
-export default function RequirementsPage() {
-  const user = useRoleGuard(['ngo']);
-  if (!user) return <Loading label="Restoring your session…" />;
-  return (
-    <Shell user={user} title="Food needs and capacity">
-      <RequirementsPanel />
-    </Shell>
-  );
+/** Food needs and capacity now lives on the profile page; this address keeps working. */
+export default function Redirect() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace('/profile#needs');
+  }, [router]);
+  return <Loading label="Opening your profile…" />;
 }

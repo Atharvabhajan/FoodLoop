@@ -67,7 +67,7 @@ function AccountMenu({ user, roleLabel, onSignOut }: { user: User; roleLabel: st
     };
   }, [open]);
   const second =
-    user.platformRole === 'runner' ? { href: '/runner/profile', label: 'Transport and availability' } : user.platformRole === 'admin' ? null : { href: '/organization', label: 'My organization' };
+    user.platformRole === 'runner' ? { href: '/profile#transport', label: 'Transport and availability' } : user.platformRole === 'admin' ? null : { href: '/profile#organization', label: 'My organization' };
   const item = 'block rounded-lg px-3 py-2 text-sm font-medium text-stone-900 hover:bg-saffron-50';
   return (
     <div ref={root} className="relative">
@@ -103,16 +103,59 @@ function AccountMenu({ user, roleLabel, onSignOut }: { user: User; roleLabel: st
   );
 }
 
-export function Shell({ user, title, children, wide = false, hideTitle = false }: { user: User; title: string; children: ReactNode; wide?: boolean; hideTitle?: boolean }) {
-  const maxW = wide ? 'max-w-[90rem]' : 'max-w-6xl';
+function BellIcon() {
+  return (
+    <svg aria-hidden width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+    </svg>
+  );
+}
+
+/** Same width for header, page header and content on every screen. */
+export const PAGE_W = 'max-w-[88rem]';
+
+export interface PageHeaderProps {
+  /** Short line above the title (section name). */
+  eyebrow?: string;
+  subtitle?: ReactNode;
+  actions?: ReactNode;
+  back?: { href: string; label: string };
+  /** Extra content under the title row (tabs, chips, summary). */
+  below?: ReactNode;
+}
+
+/** The one page header used by every inner page: back link, eyebrow, serif title, subtitle and actions. */
+export function PageHeader({ title, eyebrow, subtitle, actions, back, below }: PageHeaderProps & { title: string }) {
+  return (
+    <header className="mb-5 border-b border-stone-200 pb-4 md:mb-6">
+      {back && (
+        <Link href={back.href} className="inline-flex items-center gap-1 text-sm font-semibold text-paprika-700 underline-offset-4 hover:underline">
+          <span aria-hidden>←</span> {back.label}
+        </Link>
+      )}
+      <div className="mt-1 flex flex-wrap items-end justify-between gap-3">
+        <div className="min-w-0">
+          {eyebrow && <p className="text-xs font-bold uppercase tracking-wider text-paprika-700">{eyebrow}</p>}
+          <h1 className="text-3xl font-bold text-stone-900 md:text-4xl">{title}</h1>
+          {subtitle && <div className="mt-1 max-w-3xl text-sm text-stone-700 md:text-base">{subtitle}</div>}
+        </div>
+        {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
+      </div>
+      {below && <div className="mt-3">{below}</div>}
+    </header>
+  );
+}
+
+export function Shell({ user, title, children, hideTitle = false, eyebrow, subtitle, actions, back, below }: { user: User; title: string; children: ReactNode; wide?: boolean; hideTitle?: boolean } & PageHeaderProps) {
   const { logout } = useAuth();
   const router = useRouter();
-  const links: { href: string; label: string }[] = [{ href: homePathFor(user.platformRole), label: 'Home' }];
-  if (user.platformRole === 'provider' || user.platformRole === 'ngo') links.push({ href: '/organization', label: 'Organization' });
+  const home = homePathFor(user.platformRole);
+  const links: { href: string; label: string }[] = [{ href: home, label: 'Dashboard' }];
   if (user.platformRole === 'provider') links.push({ href: '/provider/listings', label: 'Listings' }, { href: '/provider/rescues', label: 'Rescues' }, { href: '/provider/impact', label: 'Impact' });
-  if (user.platformRole === 'ngo') links.push({ href: '/ngo/requirements', label: 'Needs' }, { href: '/ngo/listings', label: 'Live food' }, { href: '/ngo/rescues', label: 'Rescues' }, { href: '/ngo/impact', label: 'Impact' });
-  if (user.platformRole === 'runner') links.push({ href: '/runner/jobs', label: 'Available jobs' }, { href: '/runner/rescues', label: 'My rescues' }, { href: '/runner/impact', label: 'Impact' }, { href: '/runner/profile', label: 'Availability' });
-  if (user.platformRole === 'admin') links.push({ href: '/admin/board', label: 'Operations' }, { href: '/admin/verifications', label: 'Verification queue' }, { href: '/admin/rescues', label: 'Rescues' }, { href: '/admin/incidents', label: 'Incidents' }, { href: '/admin/impact', label: 'Impact' });
+  if (user.platformRole === 'ngo') links.push({ href: '/ngo/listings', label: 'Live food' }, { href: '/ngo/rescues', label: 'Rescues' }, { href: '/ngo/impact', label: 'Impact' });
+  if (user.platformRole === 'runner') links.push({ href: '/runner/jobs', label: 'Available jobs' }, { href: '/runner/rescues', label: 'My rescues' }, { href: '/runner/impact', label: 'Impact' });
+  if (user.platformRole === 'admin') links.push({ href: '/admin/board', label: 'Operations' }, { href: '/admin/rescues', label: 'Rescues' }, { href: '/admin/incidents', label: 'Incidents' }, { href: '/admin/verifications', label: 'Verification queue' }, { href: '/admin/impact', label: 'Impact' });
   const [unread, setUnread] = useState(0);
   const loadUnread = useCallback(async () => {
     const res = await api<{ unreadCount: number }>('/notifications');
@@ -122,7 +165,6 @@ export function Shell({ user, title, children, wide = false, hideTitle = false }
     void loadUnread();
   }, [loadUnread]);
   useLiveRefresh(() => void loadUnread(), 60_000);
-  links.push({ href: '/notifications', label: unread > 0 ? `Notifications (${unread})` : 'Notifications' }, { href: '/profile', label: 'Profile' });
 
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -147,57 +189,86 @@ export function Shell({ user, title, children, wide = false, hideTitle = false }
       document.removeEventListener('pointerdown', onPress);
     };
   }, [menuOpen]);
-  const isActive = (href: string) => (href === homePathFor(user.platformRole) ? pathname === href : pathname === href || pathname.startsWith(`${href}/`));
+  const isActive = (href: string) => (href === home ? pathname === href : pathname === href || pathname.startsWith(`${href}/`));
   const roleLabel: Record<Role, string> = { provider: 'Food provider', ngo: 'NGO', runner: 'Runner', admin: 'Admin' };
   const signOut = () => void logout().then(() => router.replace('/'));
+  const notifActive = pathname === '/notifications';
 
   return (
     <div className="flex min-h-screen flex-col">
       <a href="#main" className="skip-link">Skip to main content</a>
       <header ref={headerRef} className="on-dark sticky top-0 z-40 bg-stone-950 text-white shadow-md">
-        <div className={`mx-auto flex ${maxW} items-center justify-between gap-4 px-4 py-2.5`}>
-          <Link href={homePathFor(user.platformRole)} aria-label="FoodLoop home" className="shrink-0">
-            <Logo size={34} tone="light" />
+        <div className={`mx-auto flex ${PAGE_W} items-center gap-3 px-4 py-2`}>
+          <Link href={home} aria-label="FoodLoop home" className="mr-2 shrink-0">
+            <Logo size={32} tone="light" />
           </Link>
-          <button
-            ref={toggleRef}
-            type="button"
-            className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/40 px-3 py-2 text-sm font-semibold hover:bg-white/10 md:hidden"
-            aria-expanded={menuOpen}
-            aria-controls="main-nav"
-            onClick={() => setMenuOpen((o) => !o)}
-          >
-            <span aria-hidden className="text-base leading-none">{menuOpen ? '✕' : '☰'}</span>
-            {menuOpen ? 'Close menu' : 'Menu'}
-          </button>
-          <div className="hidden items-center gap-3 text-sm md:flex">
-            <span className="rounded-full bg-saffron-300 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-stone-950">{roleLabel[user.platformRole]}</span>
-            <AccountMenu user={user} roleLabel={roleLabel[user.platformRole]} onSignOut={signOut} />
-            <button onClick={signOut} className="rounded-lg border border-white/40 px-3 py-1.5 font-semibold hover:bg-white/10">Sign out</button>
+          <nav aria-label="Main" className="hidden flex-1 md:block">
+            <ul className="flex flex-wrap items-center gap-1">
+              {links.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    aria-current={isActive(l.href) ? 'page' : undefined}
+                    className={`block rounded-full px-3.5 py-2 text-sm font-semibold ${isActive(l.href) ? 'bg-saffron-300 text-stone-950' : 'text-stone-100 hover:bg-white/10'}`}
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div className="ml-auto flex items-center gap-1 md:ml-0">
+            <Link
+              href="/notifications"
+              aria-current={notifActive ? 'page' : undefined}
+              aria-label={unread > 0 ? `Notifications (${unread} unread)` : 'Notifications'}
+              className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full ${notifActive ? 'bg-white/15 text-white' : 'text-stone-100 hover:bg-white/10'}`}
+            >
+              <BellIcon />
+              {unread > 0 && <span aria-hidden className="absolute right-1 top-1 min-w-5 rounded-full bg-saffron-300 px-1 text-center text-[11px] font-bold leading-5 text-stone-950">{unread > 99 ? '99+' : unread}</span>}
+            </Link>
+            <div className="hidden items-center gap-2 md:flex">
+              <AccountMenu user={user} roleLabel={roleLabel[user.platformRole]} onSignOut={signOut} />
+              <button onClick={signOut} className="rounded-lg border border-white/30 px-3 py-1.5 text-sm font-semibold hover:bg-white/10">Sign out</button>
+            </div>
+            <button
+              ref={toggleRef}
+              type="button"
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/40 px-3 py-2 text-sm font-semibold hover:bg-white/10 md:hidden"
+              aria-expanded={menuOpen}
+              aria-controls="main-nav"
+              onClick={() => setMenuOpen((o) => !o)}
+            >
+              <span aria-hidden className="text-base leading-none">{menuOpen ? '✕' : '☰'}</span>
+              {menuOpen ? 'Close menu' : 'Menu'}
+            </button>
           </div>
         </div>
-        <div className="menu-panel border-t border-white/10 bg-stone-900" data-open={menuOpen}>
+        <div className="menu-panel border-t border-white/10 bg-stone-900 md:hidden" data-open={menuOpen}>
           <div>
-            <nav aria-label="Main" id="main-nav">
-              <ul className={`mx-auto flex ${maxW} flex-col gap-0.5 px-2 py-2 md:flex-row md:flex-wrap md:px-3 md:py-0`}>
-                {links.map((l) => (
+            <nav aria-label="Main menu" id="main-nav">
+              <div className="flex items-center gap-3 px-4 pb-1 pt-3">
+                <Avatar name={user.name} size={36} />
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold">{user.name}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-saffron-200">{roleLabel[user.platformRole]}</p>
+                </div>
+              </div>
+              <ul className="flex flex-col gap-0.5 px-2 py-2">
+                {[...links, { href: '/notifications', label: unread > 0 ? `Notifications (${unread})` : 'Notifications' }, { href: '/profile', label: 'Profile' }].map((l) => (
                   <li key={l.href}>
                     <Link
                       href={l.href}
                       aria-current={isActive(l.href) ? 'page' : undefined}
-                      className={`block rounded-lg px-3 py-3 text-sm font-medium md:rounded-none md:border-b-4 md:py-2.5 ${
-                        isActive(l.href) ? 'bg-white/10 text-white md:border-saffron-300 md:bg-transparent' : 'text-stone-100 hover:bg-white/10 md:border-transparent md:hover:border-white/30 md:hover:bg-transparent'
-                      }`}
+                      className={`block rounded-lg px-3 py-3 text-sm font-semibold ${isActive(l.href) ? 'bg-saffron-300 text-stone-950' : 'text-stone-100 hover:bg-white/10'}`}
                     >
                       {l.label}
                     </Link>
                   </li>
                 ))}
-                <li className="md:hidden">
-                  <span className="flex items-center gap-2 px-3 pt-2 text-sm text-stone-100"><Avatar name={user.name} size={28} />{user.name}</span>
-                  <span className="block px-3 pt-2 text-xs font-semibold uppercase tracking-wide text-saffron-200">{roleLabel[user.platformRole]}</span>
-                  <button onClick={signOut} className="block w-full rounded-lg px-3 py-3 text-left text-sm font-medium text-stone-100 hover:bg-white/10">
-                    Sign out ({user.name})
+                <li>
+                  <button onClick={signOut} className="block w-full rounded-lg px-3 py-3 text-left text-sm font-semibold text-stone-100 hover:bg-white/10">
+                    Sign out
                   </button>
                 </li>
               </ul>
@@ -205,12 +276,15 @@ export function Shell({ user, title, children, wide = false, hideTitle = false }
           </div>
         </div>
       </header>
-      <main id="main" className={`fl-page mx-auto w-full ${maxW} flex-1 px-4 py-4 md:py-6`}>
-        <h1 className={hideTitle ? 'sr-only' : 'text-3xl font-bold text-stone-900 md:text-4xl'}>{title}</h1>
+      <main id="main" className={`fl-page mx-auto w-full ${PAGE_W} flex-1 px-4 py-5 md:py-7`}>
+        {hideTitle ? <h1 className="sr-only">{title}</h1> : <PageHeader title={title} eyebrow={eyebrow} subtitle={subtitle} actions={actions} back={back} below={below} />}
         {children}
       </main>
-      <footer className="border-t border-stone-200 bg-stone-100 py-4 text-center text-xs text-stone-600">
-        FoodLoop · rescuing surplus food, closing the loop · <Link href="/credits" className="underline underline-offset-2">Photo credits</Link>
+      <footer className="border-t border-stone-200 bg-stone-100">
+        <div className={`mx-auto flex ${PAGE_W} flex-wrap items-center justify-between gap-2 px-4 py-4 text-xs text-stone-600`}>
+          <span className="inline-flex items-center gap-2"><Logo size={20} /> Rescuing surplus food, closing the loop.</span>
+          <span>Distances are straight-line estimates · <Link href="/credits" className="underline underline-offset-2">Photo credits</Link></span>
+        </div>
       </footer>
     </div>
   );

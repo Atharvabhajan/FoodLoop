@@ -54,7 +54,7 @@ function RadiusPreview({ radiusKm }: { radiusKm: number }) {
   if (!org || org.latitude === null || org.longitude === null) {
     return (
       <p className="mt-4 rounded-lg border border-amber-400 bg-amber-50 px-3 py-2 text-sm text-amber-950">
-        Your organization has no map location yet, so the service radius cannot be drawn or used for matching. <Link href="/organization" className="font-semibold underline">Set it on the organization page</Link>.
+        Your organization has no map location yet, so the service radius cannot be drawn or used for matching. <Link href="/profile#organization" className="font-semibold underline">Set it on the organization page</Link>.
       </p>
     );
   }
@@ -65,7 +65,7 @@ function RadiusPreview({ radiusKm }: { radiusKm: number }) {
       <MapView
         title="Service radius map"
         height={260}
-        markers={[{ id: 'me', kind: 'org', latitude: org.latitude, longitude: org.longitude, label: 'Your organization', popup: { title: 'Your organization', lines: ['Other users see only an approximate area.'], href: '/organization', hrefLabel: 'Change location' } }]}
+        markers={[{ id: 'me', kind: 'org', latitude: org.latitude, longitude: org.longitude, label: 'Your organization', popup: { title: 'Your organization', lines: ['Other users see only an approximate area.'], href: '/profile#organization', hrefLabel: 'Change location' } }]}
         circles={ok ? [{ latitude: org.latitude, longitude: org.longitude, radiusKm, label: `Service radius ${radiusKm} km (straight line)` }] : []}
       />
       {!ok && <p className="mt-1 text-sm text-red-700">Enter a radius between 0 and 100 km to see it on the map.</p>}

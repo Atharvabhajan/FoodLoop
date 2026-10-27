@@ -7,7 +7,7 @@ import type { PublicListing } from '@/lib/supply';
 import { ConfirmDialog, FormError } from './ui';
 
 /** Accept a live listing. A confirmation dialog states the commitment and (when transport is needed) the transport choice. */
-export function AcceptButton({ listing, onStale, label = 'Accept this food', stretch = false }: { listing: PublicListing; onStale: () => void; label?: string; stretch?: boolean }) {
+export function AcceptButton({ listing, onStale, label = 'Accept this food', ariaLabel, stretch = false }: { listing: PublicListing; onStale: () => void; label?: string; ariaLabel?: string; stretch?: boolean }) {
   const router = useRouter();
   const gid = useId();
   const [confirming, setConfirming] = useState(false);
@@ -31,7 +31,7 @@ export function AcceptButton({ listing, onStale, label = 'Accept this food', str
 
   return (
     <div className={stretch ? 'mt-3 w-full' : 'mt-3'}>
-      <button onClick={() => setConfirming(true)} className={`inline-flex min-h-11 items-center justify-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-700 ${stretch ? 'w-full' : ''}`}>{label}</button>
+      <button onClick={() => setConfirming(true)} aria-label={ariaLabel} className={`inline-flex min-h-11 items-center justify-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-700 ${stretch ? 'w-full' : ''}`}>{label}</button>
       <ConfirmDialog open={confirming} title={`Accept ${listing.title}?`} confirmLabel="Yes, accept" busy={busy} busyLabel="Accepting…" cancelLabel="Not now" onConfirm={() => void accept()} onCancel={() => setConfirming(false)}>
         <p>
           You are committing to collect <strong>{listing.servings} servings</strong> from {listing.providerName}. The provider must confirm the hand-off; the exact address and contacts are shared after that.

@@ -7,7 +7,7 @@ export default function NgoRescuesPage() {
   const user = useRoleGuard(['ngo']);
   if (!user) return <Loading label="Restoring your session…" />;
   return (
-    <Shell user={user} title="Rescues">
+    <Shell user={user} title="Rescues" eyebrow="Rescues" subtitle="Food you have accepted. The highlighted ones are waiting for you.">
       <RescueList role="ngo" />
     </Shell>
   );

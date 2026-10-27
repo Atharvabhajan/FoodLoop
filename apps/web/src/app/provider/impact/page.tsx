@@ -7,7 +7,7 @@ export default function ProviderImpactPage() {
   const user = useRoleGuard(['provider']);
   if (!user) return <Loading label="Restoring your session…" />;
   return (
-    <Shell user={user} title="Impact">
+    <Shell user={user} title="Impact" eyebrow="Results" subtitle="What your surplus food has done: completed rescues and the servings recipients confirmed.">
       <ImpactView role="provider" />
     </Shell>
   );

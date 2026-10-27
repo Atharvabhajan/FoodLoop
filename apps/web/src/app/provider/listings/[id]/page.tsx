@@ -45,21 +45,23 @@ export default function ListingDetailPage() {
   };
 
   return (
-    <Shell user={user} title={listing ? listing.title : 'Listing'}>
-      <p className="mt-1 text-sm"><Link href="/provider/listings" className="font-medium text-paprika-700 underline">← Back to listings</Link></p>
-      {error && <div className="mt-4"><FormError message={error} /></div>}
+    <Shell
+      user={user}
+      title={listing ? listing.title : 'Listing'}
+      eyebrow="Listing"
+      back={{ href: '/provider/listings', label: 'Back to listings' }}
+      subtitle={listing ? <span className="inline-flex flex-wrap items-center gap-2"><ListingStatusBadge status={listing.status} />{listing.status === 'AVAILABLE' && <span className="font-semibold"><TimeLeft deadline={listing.pickupDeadline} urgency={listing.urgency} /></span>}</span> : undefined}
+    >
+      {error && <FormError message={error} />}
       {!listing && !error && <Loading label="Loading listing…" />}
       {listing && (
-        <div className="mt-4 space-y-6">
-          {notice && <p role="status" className="rounded-md border border-green-600 bg-green-50 px-4 py-3 text-sm font-medium text-green-900">✓ {notice}</p>}
+        <div className="space-y-4">
+          {notice && <p role="status" className="fl-appear rounded-xl border-2 border-stone-900 bg-white px-4 py-3 text-sm font-semibold text-stone-900 shadow-card">✓ {notice}</p>}
 
-          <section aria-labelledby="st-h" className="rounded-2xl border border-stone-200 bg-white shadow-card p-5">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h2 id="st-h" className="text-lg font-semibold">Status</h2>
-              <ListingStatusBadge status={listing.status} />
-            </div>
-            <p className="mt-2 text-sm">
-              {listing.status === 'AVAILABLE' && <>Visible to verified NGOs. <TimeLeft deadline={listing.pickupDeadline} urgency={listing.urgency} /> (deadline {fmtDateTime(listing.pickupDeadline)}).</>}
+          <section aria-labelledby="st-h" className={`rounded-2xl border border-l-8 bg-white p-5 shadow-card ${listing.status === 'AVAILABLE' ? 'border-stone-200 border-l-saffron-400' : listing.status === 'DRAFT' ? 'border-stone-200 border-l-stone-400' : listing.status === 'CANCELLED' || listing.status === 'EXPIRED' ? 'border-stone-200 border-l-stone-300' : 'border-stone-200 border-l-stone-900'}`}>
+            <h2 id="st-h" className="text-lg font-bold">Where this listing stands</h2>
+            <p className="mt-1 text-sm">
+              {listing.status === 'AVAILABLE' && <>Live and visible to verified NGOs nearby. Pickup deadline {fmtDateTime(listing.pickupDeadline)}.</>}
               {listing.status === 'DRAFT' && 'Only your organization can see this draft. Publish it to make it visible to verified NGOs.'}
               {listing.status === 'RESERVED' && 'An NGO has reserved this food. Manage the hand-off on the rescue page.'}
               {listing.status === 'COLLECTED' && 'The food was collected by the NGO.'}
@@ -69,31 +71,33 @@ export default function ListingDetailPage() {
             <p className="mt-2 text-xs text-stone-600">Publishing makes the listing visible to verified NGOs only. Nearby eligible NGOs are told in waves, and the first to accept reserves it.</p>
           </section>
 
-          <ListingForm key={listing.updatedAt} listing={listing} submitLabel="Save changes" onSaved={() => void changed('Changes saved.')} />
-
-          <ImageSection listing={listing} version={imageVersion} onChanged={async (m) => { setImageVersion((v) => v + 1); await changed(m); }} />
-
           {(listing.status === 'RESERVED' || listing.status === 'COLLECTED') && <RescueLink listingId={listing.id} />}
-
-          <MatchesSection listing={listing} />
-
           {listing.status === 'DRAFT' && <PublishSection listing={listing} onPublished={() => changed('Listing published. Verified NGOs can now see it.')} />}
-          {(listing.status === 'DRAFT' || listing.status === 'AVAILABLE') && <CancelSection listing={listing} onCancelled={() => changed('Listing cancelled.')} />}
 
-          <section aria-labelledby="hist-h" className="rounded-2xl border border-stone-200 bg-white shadow-card p-5">
-            <h2 id="hist-h" className="text-lg font-semibold">History</h2>
-            {history.length === 0 ? <p className="mt-2 text-sm text-stone-600">No activity yet.</p> : (
-              <ol className="mt-3 space-y-3">
-                {history.map((h) => (
-                  <li key={h.id} className="border-l-2 border-stone-300 pl-3 text-sm">
-                    <p className="font-medium">{actionText[h.action]}</p>
-                    <p className="text-stone-600">{fmtDateTime(h.createdAt)}</p>
-                    {h.reason && <p className="mt-1">&ldquo;{h.reason}&rdquo;</p>}
-                  </li>
-                ))}
-              </ol>
-            )}
-          </section>
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(340px,1fr)] lg:items-start">
+            <div className="min-w-0 space-y-4">
+              <ListingForm key={listing.updatedAt} listing={listing} submitLabel="Save changes" onSaved={() => void changed('Changes saved.')} />
+              {(listing.status === 'DRAFT' || listing.status === 'AVAILABLE') && <CancelSection listing={listing} onCancelled={() => changed('Listing cancelled.')} />}
+            </div>
+            <aside className="space-y-4">
+              <ImageSection listing={listing} version={imageVersion} onChanged={async (m) => { setImageVersion((v) => v + 1); await changed(m); }} />
+              <MatchesSection listing={listing} />
+              <section aria-labelledby="hist-h" className="rounded-2xl border border-stone-200 bg-white p-5 shadow-card">
+                <h2 id="hist-h" className="text-lg font-bold">History</h2>
+                {history.length === 0 ? <p className="mt-2 text-sm text-stone-600">No activity yet.</p> : (
+                  <ol className="mt-3 space-y-3 border-l-2 border-stone-200 pl-4">
+                    {history.map((h) => (
+                      <li key={h.id} className="text-sm">
+                        <p className="font-semibold">{actionText[h.action]}</p>
+                        <p className="text-stone-600">{fmtDateTime(h.createdAt)}</p>
+                        {h.reason && <p className="mt-1">&ldquo;{h.reason}&rdquo;</p>}
+                      </li>
+                    ))}
+                  </ol>
+                )}
+              </section>
+            </aside>
+          </div>
         </div>
       )}
     </Shell>
@@ -107,7 +111,7 @@ function RescueLink({ listingId }: { listingId: string }) {
     api<{ rescues: { id: string; ngoName: string }[] }>(`/rescues?scope=all&listingId=${listingId}`).then((r) => r.ok && setRescue(r.data.rescues[0] ?? null));
   }, [listingId]);
   return (
-    <section aria-labelledby="resc-h" className="rounded-xl border-2 border-blue-600 bg-white p-5">
+    <section aria-labelledby="resc-h" className="rounded-2xl border-2 border-paprika-500 bg-paprika-50 p-5 shadow-card">
       <h2 id="resc-h" className="text-lg font-semibold">Rescue in progress</h2>
       <p className="mt-1 text-sm">An NGO has accepted this listing, so it can no longer be edited or cancelled here.</p>
       {rescue && <Link href={`/provider/rescues/${rescue.id}`} className="mt-3 inline-block inline-flex min-h-11 items-center justify-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-700">Open rescue with {rescue.ngoName}</Link>}

@@ -100,6 +100,9 @@ export interface Note {
   actionable: boolean;
 }
 
+/** Notification texts carry raw ISO timestamps; show them as local dates. */
+export const niceBody = (s: string) => s.replace(/\d{4}-\d\d-\d\dT[\d:.]+Z/g, (iso) => fmtDateTime(iso));
+
 export function noteHref(n: Note, role: Role): string | null {
   if (n.type === 'RUNNER_JOB' || n.type === 'LISTING_RUNNER_ALERT') return '/runner/jobs';
   if (n.type === 'ESCALATION_ADMIN') return '/admin/board';
@@ -131,7 +134,7 @@ export function ActivityList({ notes, role, limit = 5 }: { notes: Note[] | null;
         return (
           <li key={n.id} className="text-sm">
             <p className="font-semibold">{href ? <Link href={href} className="underline-offset-2 hover:underline">{n.title}</Link> : n.title}</p>
-            <p className="text-stone-700">{n.body}</p>
+            <p className="text-stone-700">{niceBody(n.body)}</p>
             <p className="text-xs text-stone-600">{fmtDateTime(n.createdAt)}</p>
           </li>
         );
