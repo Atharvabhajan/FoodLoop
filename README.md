@@ -85,6 +85,19 @@ Seeding refuses to run when `NODE_ENV=production`. New provider/NGO/runner accou
 
 `npm run db:seed:demo-fixtures` adds, without touching anything that already exists, a complete set of records for every role: live listings with photos and different matches, rescues in every stage, an open blocking incident and a resolved one with evidence, verification states (pending, resubmission requested, rejected, draft, verified), a third runner and impact history. Preview with `npm run db:seed:demo-fixtures -- --dry-run`; run it with `--live` shortly before a demo to refresh the short-lived stages. The accounts, what each role sees, a step-by-step walkthrough and the before/after numbers are in [docs/demo-data.md](docs/demo-data.md). (`npm run db:seed` is different: it re-syncs the base accounts' password, role and status.)
 
+### Tester accounts
+
+`npm run db:seed:test-accounts` adds one fresh account per role for hands-on testing, all using `DEMO_PASSWORD`:
+
+| Role | Email | What is ready to test |
+|---|---|---|
+| Admin | `tester.admin@demo.foodloop.test` | Approved both tester organizations (in their verification history); board, incidents, queue |
+| Provider | `tester.provider@demo.foodloop.test` | Test • Green Bowl Kitchen (verified): two live listings with photos, a completed rescue and impact |
+| NGO | `tester.ngo@demo.foodloop.test` | Test • Open Hands Shelter (verified, 10 km, cooked meals, bakery and produce): both live listings recommended, one handed-over rescue to confirm, impact |
+| Runner | `tester.runner@demo.foodloop.test` | Test • Riya (scooter, 20 kg, available): one completed delivery, ready to take the next job |
+
+Provider and NGO were onboarded the real way through the API (register, profile, document, submit, approved by `tester.admin`). Try the full path: as `tester.ngo` accept *Test • Veg Biryani Trays* with a runner; as `tester.provider` confirm the hand-off and note the code; as `tester.runner` accept the job, verify the code and hand over; as `tester.ngo` confirm the servings. It is additive and repeatable like the demo fixtures (`--dry-run` to preview, `--live` to re-create the live listings and the handed-over rescue once they have ended). Needs the API running against the same database.
+
 ### Two verified demo NGOs
 
 `ngo@` (Hope Community Kitchen) and `ngo3@` (Helping Hands Trust) are both **verified** through the normal verification workflow (each has its review events in the audit history), each with coordinates, an active food requirement, capacity and an availability window, so both are matched, ranked and reached by escalation waves. `ngo2@` (Care Foundation) is deliberately an unsubmitted draft so the verification states can be demonstrated. No extra setup is needed: `npm run db:seed` is repeatable and never overwrites progress. To check, sign in as the admin and open **Verification queue**, or open `/ngo/listings` as each NGO while a listing is live.

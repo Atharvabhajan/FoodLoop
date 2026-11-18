@@ -39,6 +39,10 @@ All accounts use the password in `DEMO_PASSWORD` (`.env`). Emails end in `@demo.
 | Runner | `demo.runner3@` | Demo • Kabir: car, 60 kg, carries the in-transit rescue |
 | Admin | `admin@` | FoodLoop Operations |
 
+### Tester accounts
+
+`npm run db:seed:test-accounts` adds a separate, clean set: `tester.admin@`, `tester.provider@` (Test • Green Bowl Kitchen), `tester.ngo@` (Test • Open Hands Shelter) and `tester.runner@` (Test • Riya). The organizations are onboarded through the API and approved by `tester.admin`, so their verification history is real. Data: two live listings (*Test • Veg Biryani Trays*, runner needed; *Test • Morning Bakery Basket*, NGO pickup), *Test • Fresh Fruit Bowls* handed over by the runner and waiting for the NGO to confirm, and *Test • Dal Khichdi Pot* completed (30 of 32 servings). See the README for the full test path.
+
 ## What each role sees
 
 **Provider (`provider@`)**

@@ -17,6 +17,7 @@
     "db:migrate": "npm run db:migrate -w apps/api",
     "db:seed": "npm run db:seed -w apps/api",
     "db:seed:demo-fixtures": "npm run db:seed:demo-fixtures -w apps/api --",
+    "db:seed:test-accounts": "npm run db:seed:test-accounts -w apps/api --",
     "db:roles": "npm run db:roles -w apps/api",
     "retention": "npm run retention -w apps/api --",
     "db:generate": "npm run db:generate -w apps/api",

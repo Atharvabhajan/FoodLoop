@@ -13,6 +13,7 @@
     "db:migrate": "tsx --env-file=../../.env src/db/migrate.ts",
     "db:seed": "tsx --env-file=../../.env src/db/seed.ts",
     "db:seed:demo-fixtures": "tsx --env-file=../../.env src/db/seed-demo-fixtures.ts",
+    "db:seed:test-accounts": "tsx --env-file=../../.env src/db/seed-test-accounts.ts",
     "db:roles": "tsx --env-file=../../.env src/db/roles-cli.ts",
     "retention": "tsx --env-file=../../.env src/ops/retention-cli.ts",
     "test": "vitest run",
