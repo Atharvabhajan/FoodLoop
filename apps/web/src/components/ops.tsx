@@ -25,7 +25,7 @@ export function Band({ photo, eyebrow, title, children, actions }: { photo: Phot
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-stone-950/95 via-stone-950/80 to-stone-950/35" aria-hidden />
       <div className="flex flex-wrap items-end justify-between gap-4 px-5 py-5 md:px-7 md:py-6">
         <div className="min-w-0">
-          <p className="text-xs font-bold uppercase tracking-wider text-saffron-200">{eyebrow}</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-zest-200">{eyebrow}</p>
           <h2 className="mt-1 text-2xl font-bold md:text-3xl" style={{ fontFamily: 'var(--font-display)' }}>{title}</h2>
           {children && <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">{children}</div>}
         </div>
@@ -37,7 +37,7 @@ export function Band({ photo, eyebrow, title, children, actions }: { photo: Phot
 
 export function Kpi({ label, value, note, tone = 'plain', href }: { label: string; value: ReactNode; note?: string; tone?: 'plain' | 'hot' | 'ink'; href?: string }) {
   const body = (
-    <div className={`lift h-full rounded-2xl border-2 p-4 shadow-card ${tone === 'hot' ? 'border-paprika-300 bg-paprika-50' : tone === 'ink' ? 'border-stone-900 bg-stone-900 text-white' : 'border-stone-200 bg-white'}`}>
+    <div className={`lift h-full rounded-2xl border p-4 shadow-card ${tone === 'hot' ? 'border-orange-300 bg-orange-50' : tone === 'ink' ? 'border-stone-900 bg-stone-900 text-white' : 'border-stone-200 bg-white'}`}>
       <dd className="text-3xl font-bold tabular-nums md:text-4xl" style={{ fontFamily: 'var(--font-display)' }}>{value}</dd>
       <dt className={`mt-1 text-sm font-semibold ${tone === 'ink' ? 'text-stone-100' : 'text-stone-800'}`}>{label}</dt>
       {note && <p className={`mt-0.5 text-xs ${tone === 'ink' ? 'text-stone-300' : 'text-stone-600'}`}>{note}</p>}
@@ -62,7 +62,7 @@ export function Panel({ title, id, action, children, className = '' }: { title: 
   );
 }
 
-export const linkCls = 'text-sm font-semibold text-paprika-700 underline underline-offset-2';
+export const linkCls = 'text-sm font-semibold text-brand-700 underline underline-offset-2';
 
 export function Loadingish() {
   return <div className="mt-3 space-y-2" aria-hidden><Skeleton className="h-16 w-full" /><Skeleton className="h-16 w-full" /></div>;
@@ -71,7 +71,7 @@ export function Loadingish() {
 export function RescueRow({ r, role }: { r: RescueSummary; role: Role }) {
   const mine = r.nextAction.party === role;
   return (
-    <li className={`lift rounded-xl border-2 p-3 ${mine ? 'border-paprika-500 bg-paprika-50' : 'border-stone-200 bg-white'}`}>
+    <li className={`lift rounded-xl border-2 p-3 ${mine ? 'border-brand-500 bg-brand-50' : 'border-stone-200 bg-white'}`}>
       <div className="flex flex-wrap items-start justify-between gap-2">
         <Link href={`/${role}/rescues/${r.id}`} className="font-semibold text-stone-900 underline-offset-2 hover:underline">{r.listingTitle}</Link>
         <RescueStatusBadge status={r.status} />
@@ -83,7 +83,7 @@ export function RescueRow({ r, role }: { r: RescueSummary; role: Role }) {
         {r.nextAction.text}
       </p>
       {mine && (
-        <Link href={`/${role}/rescues/${r.id}`} className="mt-2 inline-flex min-h-10 items-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-700">Do this now</Link>
+        <Link href={`/${role}/rescues/${r.id}`} className="mt-2 inline-flex min-h-10 items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">Do this now</Link>
       )}
     </li>
   );
@@ -148,7 +148,7 @@ export function ViewSwitch({ value, onChange, labels = ['List', 'Map'] }: { valu
   return (
     <div role="tablist" aria-label="View" className="mt-4 inline-flex rounded-xl border border-stone-300 bg-white p-0.5 lg:hidden">
       {(['list', 'map'] as const).map((v, i) => (
-        <button key={v} role="tab" aria-selected={value === v} onClick={() => onChange(v)} className={`min-h-10 rounded-lg px-5 py-1.5 text-sm font-semibold ${value === v ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>{labels[i]}</button>
+        <button key={v} role="tab" aria-selected={value === v} onClick={() => onChange(v)} className={`min-h-10 rounded-lg px-5 py-1.5 text-sm font-semibold ${value === v ? 'bg-brand-600 text-white' : 'hover:bg-stone-100'}`}>{labels[i]}</button>
       ))}
     </div>
   );

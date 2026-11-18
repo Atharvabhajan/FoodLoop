@@ -41,7 +41,7 @@ export function ListingExplorer({ listings, heading = 'Your listings', headingAc
             <input id="pw-q" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search listings" className="min-w-0 flex-1 rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm hover:border-stone-400" />
             <div role="group" aria-label="Show" className="inline-flex rounded-lg border border-stone-300 bg-white p-0.5">
               {([['all', 'All'], ['live', 'Live'], ['draft', 'Drafts']] as const).map(([k, label]) => (
-                <button key={k} type="button" aria-pressed={filter === k} onClick={() => setFilter(k)} className={`min-h-9 rounded-md px-3 text-sm font-semibold ${filter === k ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>{label}</button>
+                <button key={k} type="button" aria-pressed={filter === k} onClick={() => setFilter(k)} className={`min-h-9 rounded-md px-3 text-sm font-semibold ${filter === k ? 'bg-brand-600 text-white' : 'hover:bg-stone-100'}`}>{label}</button>
               ))}
             </div>
           </form>
@@ -50,12 +50,12 @@ export function ListingExplorer({ listings, heading = 'Your listings', headingAc
             <div className="fl-appear mt-3 rounded-2xl border border-dashed border-stone-300 bg-white/70 p-6 text-center">
               <p className="font-semibold">{listings.length === 0 ? 'No listings yet' : 'Nothing matches'}</p>
               <p className="mt-1 text-sm text-stone-700">{listings.length === 0 ? 'Post surplus food in a minute and nearby NGOs are told.' : 'Try another filter or search.'}</p>
-              {listings.length === 0 && <Link href="/provider/listings/new" className="mt-3 inline-flex min-h-11 items-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white">Post surplus food</Link>}
+              {listings.length === 0 && <Link href="/provider/listings/new" className="mt-3 inline-flex min-h-11 items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white">Post surplus food</Link>}
             </div>
           )}
           <ul className="mt-3 space-y-3">
             {shown.map((l) => (
-              <li key={l.id} className={`lift flex overflow-hidden rounded-2xl border-2 bg-white shadow-card ${selected === l.id ? 'border-saffron-400 ring-2 ring-saffron-300' : 'border-stone-200'}`}>
+              <li key={l.id} className={`lift flex overflow-hidden rounded-2xl border-2 bg-white shadow-card ${selected === l.id ? 'border-zest-400 ring-2 ring-zest-300' : 'border-stone-200'}`}>
                 <div className="relative hidden w-28 shrink-0 sm:block">
                   {l.hasImage ? (
                     <img src={listingImageUrl(l.id)} alt={`Photo of ${l.title}`} className="h-full w-full object-cover" />

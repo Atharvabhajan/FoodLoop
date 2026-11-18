@@ -87,7 +87,7 @@ export function NgoWorkspace({ user }: { user: User }) {
   const urgentCount = listings.filter((l) => urgentSet.has(l.urgency)).length;
   const verified = org?.verificationStatus === 'VERIFIED';
   const intake = !req ? 'Needs not set' : !req.intakeEnabled ? 'Intake paused' : !req.active ? 'Window ended' : 'Receiving food';
-  const intakeCls = !req ? 'bg-stone-200 text-stone-900' : req.acceptingNow ? 'bg-saffron-300 text-stone-950' : 'bg-stone-200 text-stone-900';
+  const intakeCls = !req ? 'bg-stone-200 text-stone-900' : req.acceptingNow ? 'bg-zest-300 text-stone-950' : 'bg-stone-200 text-stone-900';
 
   return (
     <div>
@@ -100,15 +100,15 @@ export function NgoWorkspace({ user }: { user: User }) {
             {req && (req.intakeEnabled ? (
               <button type="button" onClick={() => void setIntake(false)} disabled={busy} className="inline-flex min-h-11 items-center rounded-lg border border-white/50 px-4 py-2 text-sm font-semibold hover:bg-white/10 disabled:opacity-60">Pause intake</button>
             ) : (
-              <button type="button" onClick={() => void setIntake(true)} disabled={busy} className="inline-flex min-h-11 items-center rounded-lg bg-saffron-300 px-4 py-2 text-sm font-bold text-stone-950 hover:bg-saffron-200 disabled:opacity-60">Resume intake</button>
+              <button type="button" onClick={() => void setIntake(true)} disabled={busy} className="inline-flex min-h-11 items-center rounded-lg bg-zest-300 px-4 py-2 text-sm font-bold text-stone-950 hover:bg-zest-200 disabled:opacity-60">Resume intake</button>
             ))}
-            <Link href="/profile#needs" className="inline-flex min-h-11 items-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-500">Needs and capacity</Link>
+            <Link href="/profile#needs" className="inline-flex min-h-11 items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-500">Needs and capacity</Link>
           </>
         }
       >
         {org && <span className="rounded-full bg-white px-1 py-0.5"><StatusBadge status={org.verificationStatus} /></span>}
         {org && verified && <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${intakeCls}`}>{intake}</span>}
-        {org && !verified && <Link href="/profile#organization" className="font-semibold text-saffron-200 underline">Finish verification to see live food</Link>}
+        {org && !verified && <Link href="/profile#organization" className="font-semibold text-zest-200 underline">Finish verification to see live food</Link>}
         {req && <span className="text-stone-200">Radius {req.serviceRadiusKm} km · available until {fmtDateTime(req.availableTo)}</span>}
       </Band>
 
@@ -128,15 +128,15 @@ export function NgoWorkspace({ user }: { user: User }) {
         <div role="status" className="fl-appear mt-4 rounded-2xl border-2 border-amber-500 bg-amber-50 p-5 text-amber-950">
           <p className="text-lg font-bold">{blocked === 'ORGANIZATION_REQUIRED' ? 'Create your organization profile' : 'Your organization is not verified yet'}</p>
           <p className="mt-1 text-sm">Only verified NGOs see live food. Complete or check your application on the profile page.</p>
-          <Link href="/profile#organization" className="mt-3 inline-flex min-h-11 items-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white">Open organization profile</Link>
+          <Link href="/profile#organization" className="mt-3 inline-flex min-h-11 items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white">Open organization profile</Link>
         </div>
       )}
 
       {!blocked && rec && rec.state !== 'ACTIVE' && (
-        <div role="status" className="fl-appear mt-4 rounded-2xl border-2 border-saffron-300 bg-saffron-50 p-5">
+        <div role="status" className="fl-appear mt-4 rounded-2xl border-2 border-zest-300 bg-zest-50 p-5">
           <p className="text-lg font-bold">{stateHelp[rec.state].title}</p>
           <p className="mt-1 text-sm text-stone-800">{stateHelp[rec.state].text}</p>
-          <Link href={stateHelp[rec.state].href} className="mt-3 inline-flex min-h-11 items-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white">{stateHelp[rec.state].link}</Link>
+          <Link href={stateHelp[rec.state].href} className="mt-3 inline-flex min-h-11 items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white">{stateHelp[rec.state].link}</Link>
         </div>
       )}
 

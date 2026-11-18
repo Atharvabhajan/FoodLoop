@@ -59,7 +59,7 @@ export function DocumentList({
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <a href={documentUrl(orgId, d.id)} className="font-medium text-paprika-700 underline" download>
+            <a href={documentUrl(orgId, d.id)} className="font-medium text-brand-700 underline" download>
               Download
             </a>
             {onDelete && (

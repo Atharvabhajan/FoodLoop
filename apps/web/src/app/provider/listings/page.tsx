@@ -39,11 +39,11 @@ export default function ProviderListingsPage() {
       title="Your listings"
       eyebrow="Surplus food"
       subtitle="Everything you have posted. Live listings are visible to verified NGOs nearby (approximate area only); drafts are private until you publish them."
-      actions={<Link href="/provider/listings/new" className="inline-flex min-h-11 items-center rounded-lg bg-paprika-600 px-5 py-2 text-sm font-bold text-white shadow-sm hover:bg-paprika-700">Post surplus food</Link>}
+      actions={<Link href="/provider/listings/new" className="inline-flex min-h-11 items-center rounded-lg bg-brand-600 px-5 py-2 text-sm font-bold text-white shadow-sm hover:bg-brand-700">Post surplus food</Link>}
       below={
         <div role="tablist" aria-label="Listing filter" className="inline-flex rounded-xl border border-stone-300 bg-white p-0.5">
           {(['active', 'past'] as const).map((s) => (
-            <button key={s} role="tab" aria-selected={scope === s} onClick={() => setScope(s)} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${scope === s ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>
+            <button key={s} role="tab" aria-selected={scope === s} onClick={() => setScope(s)} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${scope === s ? 'bg-brand-600 text-white' : 'hover:bg-stone-100'}`}>
               {s === 'active' ? 'Active and drafts' : 'Past'}
             </button>
           ))}

@@ -73,7 +73,7 @@ export function AvailableJobs() {
       {jobs && jobs.length === 0 && (
         <div className="fl-appear mt-3 rounded-2xl border border-dashed border-stone-300 bg-white/70 p-6 text-center text-stone-700">
           <p className="font-semibold">No jobs for you right now.</p>
-          <p className="mt-1 text-sm">Make sure you are set to Available with a vehicle, capacity, radius and base location in <Link href="/profile#transport" className="font-medium text-paprika-700 underline">your profile</Link>. New jobs appear here automatically.</p>
+          <p className="mt-1 text-sm">Make sure you are set to Available with a vehicle, capacity, radius and base location in <Link href="/profile#transport" className="font-medium text-brand-700 underline">your profile</Link>. New jobs appear here automatically.</p>
         </div>
       )}
       {jobs && jobs.length > 0 && (
@@ -94,7 +94,7 @@ export function AvailableJobs() {
                 About {j.estimates.runnerToPickupKm} km to the pickup (~{j.estimates.runnerToPickupMinutes} min), then {j.estimates.pickupToNgoKm} km to the NGO. Pickup window {fmtDateTime(j.pickupStart)} to {fmtDateTime(j.pickupDeadline)}.
               </p>
               <p className="mt-1 text-xs text-stone-600">Exact addresses and contacts are shared after you accept and the provider hand-off begins. This request closes <TimeLeft deadline={j.searchEndsAt} />.</p>
-              <button onClick={() => void claim(j.rescueId)} disabled={claiming !== null} className={`${btn} mt-3 bg-paprika-600 text-white hover:bg-paprika-700`}>
+              <button onClick={() => void claim(j.rescueId)} disabled={claiming !== null} className={`${btn} mt-3 bg-brand-600 text-white hover:bg-brand-700`}>
                 {claiming === j.rescueId ? 'Accepting…' : 'Accept this job'}
               </button>
               </div>
@@ -220,7 +220,7 @@ export function RunnerProfileForm() {
         />
       </fieldset>
       <FormError message={error} />
-      <button type="submit" disabled={busy} className={`${btn} bg-paprika-600 text-white hover:bg-paprika-700`}>{busy ? 'Saving…' : 'Save profile'}</button>
+      <button type="submit" disabled={busy} className={`${btn} bg-brand-600 text-white hover:bg-brand-700`}>{busy ? 'Saving…' : 'Save profile'}</button>
     </form>
   );
 }

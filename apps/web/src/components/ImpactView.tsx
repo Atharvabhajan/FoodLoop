@@ -28,7 +28,7 @@ const emptyText: Record<Role, string> = {
 
 function Stat({ label, value, note, tone = 'plain' }: { label: string; value: number; note?: string; tone?: 'plain' | 'ink' }) {
   return (
-    <div className={`lift rounded-2xl border-2 p-4 shadow-card ${tone === 'ink' ? 'border-stone-900 bg-stone-900 text-white' : 'border-stone-200 bg-white'}`}>
+    <div className={`lift rounded-2xl border p-4 shadow-card ${tone === 'ink' ? 'border-stone-900 bg-stone-900 text-white' : 'border-stone-200 bg-white'}`}>
       <dt className={`text-sm font-semibold ${tone === 'ink' ? 'text-stone-100' : 'text-stone-700'}`}>{label}</dt>
       <dd className="mt-1 text-4xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)' }}><CountUp value={value} /></dd>
       {note && <p className={`mt-1 text-xs ${tone === 'ink' ? 'text-stone-300' : 'text-stone-600'}`}>{note}</p>}
@@ -95,7 +95,7 @@ export function ImpactView({ role }: { role: Role }) {
         <h2 id="period-h" className="sr-only">Period</h2>
         <div role="group" aria-label="Choose a period" className="inline-flex flex-wrap rounded-xl border border-stone-300 bg-white p-0.5">
           {presets.map((p) => (
-            <button key={p.id} type="button" aria-pressed={preset === p.id} onClick={() => choose(p.id)} className={`min-h-10 rounded-lg px-3.5 py-1.5 text-sm font-semibold ${preset === p.id ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>
+            <button key={p.id} type="button" aria-pressed={preset === p.id} onClick={() => choose(p.id)} className={`min-h-10 rounded-lg px-3.5 py-1.5 text-sm font-semibold ${preset === p.id ? 'bg-brand-600 text-white' : 'hover:bg-stone-100'}`}>
               {p.label}
             </button>
           ))}
@@ -117,7 +117,7 @@ export function ImpactView({ role }: { role: Role }) {
               <input id="imp-to" type="date" value={custom.to} onChange={(e) => setCustom({ ...custom, to: e.target.value })} aria-invalid={fields.to ? true : undefined} className={input('to')} />
               {fields.to && <p className="mt-1 text-sm text-red-700">{fields.to}</p>}
             </div>
-            <button type="submit" className="inline-flex min-h-11 items-center justify-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-700">Apply</button>
+            <button type="submit" className="inline-flex min-h-11 items-center justify-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">Apply</button>
           </form>
         )}
       </section>
@@ -167,7 +167,7 @@ export function ImpactView({ role }: { role: Role }) {
                           <th scope="row" className="py-2.5 pr-2 text-left font-semibold">{monthLabel(x.month)}</th>
                           <td className="w-full py-2.5 pl-4">
                             <div className="flex items-center gap-2">
-                              <span aria-hidden className="inline-block h-4 rounded-r bg-paprika-500" style={{ width: `${Math.max(2, (x.servings / max) * 100)}%`, maxWidth: '85%' }} />
+                              <span aria-hidden className="inline-block h-4 rounded-r bg-brand-500" style={{ width: `${Math.max(2, (x.servings / max) * 100)}%`, maxWidth: '85%' }} />
                               <span className="font-bold tabular-nums">{x.servings}</span>
                             </div>
                           </td>
@@ -185,7 +185,7 @@ export function ImpactView({ role }: { role: Role }) {
                   {splitTotal > 0 && (
                     <div className="mt-4 flex h-4 overflow-hidden rounded-full bg-stone-200" aria-hidden>
                       <span className="bg-stone-900" style={{ width: `${(split.directPickup.servings / splitTotal) * 100}%` }} />
-                      <span className="bg-saffron-400" style={{ width: `${(split.runnerAssisted.servings / splitTotal) * 100}%` }} />
+                      <span className="bg-zest-400" style={{ width: `${(split.runnerAssisted.servings / splitTotal) * 100}%` }} />
                     </div>
                   )}
                   <table className="mt-3 w-full text-sm">
@@ -198,7 +198,7 @@ export function ImpactView({ role }: { role: Role }) {
                     </thead>
                     <tbody>
                       <tr className="border-t border-stone-200"><th scope="row" className="py-2 text-left font-normal"><span aria-hidden className="mr-2 inline-block h-3 w-3 rounded-full bg-stone-900 align-middle" />Collected by the NGO</th><td className="py-2 text-right tabular-nums">{split.directPickup.rescues}</td><td className="py-2 text-right tabular-nums">{split.directPickup.servings}</td></tr>
-                      <tr className="border-t border-stone-200"><th scope="row" className="py-2 text-left font-normal"><span aria-hidden className="mr-2 inline-block h-3 w-3 rounded-full bg-saffron-400 align-middle" />Carried by a runner</th><td className="py-2 text-right tabular-nums">{split.runnerAssisted.rescues}</td><td className="py-2 text-right tabular-nums">{split.runnerAssisted.servings}</td></tr>
+                      <tr className="border-t border-stone-200"><th scope="row" className="py-2 text-left font-normal"><span aria-hidden className="mr-2 inline-block h-3 w-3 rounded-full bg-zest-400 align-middle" />Carried by a runner</th><td className="py-2 text-right tabular-nums">{split.runnerAssisted.rescues}</td><td className="py-2 text-right tabular-nums">{split.runnerAssisted.servings}</td></tr>
                     </tbody>
                   </table>
                   <p className="mt-3 text-sm text-stone-700">

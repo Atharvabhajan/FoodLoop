@@ -107,7 +107,7 @@ export default function ProfilePage() {
           <div className="min-w-0 flex-1">
             <h2 className="truncate text-2xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>{user.name}</h2>
             <p className="mt-0.5 flex flex-wrap items-center gap-2 text-sm text-stone-200">
-              <span className="rounded-full bg-saffron-300 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-stone-950">{roleLabel[user.platformRole]}</span>
+              <span className="rounded-full bg-zest-300 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-stone-950">{roleLabel[user.platformRole]}</span>
               {membership && <span>{membership.organizationName}</span>}
               {org && <span className="rounded-full bg-white px-0.5"><StatusBadge status={org.verificationStatus} /></span>}
             </p>
@@ -125,7 +125,7 @@ export default function ProfilePage() {
 
       <div role="tablist" aria-label="Profile sections" className="mt-5 flex flex-wrap gap-1 border-b-2 border-stone-200">
         {tabs.map((t) => (
-          <button key={t.id} role="tab" id={`tab-${t.id}`} aria-selected={tab === t.id} aria-controls={`panel-${t.id}`} onClick={() => go(t.id)} className={`-mb-0.5 min-h-11 border-b-4 px-4 py-2 text-sm font-semibold ${tab === t.id ? 'border-paprika-600 text-stone-900' : 'border-transparent text-stone-600 hover:text-stone-900'}`}>
+          <button key={t.id} role="tab" id={`tab-${t.id}`} aria-selected={tab === t.id} aria-controls={`panel-${t.id}`} onClick={() => go(t.id)} className={`-mb-0.5 min-h-11 border-b-4 px-4 py-2 text-sm font-semibold ${tab === t.id ? 'border-brand-600 text-stone-900' : 'border-transparent text-stone-600 hover:text-stone-900'}`}>
             {t.label}
           </button>
         ))}
@@ -189,7 +189,7 @@ export default function ProfilePage() {
                 <li>You can stop at any time; stopping deletes the stored point. It is also deleted when you hand over, release or the rescue ends.</li>
                 <li>If you deny permission you can still deliver, and you can type a position by hand instead. Each rescue asks again.</li>
               </ul>
-              <p className="mt-3 text-sm"><Link href="/runner/rescues" className="font-semibold text-paprika-700 underline">Go to my rescues</Link></p>
+              <p className="mt-3 text-sm"><Link href="/runner/rescues" className="font-semibold text-brand-700 underline">Go to my rescues</Link></p>
             </section>
           )}
         </div>

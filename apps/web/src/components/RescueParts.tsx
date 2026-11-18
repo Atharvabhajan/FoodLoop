@@ -62,7 +62,7 @@ export function RescueList({ role }: { role: RescueRole }) {
       <div className="flex flex-wrap items-center gap-3">
         <div role="tablist" aria-label="Rescue filter" className="inline-flex rounded-xl border border-stone-300 bg-white p-0.5">
           {(['active', 'past'] as const).map((s) => (
-            <button key={s} role="tab" aria-selected={scope === s} onClick={() => setScope(s)} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${scope === s ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>
+            <button key={s} role="tab" aria-selected={scope === s} onClick={() => setScope(s)} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${scope === s ? 'bg-brand-600 text-white' : 'hover:bg-stone-100'}`}>
               {s === 'active' ? 'In progress' : 'Finished'}
             </button>
           ))}
@@ -93,7 +93,7 @@ export function RescueList({ role }: { role: RescueRole }) {
             : 'Completed, cancelled and failed rescues are kept here.'}
         </EmptyState>
       )}
-      {items && items.length > 0 && shown.length === 0 && <p className="fl-appear mt-4 rounded-2xl border border-dashed border-stone-300 bg-white/70 p-6 text-center text-stone-700">No rescues match these filters. <button type="button" onClick={() => { setQ(''); setMineOnly(false); }} className="font-semibold text-paprika-700 underline">Clear filters</button></p>}
+      {items && items.length > 0 && shown.length === 0 && <p className="fl-appear mt-4 rounded-2xl border border-dashed border-stone-300 bg-white/70 p-6 text-center text-stone-700">No rescues match these filters. <button type="button" onClick={() => { setQ(''); setMineOnly(false); }} className="font-semibold text-brand-700 underline">Clear filters</button></p>}
       {items && shown.length > 0 && (
         <ul className="stagger mt-4 grid gap-3 xl:grid-cols-2">
           {shown.map((r) => {
@@ -101,7 +101,7 @@ export function RescueList({ role }: { role: RescueRole }) {
             const mine = scope === 'active' && r.nextAction.party === role;
             return (
               <li key={r.id}>
-                <Link href={`/${role}/rescues/${r.id}`} className={`lift block h-full rounded-2xl border-2 bg-white p-4 shadow-card ${mine ? 'border-paprika-500' : 'border-stone-200'}`}>
+                <Link href={`/${role}/rescues/${r.id}`} className={`lift block h-full rounded-2xl border-2 bg-white p-4 shadow-card ${mine ? 'border-brand-500' : 'border-stone-200'}`}>
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div className="min-w-0">
                       <p className="text-xs font-bold uppercase tracking-wider text-stone-600">{role === 'ngo' ? `From ${r.providerName}` : role === 'provider' ? `To ${r.ngoName}` : `${r.providerName} → ${r.ngoName}`}</p>
@@ -115,7 +115,7 @@ export function RescueList({ role }: { role: RescueRole }) {
                     {r.deliveredServings !== null ? ` · ${r.deliveredServings} received` : ''}
                     {d ? <> · {d.label}: <TimeLeft deadline={d.at} /></> : null}
                   </p>
-                  <p className={`mt-2 rounded-lg px-3 py-2 text-sm ${mine ? 'bg-paprika-50 font-semibold text-stone-900' : 'bg-stone-100 text-stone-800'}`}>
+                  <p className={`mt-2 rounded-lg px-3 py-2 text-sm ${mine ? 'bg-brand-50 font-semibold text-stone-900' : 'bg-stone-100 text-stone-800'}`}>
                     <span className="font-bold">{mine ? 'Your next step: ' : 'Next: '}</span>{r.nextAction.text}
                   </p>
                 </Link>
@@ -262,14 +262,14 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
           <div className="min-w-0 flex-1 p-4 md:p-5">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="min-w-0">
-                <p className="text-xs font-bold uppercase tracking-wider text-paprika-700">{r.provider.name} → {r.ngo.name}</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-brand-700">{r.provider.name} → {r.ngo.name}</p>
                 <h2 id="st" className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>{r.listing.title}</h2>
                 <p className="text-sm text-stone-700">{r.listing.servingsOffered} servings · {r.transportMode === 'RUNNER' ? 'runner-assisted' : 'NGO collects'}</p>
               </div>
               <RescueStatusBadge status={r.status} />
             </div>
             <StageTrack status={r.status} />
-            <div className={`mt-4 rounded-xl p-3 ${r.nextAction.party === role && !finished ? 'border-2 border-paprika-500 bg-paprika-50' : 'bg-stone-100'}`}>
+            <div className={`mt-4 rounded-xl p-3 ${r.nextAction.party === role && !finished ? 'border-2 border-brand-500 bg-brand-50' : 'bg-stone-100'}`}>
               <p className="text-xs font-bold uppercase tracking-wide text-stone-700">{finished ? 'Status' : r.nextAction.party === role ? 'Your next step' : r.nextAction.party ? `Next step (${r.nextAction.party})` : 'Next step'}</p>
               <p className="mt-0.5 font-semibold">{r.nextAction.text}</p>
               {deadline && <p className="mt-1 text-sm text-stone-700">{deadline.label} by {fmtDateTime(deadline.at)} · <TimeLeft deadline={deadline.at} /></p>}
@@ -295,7 +295,7 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
         <div className="min-w-0 space-y-4">
       {/* Pickup code (provider only, once) */}
       {role === 'provider' && code && (
-        <section aria-labelledby="code" role="status" className="rounded-xl border-2 border-paprika-600 bg-paprika-50 p-5">
+        <section aria-labelledby="code" role="status" className="rounded-xl border-2 border-brand-600 bg-brand-50 p-5">
           <h2 id="code" className="text-lg font-semibold">Pickup code</h2>
           <p className="mt-1 text-sm">Give this code to the NGO when they collect the food. It is shown only now and works once.</p>
           <p className="mt-2 font-mono text-3xl font-bold tracking-widest" aria-label={`Pickup code ${code.split('').join(' ')}`}>{code}</p>
@@ -309,24 +309,24 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
 
       {/* Actions */}
       {r.allowedActions.length > 0 && (
-        <section aria-labelledby="act" className="fl-appear rounded-2xl border-2 border-paprika-600 bg-white p-5 shadow-card">
+        <section aria-labelledby="act" className="fl-appear rounded-2xl border-2 border-brand-600 bg-white p-5 shadow-card">
           <h2 id="act" className="text-lg font-semibold">Actions</h2>
           {panel === null && (
             <div className="mt-3 flex flex-wrap gap-3">
-              {can('confirm') && <button disabled={busy} onClick={() => void act('/confirm', {}, 'Hand-off confirmed. The pickup code is shown below.')} className={`${btn} bg-paprika-600 text-white hover:bg-paprika-700`}>{busy ? 'Confirming…' : 'Confirm hand-off'}</button>}
-              {can('regenerate_code') && <button disabled={busy} onClick={() => void act('/pickup-code', {}, 'A new pickup code was issued.')} className={`${btn} border border-paprika-600 text-paprika-700`}>Generate new pickup code</button>}
+              {can('confirm') && <button disabled={busy} onClick={() => void act('/confirm', {}, 'Hand-off confirmed. The pickup code is shown below.')} className={`${btn} bg-brand-600 text-white hover:bg-brand-700`}>{busy ? 'Confirming…' : 'Confirm hand-off'}</button>}
+              {can('regenerate_code') && <button disabled={busy} onClick={() => void act('/pickup-code', {}, 'A new pickup code was issued.')} className={`${btn} border border-brand-600 text-brand-700`}>Generate new pickup code</button>}
               {can('reject') && <button onClick={() => setPanel('reject')} className={`${btn} border border-red-600 text-red-800`}>Decline…</button>}
-              {can('verify_pickup') && <button onClick={() => { setServings(String(r.listing.servingsOffered)); setPanel('verify'); }} className={`${btn} bg-paprika-600 text-white hover:bg-paprika-700`}>Verify pickup</button>}
-              {can('confirm_delivery') && <button onClick={() => { setServings(String(r.collectedServings ?? '')); setPanel('delivery'); }} className={`${btn} bg-paprika-600 text-white hover:bg-paprika-700`}>Confirm food received</button>}
+              {can('verify_pickup') && <button onClick={() => { setServings(String(r.listing.servingsOffered)); setPanel('verify'); }} className={`${btn} bg-brand-600 text-white hover:bg-brand-700`}>Verify pickup</button>}
+              {can('confirm_delivery') && <button onClick={() => { setServings(String(r.collectedServings ?? '')); setPanel('delivery'); }} className={`${btn} bg-brand-600 text-white hover:bg-brand-700`}>Confirm food received</button>}
               {can('report_incident') && <button onClick={() => setPanel('incident')} className={`${btn} border border-orange-600 text-orange-900`}>Report a problem…</button>}
-              {can('collect_myself') && <button disabled={busy} onClick={() => void act('/transport/self', {}, 'You will collect this food yourself. You will need the provider pickup code at pickup.')} className={`${btn} border border-paprika-600 text-paprika-700`}>Collect it myself instead</button>}
+              {can('collect_myself') && <button disabled={busy} onClick={() => void act('/transport/self', {}, 'You will collect this food yourself. You will need the provider pickup code at pickup.')} className={`${btn} border border-brand-600 text-brand-700`}>Collect it myself instead</button>}
               {can('release_assignment') && <button onClick={() => setPanel('release')} className={`${btn} border border-red-600 text-red-800`}>Release this job…</button>}
-              {can('handover') && <button onClick={() => { setNotes(''); setPanel('handover'); }} className={`${btn} bg-paprika-600 text-white hover:bg-paprika-700`}>Hand over to the NGO</button>}
+              {can('handover') && <button onClick={() => { setNotes(''); setPanel('handover'); }} className={`${btn} bg-brand-600 text-white hover:bg-brand-700`}>Hand over to the NGO</button>}
               {can('cancel') && <button onClick={() => setPanel('cancel')} className={`${btn} border border-red-600 text-red-800`}>Cancel rescue…</button>}
-              {can('admin_reassign') && <button onClick={() => setPanel('admin_reassign')} className={`${btn} border border-paprika-600 text-paprika-700`}>Reassign runner…</button>}
+              {can('admin_reassign') && <button onClick={() => setPanel('admin_reassign')} className={`${btn} border border-brand-600 text-brand-700`}>Reassign runner…</button>}
               {can('admin_fail') && <button onClick={() => setPanel('admin_fail')} className={`${btn} border border-red-600 text-red-800`}>Mark delivery failed…</button>}
               {can('admin_cancel') && <button onClick={() => setPanel('admin_cancel')} className={`${btn} border border-red-600 text-red-800`}>Cancel as admin…</button>}
-              {can('admin_resolve') && <button onClick={() => { setServings(String(r.collectedServings ?? '')); setPanel('admin_resolve'); }} className={`${btn} bg-paprika-600 text-white hover:bg-paprika-700`}>Resolve as admin…</button>}
+              {can('admin_resolve') && <button onClick={() => { setServings(String(r.collectedServings ?? '')); setPanel('admin_resolve'); }} className={`${btn} bg-brand-600 text-white hover:bg-brand-700`}>Resolve as admin…</button>}
             </div>
           )}
           {panel === 'reject' && reasonForm('Why are you declining?', 'Decline request', '/reject', 'Request declined. The listing is open to other NGOs again.')}
@@ -334,7 +334,7 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
           {panel === 'admin_cancel' && reasonForm('Reason for cancelling', 'Cancel rescue', '/admin/cancel', 'Rescue cancelled and recorded in the audit history.')}
           {panel === 'incident' && <IncidentReportForm rescueId={r.id} onCancel={() => setPanel(null)} onDone={(m) => { setNotice(m); setPanel(null); void load(); }} />}
           {panel === 'release' && reasonForm('Why can you not continue?', 'Release job', '/runner/release', 'Job released. Other runners can now take it.')}
-          {panel === 'admin_reassign' && reasonForm('Why is the runner being replaced?', 'Reassign', '/admin/reassign', 'The runner was removed and the job is open to others.', 'bg-paprika-600 text-white hover:bg-paprika-700')}
+          {panel === 'admin_reassign' && reasonForm('Why is the runner being replaced?', 'Reassign', '/admin/reassign', 'The runner was removed and the job is open to others.', 'bg-brand-600 text-white hover:bg-brand-700')}
           {panel === 'admin_fail' && reasonForm('Why did the delivery fail?', 'Mark as failed', '/admin/fail', 'Delivery marked as failed and recorded in the audit history.')}
           {panel === 'handover' && (
             <form onSubmit={(e) => { e.preventDefault(); void act('/delivery/handover', notes.trim() ? { note: notes.trim() } : {}, 'Handed over. The NGO now confirms the quantity received.'); }} noValidate className="mt-3 grid max-w-sm gap-3">
@@ -344,7 +344,7 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
                 <input id="hn" maxLength={500} value={notes} onChange={(e) => setNotes(e.target.value)} className="mt-1 block w-full rounded-lg border border-stone-300 px-3 py-2.5" />
               </div>
               <div className="flex gap-3">
-                <button type="submit" disabled={busy} className={`${btn} bg-paprika-600 text-white hover:bg-paprika-700`}>{busy ? 'Saving…' : 'Yes, handed over'}</button>
+                <button type="submit" disabled={busy} className={`${btn} bg-brand-600 text-white hover:bg-brand-700`}>{busy ? 'Saving…' : 'Yes, handed over'}</button>
                 <button type="button" onClick={() => { setPanel(null); setFields({}); }} className={`${btn} border border-stone-300`}>Back</button>
               </div>
             </form>
@@ -362,7 +362,7 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
               </div>
               {r.pickupCode && <p className="text-xs text-stone-600">{r.pickupCode.attemptsLeft} attempts left.</p>}
               <div className="flex gap-3">
-                <button type="submit" disabled={busy} className={`${btn} bg-paprika-600 text-white hover:bg-paprika-700`}>{busy ? 'Verifying…' : 'Verify pickup'}</button>
+                <button type="submit" disabled={busy} className={`${btn} bg-brand-600 text-white hover:bg-brand-700`}>{busy ? 'Verifying…' : 'Verify pickup'}</button>
                 <button type="button" onClick={() => { setPanel(null); setFields({}); }} className={`${btn} border border-stone-300`}>Back</button>
               </div>
             </form>
@@ -379,7 +379,7 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
                 <input id="rn" maxLength={500} value={notes} onChange={(e) => setNotes(e.target.value)} className="mt-1 block w-full rounded-lg border border-stone-300 px-3 py-2.5" />
               </div>
               <div className="flex gap-3">
-                <button type="submit" disabled={busy} className={`${btn} bg-paprika-600 text-white hover:bg-paprika-700`}>{busy ? 'Saving…' : 'Confirm received'}</button>
+                <button type="submit" disabled={busy} className={`${btn} bg-brand-600 text-white hover:bg-brand-700`}>{busy ? 'Saving…' : 'Confirm received'}</button>
                 <button type="button" onClick={() => { setPanel(null); setFields({}); }} className={`${btn} border border-stone-300`}>Back</button>
               </div>
             </form>
@@ -397,7 +397,7 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
                 {fields.reason && <p className="mt-1 text-sm text-red-700">{fields.reason}</p>}
               </div>
               <div className="flex gap-3">
-                <button type="submit" disabled={busy} className={`${btn} bg-paprika-600 text-white hover:bg-paprika-700`}>{busy ? 'Saving…' : 'Record resolution'}</button>
+                <button type="submit" disabled={busy} className={`${btn} bg-brand-600 text-white hover:bg-brand-700`}>{busy ? 'Saving…' : 'Record resolution'}</button>
                 <button type="button" onClick={() => { setPanel(null); setFields({}); }} className={`${btn} border border-stone-300`}>Back</button>
               </div>
             </form>
@@ -412,7 +412,7 @@ export function RescueDetail({ id, role }: { id: string; role: RescueRole }) {
           <h2 id="inc-h" className="text-lg font-semibold">Incidents</h2>
           <IncidentList incidents={r.incidents} />
           {role === 'admin' && r.incidents.some((i) => i.status === 'OPEN') && (
-            <p className="mt-3 text-sm"><Link href="/admin/incidents" className="font-medium text-paprika-700 underline">Review and resolve open incidents →</Link></p>
+            <p className="mt-3 text-sm"><Link href="/admin/incidents" className="font-medium text-brand-700 underline">Review and resolve open incidents →</Link></p>
           )}
         </section>
       )}

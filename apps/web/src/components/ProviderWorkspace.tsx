@@ -48,11 +48,11 @@ export function ProviderWorkspace({ user }: { user: User }) {
         eyebrow={`${greeting()}, ${firstName(user.name)}`}
         title={org?.name ?? 'Your kitchen'}
         actions={
-          <Link href="/provider/listings/new" className="inline-flex min-h-12 items-center rounded-xl bg-saffron-300 px-6 py-3 text-base font-bold text-stone-950 shadow-lift hover:bg-saffron-200">Post surplus food</Link>
+          <Link href="/provider/listings/new" className="inline-flex min-h-12 items-center rounded-xl bg-zest-300 px-6 py-3 text-base font-bold text-stone-950 shadow-lift hover:bg-zest-200">Post surplus food</Link>
         }
       >
         {org && <span className="rounded-full bg-white px-0.5"><StatusBadge status={org.verificationStatus} /></span>}
-        {org && !verified && <Link href="/profile#organization" className="font-semibold text-saffron-200 underline">Finish verification to publish listings</Link>}
+        {org && !verified && <Link href="/profile#organization" className="font-semibold text-zest-200 underline">Finish verification to publish listings</Link>}
         {verified && <span className="text-stone-200">Verified: listings you publish reach nearby NGOs.</span>}
       </Band>
 
@@ -64,7 +64,7 @@ export function ProviderWorkspace({ user }: { user: User }) {
       </KpiRow>
 
       {mine.length > 0 && (
-        <section aria-labelledby="pw-attn" className="fl-appear mt-4 rounded-2xl border-2 border-paprika-500 bg-paprika-50 p-4 md:p-5">
+        <section aria-labelledby="pw-attn" className="fl-appear mt-4 rounded-2xl border-2 border-brand-500 bg-brand-50 p-4 md:p-5">
           <h2 id="pw-attn" className="text-lg font-bold">Needs your attention</h2>
           <ul className="mt-3 grid gap-3 md:grid-cols-2">{mine.map((r) => <RescueRow key={r.id} r={r} role="provider" />)}</ul>
         </section>

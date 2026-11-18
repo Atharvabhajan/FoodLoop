@@ -28,13 +28,13 @@ export interface MapCircle {
 }
 
 const legend: Record<MarkerKind, { color: string; label: string }> = {
-  pickup: { color: '#bf3f1b', label: 'Pickup (food)' },
-  listing: { color: '#bf3f1b', label: 'Live listing' },
-  urgent: { color: '#7b2711', label: 'Urgent listing' },
-  ngo: { color: '#241b15', label: 'NGO / destination' },
-  org: { color: '#241b15', label: 'Organization' },
-  runner: { color: '#b87c00', label: 'Runner' },
-  selected: { color: '#b87c00', label: 'Selected location' },
+  pickup: { color: '#067858', label: 'Pickup (food)' },
+  listing: { color: '#067858', label: 'Live listing' },
+  urgent: { color: '#c25200', label: 'Urgent listing' },
+  ngo: { color: '#14201b', label: 'NGO / destination' },
+  org: { color: '#14201b', label: 'Organization' },
+  runner: { color: '#3a56d4', label: 'Runner' },
+  selected: { color: '#3a56d4', label: 'Selected location' },
 };
 
 const glyph: Record<MarkerKind, string> = { pickup: 'P', listing: 'F', urgent: '!', ngo: 'N', org: 'O', runner: 'R', selected: '+' };
@@ -54,7 +54,7 @@ function popupNode(m: MapMarker, open: (href: string) => void): HTMLElement {
   if (m.approximate) {
     const p = document.createElement('div');
     p.textContent = 'Approximate area only. The exact address is shared after the rescue is confirmed.';
-    p.style.cssText = 'margin-top:4px;font-size:12px;color:#5e5247';
+    p.style.cssText = 'margin-top:4px;font-size:12px;color:#47544d';
     root.appendChild(p);
   }
   const href = m.popup?.href;
@@ -62,7 +62,7 @@ function popupNode(m: MapMarker, open: (href: string) => void): HTMLElement {
     const a = document.createElement('a');
     a.href = href;
     a.textContent = m.popup?.hrefLabel ?? 'Open';
-    a.style.cssText = 'display:inline-block;margin-top:6px;font-weight:600;color:#9c3115;text-decoration:underline';
+    a.style.cssText = 'display:inline-block;margin-top:6px;font-weight:600;color:#065f47;text-decoration:underline';
     a.addEventListener('click', (e) => {
       e.preventDefault();
       open(href);
@@ -101,7 +101,7 @@ export function MapView({
   height?: number;
   picker?: { value: { latitude: number; longitude: number } | null; onChange: (latitude: number, longitude: number) => void };
   selectedId?: string | null;
-  /** Draw this marker bigger with a saffron ring (selection from a list or the map). */
+  /** Draw this marker bigger with a lime ring (selection from a list or the map). */
   highlightId?: string | null;
   onSelect?: (id: string) => void;
   showLegend?: boolean;
@@ -215,7 +215,7 @@ export function MapView({
     g.clearLayers();
     byId.current.clear();
     for (const c of circles) {
-      L.circle([c.latitude, c.longitude], { radius: c.radiusKm * 1000, color: '#bf3f1b', weight: 2, dashArray: '6 6', fillColor: '#bf3f1b', fillOpacity: 0.07 })
+      L.circle([c.latitude, c.longitude], { radius: c.radiusKm * 1000, color: '#067858', weight: 2, dashArray: '6 6', fillColor: '#12a079', fillOpacity: 0.07 })
         .bindTooltip(c.label, { sticky: true })
         .addTo(g);
     }
@@ -238,11 +238,11 @@ export function MapView({
     }
   }, [ready, markerKey]);
 
-  // the highlighted marker is drawn larger with a saffron ring
+  // the highlighted marker is drawn larger with a lime ring
   useEffect(() => {
     for (const [id, cm] of byId.current) {
       const on = id === highlightId;
-      cm.setStyle(on ? { radius: 14, weight: 5, color: '#fcc83f' } : { radius: 9, weight: 2, color: '#ffffff' });
+      cm.setStyle(on ? { radius: 14, weight: 5, color: '#b2df24' } : { radius: 9, weight: 2, color: '#ffffff' });
       if (on) cm.bringToFront();
     }
   }, [highlightId, ready, markerKey]);
@@ -271,7 +271,7 @@ export function MapView({
     if (!pin.current) {
       const icon = L.divIcon({
         className: '',
-        html: '<div style="width:26px;height:26px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#bf3f1b;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>',
+        html: '<div style="width:26px;height:26px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#067858;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>',
         iconSize: [26, 26],
         iconAnchor: [13, 26],
       });
@@ -333,7 +333,7 @@ export function MapView({
             ))}
             {circles.length > 0 && (
               <li className="flex items-center gap-1">
-                <span aria-hidden className="inline-block h-3 w-3 rounded-full border-2 border-dashed border-paprika-600" /> Service radius
+                <span aria-hidden className="inline-block h-3 w-3 rounded-full border-2 border-dashed border-brand-600" /> Service radius
               </li>
             )}
           </ul>

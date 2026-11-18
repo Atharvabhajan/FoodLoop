@@ -29,7 +29,7 @@ export interface ExplorerOrg {
 const urgentSet = new Set(['URGENT', 'CRITICAL']);
 const urgencyCls: Record<string, string> = {
   NORMAL: 'border-stone-400 bg-stone-50 text-stone-800',
-  PRIORITY: 'border-saffron-600 bg-saffron-100 text-stone-900',
+  PRIORITY: 'border-zest-600 bg-zest-100 text-stone-900',
   URGENT: 'border-orange-600 bg-orange-50 text-orange-900',
   CRITICAL: 'border-red-700 bg-red-50 text-red-900',
 };
@@ -153,7 +153,7 @@ export function FoodExplorer({
           <form role="search" aria-label="Filter live food" onSubmit={(e) => e.preventDefault()} className="mt-2 flex flex-wrap items-center gap-2">
             <label htmlFor="fx-q" className="sr-only">Search live food</label>
             <input id="fx-q" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search food or provider" className="min-w-0 flex-1 rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm hover:border-stone-400" />
-            <button type="button" aria-pressed={urg} onClick={() => setUrg((u) => !u)} className={`min-h-10 rounded-lg border px-3 py-1.5 text-sm font-semibold ${urg ? 'border-paprika-600 bg-paprika-600 text-white' : 'border-stone-300 bg-white hover:bg-stone-100'}`}>Urgent only</button>
+            <button type="button" aria-pressed={urg} onClick={() => setUrg((u) => !u)} className={`min-h-10 rounded-lg border px-3 py-1.5 text-sm font-semibold ${urg ? 'border-brand-600 bg-brand-600 text-white' : 'border-stone-300 bg-white hover:bg-stone-100'}`}>Urgent only</button>
             {toolbar}
           </form>
           {loading && <Loadingish />}
@@ -164,7 +164,7 @@ export function FoodExplorer({
             {shown.map((l) => {
               const km = kmOf(l, org);
               return (
-                <li key={l.id} id={`listing-${l.id}`} className={`lift flex overflow-hidden rounded-2xl border-2 bg-white shadow-card ${selected === l.id ? 'border-saffron-400 ring-2 ring-saffron-300' : 'border-stone-200'}`}>
+                <li key={l.id} id={`listing-${l.id}`} className={`lift flex overflow-hidden rounded-2xl border-2 bg-white shadow-card ${selected === l.id ? 'border-zest-400 ring-2 ring-zest-300' : 'border-stone-200'}`}>
                   <button type="button" onClick={() => { setSelected(l.id); setView('map'); }} aria-pressed={selected === l.id} aria-label={`Show details and map position for ${l.title}`} className="flex min-w-0 flex-1 text-left">
                     <span className="block w-24 shrink-0 sm:w-28"><FoodPhoto l={l} className="h-full min-h-28 w-full object-cover" /></span>
                     <span className="block min-w-0 flex-1 p-3">

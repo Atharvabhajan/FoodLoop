@@ -1,106 +1,157 @@
 @import 'tailwindcss';
 
 /*
- * FoodLoop identity (v2): warm oat paper, paprika actions, saffron accent, espresso text.
- * Everything below is a CSS variable; the paprika-*, saffron-* and stone-* scales are what the components use.
+ * FoodLoop identity (v3): fresh market. Deep emerald actions, a lime "zest" accent, cool sage neutrals, forest-ink text.
+ * Everything below is a CSS variable; the brand-*, zest-* and stone-* scales are what the components use.
  * Status colours are never the only signal: every state also carries a glyph and a text label.
  */
 @theme {
-  /* paprika: the main action colour (600 is the button fill; white on 600 = 5.3:1) */
-  --color-paprika-50: #fff2ec;
-  --color-paprika-100: #ffe1d3;
-  --color-paprika-200: #ffc2a6;
-  --color-paprika-300: #f99a72;
-  --color-paprika-400: #ec7048;
-  --color-paprika-500: #d9532b;
-  --color-paprika-600: #bf3f1b;
-  --color-paprika-700: #9c3115;
-  --color-paprika-800: #7b2711;
-  --color-paprika-900: #56190b;
+  /* brand: the main action colour (600 is the button fill; white on 600 = 5.6:1) */
+  --color-brand-50: #ecfbf4;
+  --color-brand-100: #d2f5e5;
+  --color-brand-200: #a5ead0;
+  --color-brand-300: #6dd8b4;
+  --color-brand-400: #34bd93;
+  --color-brand-500: #12a079;
+  --color-brand-600: #067858;
+  --color-brand-700: #065f47;
+  --color-brand-800: #074c3a;
+  --color-brand-900: #063d30;
+  --color-brand-950: #02231b;
 
-  /* saffron / marigold: restrained accent (highlights, chips, focus on dark) */
-  --color-saffron-50: #fff8e3;
-  --color-saffron-100: #ffedb5;
-  --color-saffron-200: #ffdc7a;
-  --color-saffron-300: #fcc83f;
-  --color-saffron-400: #f3b414;
-  --color-saffron-500: #e0a000;
-  --color-saffron-600: #b87c00;
-  --color-saffron-700: #8a5a00;
+  /* zest: lime accent (active pills on dark, chips, highlights, focus ring on dark). Always with dark text. */
+  --color-zest-50: #f7fde6;
+  --color-zest-100: #edfac2;
+  --color-zest-200: #def58c;
+  --color-zest-300: #c9ee52;
+  --color-zest-400: #b2df24;
+  --color-zest-500: #93c00e;
+  --color-zest-600: #6f9207;
+  --color-zest-700: #546f0b;
 
-  /* warm oat neutrals and espresso text; stone-500 and darker meet 4.5:1 on the oat background */
-  --color-stone-50: #fbf5e9;
-  --color-stone-100: #f4ebd9;
-  --color-stone-200: #e8dcc4;
-  --color-stone-300: #d5c5a8;
-  --color-stone-400: #a39378;
-  --color-stone-500: #75675a;
-  --color-stone-600: #5e5247;
-  --color-stone-700: #4a3f36;
-  --color-stone-800: #352c25;
-  --color-stone-900: #241b15;
-  --color-stone-950: #170f0b;
+  /* cool sage neutrals and forest-ink text; stone-500 and darker meet 4.5:1 on the page background */
+  --color-stone-50: #f5f8f6;
+  --color-stone-100: #ebf0ed;
+  --color-stone-200: #dbe3de;
+  --color-stone-300: #c1ccc5;
+  --color-stone-400: #8d9a92;
+  --color-stone-500: #5c6a62;
+  --color-stone-600: #47544d;
+  --color-stone-700: #34403a;
+  --color-stone-800: #232e29;
+  --color-stone-900: #14201b;
+  --color-stone-950: #0a1411;
 
-  /*
-   * Semantic status colours, kept inside the warm family. Success reads as "ink": dark espresso with a check.
-   * Blue/sky (used for "reserved"/"in transit") become cocoa so nothing in the UI is blue.
-   */
-  --color-green-50: #f4ecdc;
-  --color-green-300: #c9b99a;
-  --color-green-600: #352c25;
-  --color-green-800: #241b15;
-  --color-green-900: #170f0b;
-  --color-blue-50: #f8ebe2;
-  --color-blue-600: #8a4a2e;
-  --color-blue-900: #4d2412;
-  --color-sky-50: #f8ebe2;
-  --color-sky-700: #8a4a2e;
-  --color-sky-900: #4d2412;
-  --color-orange-50: #fff1d6;
-  --color-orange-300: #f0b45a;
-  --color-orange-600: #b05f00;
-  --color-orange-900: #6b3700;
-  --color-orange-950: #4a2600;
+  /* Semantic status colours: success is emerald, "reserved" / "in transit" are a calm indigo-blue. */
+  --color-green-50: #e9f8f0;
+  --color-green-300: #8fdab5;
+  --color-green-600: #087a55;
+  --color-green-800: #065c40;
+  --color-green-900: #053d2b;
+  --color-blue-50: #eef1ff;
+  --color-blue-600: #3a56d4;
+  --color-blue-900: #1d2a74;
+  --color-sky-50: #ebf5fc;
+  --color-sky-700: #1c6ca3;
+  --color-sky-900: #0f3e5f;
+  --color-orange-50: #fff3e6;
+  --color-orange-300: #ffb36b;
+  --color-orange-600: #c25200;
+  --color-orange-900: #6e2e00;
+  --color-orange-950: #4a1f00;
 
-  --font-sans: 'Segoe UI', Inter, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --font-sans: var(--font-jakarta), 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-jakarta), 'Segoe UI', system-ui, sans-serif;
 
-  --shadow-card: 0 1px 2px rgb(36 27 21 / 0.05), 0 4px 16px rgb(36 27 21 / 0.06);
-  --shadow-lift: 0 2px 4px rgb(36 27 21 / 0.07), 0 14px 34px rgb(36 27 21 / 0.14);
+  --shadow-card: 0 1px 2px rgb(10 20 17 / 0.04), 0 6px 20px -6px rgb(10 20 17 / 0.08);
+  --shadow-lift: 0 2px 6px rgb(10 20 17 / 0.06), 0 18px 40px -10px rgb(6 95 71 / 0.22);
 }
 
 /* Semantic aliases, for plain CSS and anything that is not a Tailwind class (maps, charts, dialogs) */
 :root {
   --fl-bg: var(--color-stone-50);
-  --fl-surface: #fffdf8;
+  --fl-surface: #ffffff;
   --fl-text: var(--color-stone-900);
   --fl-muted: var(--color-stone-600);
   --fl-border: var(--color-stone-200);
-  --fl-primary: var(--color-paprika-600);
-  --fl-primary-hover: var(--color-paprika-700);
-  --fl-accent: var(--color-saffron-300);
+  --fl-primary: var(--color-brand-600);
+  --fl-primary-hover: var(--color-brand-700);
+  --fl-accent: var(--color-zest-300);
   --fl-ink: var(--color-stone-950);
-  --fl-focus: var(--color-paprika-600);
+  --fl-focus: var(--color-brand-600);
   --fl-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 body {
-  background: var(--fl-bg);
+  background:
+    radial-gradient(1200px 600px at 100% -10%, rgb(201 238 82 / 0.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 0%, rgb(18 160 121 / 0.08), transparent 60%),
+    var(--fl-bg);
+  background-attachment: fixed;
   color: var(--fl-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
+/* Primary action: emerald with a soft glow; darker on hover, ink when pressed */
+.btn-primary {
+  background: linear-gradient(180deg, var(--color-brand-500), var(--color-brand-600) 55%);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.18) inset, 0 8px 18px -8px rgb(6 120 88 / 0.65);
+}
+.btn-primary:hover {
+  background: linear-gradient(180deg, var(--color-brand-600), var(--color-brand-700));
+}
+.btn-primary:active {
+  background: var(--color-stone-900);
+}
+
+/* Every text field and select gets the same soft focus halo (the outline ring below still marks keyboard focus) */
+input:not([type='radio']):not([type='checkbox']):not([type='range']):focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 4px rgb(18 160 121 / 0.16);
+}
+
+/* Landing and auth pages: forest night background with soft emerald and lime glows */
+.fl-night {
+  background-color: var(--color-stone-950);
+  background-image:
+    radial-gradient(700px 420px at 85% 15%, rgb(201 238 82 / 0.16), transparent 60%),
+    radial-gradient(800px 520px at 10% 90%, rgb(18 160 121 / 0.28), transparent 60%),
+    radial-gradient(600px 400px at 50% 40%, rgb(6 95 71 / 0.35), transparent 70%);
+}
+.fl-grid {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+.text-zest-gradient {
+  background: linear-gradient(90deg, var(--color-zest-300), var(--color-brand-300));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@keyframes fl-float {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-8px) rotate(var(--r, 0deg)); }
+}
+.fl-float {
+  animation: fl-float 7s ease-in-out infinite;
+}
+
 input[type='radio'],
 input[type='checkbox'] {
-  accent-color: var(--color-paprika-600);
+  accent-color: var(--color-brand-600);
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
 }
 
 :focus-visible {
@@ -108,9 +159,9 @@ h3 {
   outline-offset: 2px;
   border-radius: 4px;
 }
-/* On espresso headers, hero photos and dialogs the ring flips to saffron */
+/* On espresso headers, hero photos and dialogs the ring flips to zest (lime) */
 .on-dark :focus-visible {
-  outline-color: var(--color-saffron-300);
+  outline-color: var(--color-zest-300);
 }
 .on-dark .on-light :focus-visible {
   outline-color: var(--fl-focus);
@@ -128,7 +179,7 @@ h3 {
   font-weight: 600;
 }
 .skip-link:focus-visible {
-  outline-color: var(--color-saffron-300);
+  outline-color: var(--color-zest-300);
 }
 .skip-link:focus {
   top: 0.75rem;
@@ -178,7 +229,7 @@ h3 {
 .lift:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lift);
-  border-color: var(--color-paprika-300);
+  border-color: var(--color-brand-300);
 }
 .lift:active {
   transform: translateY(0);
@@ -188,7 +239,7 @@ h3 {
   transition: background-color 0.15s;
 }
 .row-hover:hover {
-  background-color: var(--color-saffron-50);
+  background-color: var(--color-zest-50);
 }
 button,
 [role='tab'],
@@ -260,13 +311,14 @@ dialog.fl-dialog[open] {
   animation: fl-pop 0.2s var(--fl-ease) both;
 }
 dialog.fl-dialog::backdrop {
-  background: rgb(23 15 11 / 0.6);
+  background: rgb(10 20 17 / 0.6);
+  backdrop-filter: blur(3px);
   animation: fl-fade 0.2s both;
 }
 
-/* map tiles are warmed to sit with the palette */
+/* map tiles are cooled and softened to sit with the palette */
 .leaflet-tile-pane {
-  filter: sepia(0.28) saturate(0.9) contrast(0.98);
+  filter: saturate(0.75) hue-rotate(-8deg) brightness(1.02);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -279,7 +331,8 @@ dialog.fl-dialog::backdrop {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .skeleton {
+  .skeleton,
+  .fl-float {
     animation: none;
   }
   .lift:hover,

@@ -1,25 +1,25 @@
 # Design system and visual assets
 
-FoodLoop uses a warm food-rescue identity: oat paper, **paprika** actions, **saffron** accent, espresso text. All values are CSS variables defined in [apps/web/src/app/globals.css](../apps/web/src/app/globals.css) (`@theme` plus `:root` aliases), so changing a token re-themes every route, status badge, dialog, map and chart.
+FoodLoop uses a fresh-market identity: deep **emerald** actions, a lime **zest** accent, cool sage neutrals and forest-ink text, with forest-night hero panels on the public pages. All values are CSS variables defined in [apps/web/src/app/globals.css](../apps/web/src/app/globals.css) (`@theme` plus `:root` aliases), so changing a token re-themes every route, status badge, dialog, map and chart.
 
 ## Colour tokens
 
 | Token | Value | Use |
 |---|---|---|
-| `--color-stone-50` (`--fl-bg`) | `#fbf5e9` | page background (oat) |
-| `--color-stone-100/200/300` | `#f4ebd9` / `#e8dcc4` / `#d5c5a8` | surfaces, borders, skeletons |
-| `--color-stone-500/600/700` | `#75675a` / `#5e5247` / `#4a3f36` | secondary text (all at least 4.5:1 on oat) |
-| `--color-stone-900` (`--fl-text`) | `#241b15` | text (espresso), 15.6:1 on oat |
-| `--color-stone-950` (`--fl-ink`) | `#170f0b` | header, hero overlay, "done" pills |
-| `--color-paprika-600` (`--fl-primary`) | `#bf3f1b` | primary buttons, links (white on it is 5.3:1) |
-| `--color-paprika-700` | `#9c3115` | hover, link text on light |
-| `--color-paprika-50/100/200` | `#fff2ec` / `#ffe1d3` / `#ffc2a6` | selected states, soft panels |
-| `--color-saffron-300` (`--fl-accent`) | `#fcc83f` | role chip, active-nav underline, focus ring on dark |
-| `--color-saffron-50/100/700` | `#fff8e3` / `#ffedb5` / `#8a5a00` | pending/waiting tints, row hover, text on tint |
+| `--color-stone-50` (`--fl-bg`) | `#f5f8f6` | page background (with faint emerald and lime glows) |
+| `--color-stone-100/200/300` | `#ebf0ed` / `#dbe3de` / `#c1ccc5` | surfaces, borders, skeletons |
+| `--color-stone-500/600/700` | `#5c6a62` / `#47544d` / `#34403a` | secondary text (all at least 4.5:1 on the background) |
+| `--color-stone-900` (`--fl-text`) | `#14201b` | text (forest ink) |
+| `--color-stone-950` (`--fl-ink`) | `#0a1411` | header, hero panels, "ink" tiles |
+| `--color-brand-600` (`--fl-primary`) | `#067858` | primary buttons (`.btn-primary`, soft gradient and glow), links; white on it is about 5.6:1 |
+| `--color-brand-700` | `#065f47` | hover, link text on light |
+| `--color-brand-50/100/200` | `#ecfbf4` / `#d2f5e5` / `#a5ead0` | selected states, soft panels |
+| `--color-zest-300` (`--fl-accent`) | `#c9ee52` | active nav pill, role chip, highlights and focus ring on dark (always with dark text) |
+| `--color-zest-50/100/700` | `#f7fde6` / `#edfac2` / `#546f0b` | waiting tints, row hover, text on tint |
 
-No green, purple, violet, navy or blue is used as a brand or primary colour. Semantic states stay in the warm family and always carry a glyph and a text label: *done/verified/completed* = espresso "ink" pill with a check; *in progress/reserved/in transit* = cocoa; *waiting/pending* = saffron; *needs attention/delayed* = amber/orange; *failed/rejected/cancelled* = red. (Tailwind's `green`, `blue`, `sky` and `orange` scales are remapped in `@theme` to these warm values.) Map markers use paprika (pickup), espresso (NGO) and saffron (runner) and the tile layer is warmed with a CSS filter.
+Semantic states always carry a glyph and a text label as well as a colour: *done/verified/completed* = emerald; *in progress/reserved/in transit* = indigo-blue; *waiting/pending* = zest; *needs attention/delayed* = amber/orange; *failed/rejected* = red; *cancelled* = grey. Tailwind's `green`, `blue`, `sky` and `orange` scales are tuned in `@theme`. Map markers use emerald (pickup), forest ink (NGO), indigo (runner) and orange (urgent); the tile layer is softened with a CSS filter.
 
-Typography: display serif stack (Iowan Old Style / Palatino / Georgia) for headings and the wordmark, system sans for body. All local; no web fonts.
+Typography: **Bricolage Grotesque** for headings and the wordmark, **Plus Jakarta Sans** for body text, loaded with `next/font/google` in `app/layout.tsx`. The fonts are downloaded at build time and served by the app itself, so the browser makes no request to Google. If they are unavailable the stacks fall back to Segoe UI / system sans.
 
 ## Interaction and motion
 

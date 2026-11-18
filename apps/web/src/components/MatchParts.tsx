@@ -5,7 +5,7 @@ import { breakdownLabels, type Breakdown, type EstimateInfo } from '@/lib/supply
 /** Score shown as text ("80 / 100"), never as color alone. */
 export function ScoreBadge({ score, rank }: { score: number | null; rank?: number | null }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-paprika-600 bg-paprika-50 px-3 py-0.5 text-sm font-semibold text-stone-900">
+    <span className="inline-flex items-center gap-2 rounded-full border border-brand-600 bg-brand-50 px-3 py-0.5 text-sm font-semibold text-stone-900">
       {rank ? <span>#{rank}</span> : null}
       <span>Score {score === null ? '-' : Math.round(score)} / 100</span>
     </span>
@@ -15,7 +15,7 @@ export function ScoreBadge({ score, rank }: { score: number | null; rank?: numbe
 export function BreakdownTable({ breakdown }: { breakdown: Breakdown }) {
   return (
     <details className="mt-2 text-sm">
-      <summary className="cursor-pointer font-medium text-paprika-700">How this score is calculated</summary>
+      <summary className="cursor-pointer font-medium text-brand-700">How this score is calculated</summary>
       <table className="mt-2 w-full max-w-md border-collapse text-left">
         <caption className="sr-only">Score breakdown</caption>
         <thead>

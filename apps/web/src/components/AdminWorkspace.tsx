@@ -55,7 +55,7 @@ export function AdminWorkspace({ user }: { user: User }) {
 
   return (
     <div>
-      <Band photo="hero-handover" eyebrow={`${greeting()}, ${firstName(user.name)}`} title="Live operations" actions={<Link href="/admin/board" className="inline-flex min-h-11 items-center rounded-lg bg-saffron-300 px-4 py-2 text-sm font-bold text-stone-950 hover:bg-saffron-200">Full operations board</Link>}>
+      <Band photo="hero-handover" eyebrow={`${greeting()}, ${firstName(user.name)}`} title="Live operations" actions={<Link href="/admin/board" className="inline-flex min-h-11 items-center rounded-lg bg-zest-300 px-4 py-2 text-sm font-bold text-stone-950 hover:bg-zest-200">Full operations board</Link>}>
         <span className="text-stone-200">{!counts ? 'Loading the board…' : hot ? 'Some rescues need attention.' : 'Everything is on schedule.'}</span>
       </Band>
 

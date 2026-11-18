@@ -91,7 +91,7 @@ Seeding refuses to run when `NODE_ENV=production`. New provider/NGO/runner accou
 
 ## Visual identity and photos
 
-Warm oat background, paprika actions, saffron accent, espresso text; local SVG logo and bundled, licence-recorded photographs; short CSS-only motion that respects `prefers-reduced-motion`. Final colour tokens, interaction choices and the photo source table are in [docs/design-system.md](docs/design-system.md). Credits are also shown in the app at `/credits`. The seed adds no listing photos: listings without one show a category photo marked "Illustrative photo", and a photo uploaded by the provider (previewed before upload) always replaces it.
+Fresh-market theme: emerald actions, lime accent, cool sage neutrals and forest-night hero panels, with Bricolage Grotesque and Plus Jakarta Sans (self-hosted via next/font); local SVG logo and bundled, licence-recorded photographs; short CSS-only motion that respects `prefers-reduced-motion`. Final colour tokens, interaction choices and the photo source table are in [docs/design-system.md](docs/design-system.md). Credits are also shown in the app at `/credits`. The seed adds no listing photos: listings without one show a category photo marked "Illustrative photo", and a photo uploaded by the provider (previewed before upload) always replaces it.
 
 ## Maps, profiles and dashboards
 

@@ -133,10 +133,10 @@ function CreateForm({ onCreated }: { onCreated: () => Promise<void> }) {
 // Each verification state gets its own frame (border weight/style and colour) plus a headline, so no state relies on colour alone.
 const stateFrame: Record<VerificationStatus, string> = {
   UNSUBMITTED: 'border-stone-300 border-l-stone-400 border-dashed',
-  UNDER_REVIEW: 'border-saffron-200 border-l-saffron-400',
+  UNDER_REVIEW: 'border-zest-200 border-l-zest-400',
   VERIFIED: 'border-stone-300 border-l-stone-900',
   REJECTED: 'border-red-300 border-l-red-700',
-  RESUBMISSION_REQUESTED: 'border-paprika-200 border-l-paprika-600',
+  RESUBMISSION_REQUESTED: 'border-brand-200 border-l-brand-600',
 };
 const stateHeadline: Record<VerificationStatus, string> = {
   UNSUBMITTED: 'Step 1 of 3: finish your profile',
@@ -335,7 +335,7 @@ function DocumentsSection({ org, docs, canManage, onChanged }: { org: Organizati
             <label htmlFor="doc-file" className="block text-sm font-medium">File</label>
             <input key={inputKey} id="doc-file" type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="mt-1 block w-full text-sm" />
           </div>
-          <button type="submit" disabled={busy} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-paprika-600 px-4 py-2 font-semibold text-white hover:bg-paprika-700 disabled:opacity-60">
+          <button type="submit" disabled={busy} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-brand-600 px-4 py-2 font-semibold text-white hover:bg-brand-700 disabled:opacity-60">
             {busy ? 'Uploading…' : 'Upload'}
           </button>
         </form>
@@ -383,7 +383,7 @@ function SubmitSection({ org, docs, onSubmitted }: { org: Organization; docs: Or
         </ul>
       )}
       {done && <p role="status" className="mt-2 text-sm font-medium text-green-800">✓ Submitted. An admin will review it.</p>}
-      <button onClick={() => void submit()} disabled={busy} className="mt-4 rounded-md bg-paprika-600 px-5 py-2.5 font-semibold text-white hover:bg-paprika-700 disabled:opacity-60">
+      <button onClick={() => void submit()} disabled={busy} className="mt-4 rounded-md bg-brand-600 px-5 py-2.5 font-semibold text-white hover:bg-brand-700 disabled:opacity-60">
         {busy ? 'Submitting…' : resubmitting ? 'Resubmit application' : 'Submit application'}
       </button>
     </section>

@@ -5,7 +5,7 @@ import { timeLeftText, urgencyLabels, type ListingStatus, type Urgency } from '@
 
 const statusStyles: Record<ListingStatus, { label: string; icon: string; cls: string }> = {
   DRAFT: { label: 'Draft', icon: '✎', cls: 'border-stone-400 bg-stone-100 text-stone-800' },
-  AVAILABLE: { label: 'Available', icon: '●', cls: 'border-saffron-600 bg-saffron-100 text-stone-900' },
+  AVAILABLE: { label: 'Available', icon: '●', cls: 'border-zest-600 bg-zest-100 text-stone-900' },
   CANCELLED: { label: 'Cancelled', icon: '✕', cls: 'border-red-600 bg-red-50 text-red-900' },
   EXPIRED: { label: 'Expired', icon: '◷', cls: 'border-stone-500 bg-stone-200 text-stone-800' },
   RESERVED: { label: 'Reserved by an NGO', icon: '◼', cls: 'border-sky-700 bg-sky-50 text-sky-900' },

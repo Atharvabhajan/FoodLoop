@@ -90,7 +90,7 @@ const noRescueFilters: RescueFilters = { state: '', q: '', providerOrgId: '', ng
 function RescueCard({ r }: { r: BoardRescue }) {
   const open = r.state === 'active' || r.state === 'delayed';
   return (
-    <li className={`lift row-hover rounded-2xl border border-l-8 bg-white p-4 shadow-card ${r.state === 'delayed' ? 'border-amber-300 border-l-amber-500' : r.needsAdmin || r.state === 'failed' ? 'border-red-200 border-l-red-600' : r.state === 'completed' ? 'border-stone-200 border-l-stone-900' : 'border-stone-200 border-l-paprika-500'}`}>
+    <li className={`lift row-hover rounded-2xl border border-l-8 bg-white p-4 shadow-card ${r.state === 'delayed' ? 'border-amber-300 border-l-amber-500' : r.needsAdmin || r.state === 'failed' ? 'border-red-200 border-l-red-600' : r.state === 'completed' ? 'border-stone-200 border-l-brand-600' : r.state === 'cancelled' ? 'border-stone-200 border-l-stone-400' : 'border-stone-200 border-l-blue-600'}`}>
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <h3 className="text-lg font-semibold">{r.listing.title}</h3>
@@ -129,9 +129,9 @@ function RescueCard({ r }: { r: BoardRescue }) {
         </p>
       )}
       <p className="mt-3 flex flex-wrap gap-4 text-sm">
-        <Link href={r.links.rescue} className="font-medium text-paprika-700 underline">Open rescue, history and actions</Link>
-        <Link href={`${r.links.rescue}#hist`} className="font-medium text-paprika-700 underline">Audit history</Link>
-        {r.links.incidents && <Link href={r.links.incidents} className="font-medium text-paprika-700 underline">Incidents</Link>}
+        <Link href={r.links.rescue} className="font-medium text-brand-700 underline">Open rescue, history and actions</Link>
+        <Link href={`${r.links.rescue}#hist`} className="font-medium text-brand-700 underline">Audit history</Link>
+        {r.links.incidents && <Link href={r.links.incidents} className="font-medium text-brand-700 underline">Incidents</Link>}
       </p>
     </li>
   );
@@ -222,7 +222,7 @@ function RescuesTab({ options }: { options: BoardOptions | null }) {
     <div>
       <div role="group" aria-label="Rescue state" className="stagger grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {tabs.map((t) => (
-          <button key={t.label} type="button" aria-pressed={f.state === t.id} onClick={() => set('state', t.id)} className={`lift rounded-2xl border-2 p-3 text-left shadow-card ${f.state === t.id ? 'border-paprika-600 bg-paprika-50' : 'border-stone-200 bg-white'}`}>
+          <button key={t.label} type="button" aria-pressed={f.state === t.id} onClick={() => set('state', t.id)} className={`lift rounded-2xl border-2 p-3 text-left shadow-card ${f.state === t.id ? 'border-brand-600 bg-brand-50' : 'border-stone-200 bg-white'}`}>
             <span className="block text-sm font-medium text-stone-700">{t.id ? `${bucketLabels[t.id].icon} ` : ''}{t.label}</span>
             <span className="mt-1 block font-display text-3xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)' }}>{t.n ?? '–'}</span>
             {t.id && <span className="block text-xs text-stone-600">{bucketLabels[t.id].hint}</span>}
@@ -315,7 +315,7 @@ function RescuesTab({ options }: { options: BoardOptions | null }) {
       {data && data.rescues.length === 0 && (
         <p className="fl-appear mt-4 rounded-2xl border border-dashed border-stone-300 bg-white/70 p-6 text-center text-stone-700">
           {filtered ? 'No rescues match these filters.' : 'No rescues yet. They appear here as soon as an NGO accepts a listing.'}
-          {filtered && <> <button type="button" onClick={clear} className="font-medium text-paprika-700 underline">Clear filters</button></>}
+          {filtered && <> <button type="button" onClick={clear} className="font-medium text-brand-700 underline">Clear filters</button></>}
         </p>
       )}
       {data && data.rescues.length > 0 && (
@@ -355,7 +355,7 @@ function EscalationBlock({ listingId, e }: { listingId: string; e: EscalationSum
             key={st.seq}
             title={`${stepLabel(st)}: ${statusText[st.status]}`}
             className={`flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-semibold ${
-              st.status === 'DONE' ? 'border-stone-900 bg-stone-900 text-white' : st.status === 'PENDING' ? 'border-saffron-600 bg-saffron-50 text-stone-900' : 'border-stone-300 bg-white text-stone-600'
+              st.status === 'DONE' ? 'border-stone-900 bg-stone-900 text-white' : st.status === 'PENDING' ? 'border-zest-600 bg-zest-50 text-stone-900' : 'border-stone-300 bg-white text-stone-600'
             }`}
           >
             <span aria-hidden>{st.status === 'DONE' ? '✓' : st.status === 'PENDING' ? '○' : st.status === 'SKIPPED' ? '–' : '✕'}</span>
@@ -374,7 +374,7 @@ function EscalationBlock({ listingId, e }: { listingId: string; e: EscalationSum
         {e.stopped && <span className="rounded-full border border-stone-400 bg-white px-2 py-0.5 text-xs font-semibold">Stopped: {stepReasonLabels[e.stopped] ?? e.stopped}</span>}
       </p>
       <details open={open} onToggle={(ev) => void toggle((ev.currentTarget as HTMLDetailsElement).open)} className="mt-2">
-        <summary className="cursor-pointer font-medium text-paprika-700">Wave history</summary>
+        <summary className="cursor-pointer font-medium text-brand-700">Wave history</summary>
         <div className="mt-2 overflow-x-auto">
           <table className="w-full text-left text-xs">
             <caption className="sr-only">Escalation steps for this listing</caption>
@@ -425,7 +425,7 @@ function EscalationBlock({ listingId, e }: { listingId: string; e: EscalationSum
 
 function ListingCard({ l }: { l: BoardListing }) {
   return (
-    <li className={`row-hover rounded-2xl border border-l-8 p-4 shadow-card ${l.actionable ? 'border-stone-200 border-l-saffron-400 bg-white' : 'border-stone-200 border-l-stone-300 bg-stone-50 text-stone-700'}`}>
+    <li className={`row-hover rounded-2xl border border-l-8 p-4 shadow-card ${l.actionable ? 'border-stone-200 border-l-zest-400 bg-white' : 'border-stone-200 border-l-stone-300 bg-stone-50 text-stone-700'}`}>
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <h3 className="text-lg font-semibold">{l.title}</h3>
@@ -494,7 +494,7 @@ function ListingsTab({ options }: { options: BoardOptions | null }) {
     <div>
       <div role="group" aria-label="Listing scope" className="inline-flex rounded-xl border border-stone-300 bg-white p-0.5">
         {(['live', 'closed'] as const).map((s) => (
-          <button key={s} type="button" aria-pressed={scope === s} onClick={() => { setScope(s); reset(); }} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${scope === s ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>
+          <button key={s} type="button" aria-pressed={scope === s} onClick={() => { setScope(s); reset(); }} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${scope === s ? 'bg-brand-600 text-white' : 'hover:bg-stone-100'}`}>
             {s === 'live' ? 'Live, not yet accepted' : 'Expired or cancelled (last 7 days)'}
           </button>
         ))}
@@ -572,10 +572,10 @@ export function OpsBoard() {
     <div className="mt-4">
       <div role="tablist" aria-label="Board sections" className="inline-flex rounded-xl border border-stone-300 bg-white p-0.5">
         {([['rescues', 'Rescues'], ['listings', 'Unaccepted listings'], ['map', 'Map']] as const).map(([id, label]) => (
-          <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${tab === id ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>{label}</button>
+          <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${tab === id ? 'bg-brand-600 text-white' : 'hover:bg-stone-100'}`}>{label}</button>
         ))}
       </div>
-      <p className="mt-3 text-sm text-stone-700">Read-only overview. Interventions (cancel, reassign, resolve) are made on each rescue&rsquo;s page, with a reason, and are recorded in its audit history. These figures are operational counts: rescued-meal totals are on <Link href="/admin/impact" className="font-medium text-paprika-700 underline">Impact</Link>.</p>
+      <p className="mt-3 text-sm text-stone-700">Read-only overview. Interventions (cancel, reassign, resolve) are made on each rescue&rsquo;s page, with a reason, and are recorded in its audit history. These figures are operational counts: rescued-meal totals are on <Link href="/admin/impact" className="font-medium text-brand-700 underline">Impact</Link>.</p>
       <div className="mt-4">{tab === 'rescues' ? <RescuesTab options={options} /> : tab === 'listings' ? <ListingsTab options={options} /> : <OpsMap />}</div>
     </div>
   );
@@ -621,11 +621,11 @@ export function AdminOpsPanel({ id, refreshKey }: { id: string; refreshKey: numb
       <p className="mt-3 text-sm">
         {d.incidents.length === 0 ? 'No incidents reported.' : (
           <>Incidents: {d.incidents.map((i) => (
-            <Link key={i.id} href={i.link} className="mr-3 font-medium text-paprika-700 underline">{i.category.replace(/_/g, ' ').toLowerCase()} ({i.severity.toLowerCase()}, {i.status.toLowerCase()})</Link>
+            <Link key={i.id} href={i.link} className="mr-3 font-medium text-brand-700 underline">{i.category.replace(/_/g, ' ').toLowerCase()} ({i.severity.toLowerCase()}, {i.status.toLowerCase()})</Link>
           ))}</>
         )}
       </p>
-      <p className="mt-1 text-sm text-stone-700">{d.auditEvents} audit event{d.auditEvents === 1 ? '' : 's'} are listed in History below. <Link href="/admin/board" className="font-medium text-paprika-700 underline">Back to the board</Link></p>
+      <p className="mt-1 text-sm text-stone-700">{d.auditEvents} audit event{d.auditEvents === 1 ? '' : 's'} are listed in History below. <Link href="/admin/board" className="font-medium text-brand-700 underline">Back to the board</Link></p>
     </section>
   );
 }

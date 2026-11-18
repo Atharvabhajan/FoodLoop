@@ -31,7 +31,7 @@ export function AcceptButton({ listing, onStale, label = 'Accept this food', ari
 
   return (
     <div className={stretch ? 'mt-3 w-full' : 'mt-3'}>
-      <button onClick={() => setConfirming(true)} aria-label={ariaLabel} className={`inline-flex min-h-11 items-center justify-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-700 ${stretch ? 'w-full' : ''}`}>{label}</button>
+      <button onClick={() => setConfirming(true)} aria-label={ariaLabel} className={`inline-flex min-h-11 items-center justify-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 ${stretch ? 'w-full' : ''}`}>{label}</button>
       <ConfirmDialog open={confirming} title={`Accept ${listing.title}?`} confirmLabel="Yes, accept" busy={busy} busyLabel="Accepting…" cancelLabel="Not now" onConfirm={() => void accept()} onCancel={() => setConfirming(false)}>
         <p>
           You are committing to collect <strong>{listing.servings} servings</strong> from {listing.providerName}. The provider must confirm the hand-off; the exact address and contacts are shared after that.
@@ -39,8 +39,8 @@ export function AcceptButton({ listing, onStale, label = 'Accept this food', ari
         {listing.transportRequired && (
           <fieldset className="mt-3">
             <legend className="font-semibold">How will the food reach you?</legend>
-            <label className="mt-1 flex items-start gap-2"><input type="radio" name={`mode-${gid}`} checked={mode === 'RUNNER'} onChange={() => setMode('RUNNER')} className="mt-1 accent-paprika-600" /><span>Ask a volunteer runner to collect and deliver it (recommended: the provider asked for transport). You can still collect it yourself while no runner has taken the job.</span></label>
-            <label className="mt-1 flex items-start gap-2"><input type="radio" name={`mode-${gid}`} checked={mode === 'NGO_PICKUP'} onChange={() => setMode('NGO_PICKUP')} className="mt-1 accent-paprika-600" /><span>I will collect it myself.</span></label>
+            <label className="mt-1 flex items-start gap-2"><input type="radio" name={`mode-${gid}`} checked={mode === 'RUNNER'} onChange={() => setMode('RUNNER')} className="mt-1 accent-brand-600" /><span>Ask a volunteer runner to collect and deliver it (recommended: the provider asked for transport). You can still collect it yourself while no runner has taken the job.</span></label>
+            <label className="mt-1 flex items-start gap-2"><input type="radio" name={`mode-${gid}`} checked={mode === 'NGO_PICKUP'} onChange={() => setMode('NGO_PICKUP')} className="mt-1 accent-brand-600" /><span>I will collect it myself.</span></label>
           </fieldset>
         )}
       </ConfirmDialog>

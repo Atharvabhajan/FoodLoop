@@ -58,7 +58,7 @@ export default function ListingDetailPage() {
         <div className="space-y-4">
           {notice && <p role="status" className="fl-appear rounded-xl border-2 border-stone-900 bg-white px-4 py-3 text-sm font-semibold text-stone-900 shadow-card">✓ {notice}</p>}
 
-          <section aria-labelledby="st-h" className={`rounded-2xl border border-l-8 bg-white p-5 shadow-card ${listing.status === 'AVAILABLE' ? 'border-stone-200 border-l-saffron-400' : listing.status === 'DRAFT' ? 'border-stone-200 border-l-stone-400' : listing.status === 'CANCELLED' || listing.status === 'EXPIRED' ? 'border-stone-200 border-l-stone-300' : 'border-stone-200 border-l-stone-900'}`}>
+          <section aria-labelledby="st-h" className={`rounded-2xl border border-l-8 bg-white p-5 shadow-card ${listing.status === 'AVAILABLE' ? 'border-stone-200 border-l-zest-400' : listing.status === 'DRAFT' ? 'border-stone-200 border-l-stone-400' : listing.status === 'CANCELLED' || listing.status === 'EXPIRED' ? 'border-stone-200 border-l-stone-300' : 'border-stone-200 border-l-stone-900'}`}>
             <h2 id="st-h" className="text-lg font-bold">Where this listing stands</h2>
             <p className="mt-1 text-sm">
               {listing.status === 'AVAILABLE' && <>Live and visible to verified NGOs nearby. Pickup deadline {fmtDateTime(listing.pickupDeadline)}.</>}
@@ -111,10 +111,10 @@ function RescueLink({ listingId }: { listingId: string }) {
     api<{ rescues: { id: string; ngoName: string }[] }>(`/rescues?scope=all&listingId=${listingId}`).then((r) => r.ok && setRescue(r.data.rescues[0] ?? null));
   }, [listingId]);
   return (
-    <section aria-labelledby="resc-h" className="rounded-2xl border-2 border-paprika-500 bg-paprika-50 p-5 shadow-card">
+    <section aria-labelledby="resc-h" className="rounded-2xl border-2 border-brand-500 bg-brand-50 p-5 shadow-card">
       <h2 id="resc-h" className="text-lg font-semibold">Rescue in progress</h2>
       <p className="mt-1 text-sm">An NGO has accepted this listing, so it can no longer be edited or cancelled here.</p>
-      {rescue && <Link href={`/provider/rescues/${rescue.id}`} className="mt-3 inline-block inline-flex min-h-11 items-center justify-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-700">Open rescue with {rescue.ngoName}</Link>}
+      {rescue && <Link href={`/provider/rescues/${rescue.id}`} className="mt-3 inline-block inline-flex min-h-11 items-center justify-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">Open rescue with {rescue.ngoName}</Link>}
     </section>
   );
 }
@@ -147,7 +147,7 @@ function MatchesSection({ listing }: { listing: Listing }) {
     <section aria-labelledby="match-h" className="rounded-2xl border border-stone-200 bg-white shadow-card p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 id="match-h" className="text-lg font-semibold">Matching NGOs (recommendations only)</h2>
-        {live && <button onClick={() => void refresh()} disabled={busy} className="rounded-md border border-paprika-600 px-3 py-1.5 text-sm font-semibold text-paprika-700 hover:bg-paprika-50 disabled:opacity-60">{busy ? 'Refreshing…' : 'Refresh matches'}</button>}
+        {live && <button onClick={() => void refresh()} disabled={busy} className="rounded-md border border-brand-600 px-3 py-1.5 text-sm font-semibold text-brand-700 hover:bg-brand-50 disabled:opacity-60">{busy ? 'Refreshing…' : 'Refresh matches'}</button>}
       </div>
       <p className="mt-1 text-sm text-stone-600">Eligible verified NGOs are ranked automatically and receive an in-app notification.  The first NGO to accept reserves it, and you then confirm the hand-off.</p>
       <div className="mt-3"><FormError message={error} /></div>
@@ -238,7 +238,7 @@ function PublishSection({ listing, onPublished }: { listing: Listing; onPublishe
   }
 
   return (
-    <form onSubmit={publish} aria-labelledby="pub-h" className="rounded-xl border-2 border-paprika-600 bg-white p-5">
+    <form onSubmit={publish} aria-labelledby="pub-h" className="rounded-xl border-2 border-brand-600 bg-white p-5">
       <h2 id="pub-h" className="text-lg font-semibold">Publish</h2>
       <p className="mt-1 text-sm text-stone-700">Publishing needs a pickup deadline at least 15 minutes away, and your confirmation below. FoodLoop does not certify food safety.</p>
       <label className="mt-3 flex gap-3 rounded-md border border-stone-300 p-3 text-sm">
@@ -248,7 +248,7 @@ function PublishSection({ listing, onPublished }: { listing: Listing; onPublishe
       {fields.declarationAccepted && <p className="mt-1 text-sm text-red-700">{fields.declarationAccepted}</p>}
       {Object.entries(fields).filter(([k]) => k !== 'declarationAccepted').map(([k, v]) => <p key={k} className="mt-1 text-sm text-red-700">{v}</p>)}
       <div className="mt-3"><FormError message={error} /></div>
-      <button type="submit" disabled={busy} className="mt-4 rounded-md bg-paprika-600 px-5 py-2.5 font-semibold text-white hover:bg-paprika-700 disabled:opacity-60">
+      <button type="submit" disabled={busy} className="mt-4 rounded-md bg-brand-600 px-5 py-2.5 font-semibold text-white hover:bg-brand-700 disabled:opacity-60">
         {busy ? 'Publishing…' : 'Publish listing'}
       </button>
     </form>
@@ -355,7 +355,7 @@ function ImageSection({ listing, version, onChanged }: { listing: Listing; versi
       )}
       {preview && (
         <figure className="mt-3">
-          <img src={preview} alt="Preview of the photo you chose" className="max-h-64 rounded-xl border border-paprika-300" />
+          <img src={preview} alt="Preview of the photo you chose" className="max-h-64 rounded-xl border border-brand-300" />
           <figcaption className="mt-1 text-xs text-stone-600">Preview only. It is not saved until you press the upload button.</figcaption>
         </figure>
       )}
@@ -365,7 +365,7 @@ function ImageSection({ listing, version, onChanged }: { listing: Listing; versi
             <label htmlFor="img-file" className="block text-sm font-medium">Choose image</label>
             <input key={inputKey} id="img-file" type="file" accept=".png,.jpg,.jpeg,image/png,image/jpeg" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="mt-1 text-sm" />
           </div>
-          <button type="submit" disabled={busy} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-700 disabled:opacity-60">{busy ? 'Working…' : listing.hasImage ? 'Replace photo' : 'Upload photo'}</button>
+          <button type="submit" disabled={busy} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60">{busy ? 'Working…' : listing.hasImage ? 'Replace photo' : 'Upload photo'}</button>
           {listing.hasImage && <button type="button" onClick={() => void remove()} disabled={busy} className="inline-flex min-h-11 items-center justify-center rounded-lg border border-red-600 px-4 py-2 text-sm font-medium text-red-800 disabled:opacity-60">Remove photo</button>}
         </form>
       )}

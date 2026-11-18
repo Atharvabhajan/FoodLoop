@@ -172,7 +172,7 @@ export function OpsMap() {
           ) : (
             <ul className="mt-4 space-y-2" aria-label="Items on the map">
               {rows.map((r) => (
-                <li key={r.id} className={`row-hover rounded-xl border bg-white p-3 text-sm shadow-card ${selected === r.id ? 'border-saffron-400 ring-2 ring-saffron-300' : 'border-stone-200'}`}>
+                <li key={r.id} className={`row-hover rounded-xl border bg-white p-3 text-sm shadow-card ${selected === r.id ? 'border-zest-400 ring-2 ring-zest-300' : 'border-stone-200'}`}>
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
                       <p className="font-semibold">{r.title}</p>
@@ -182,8 +182,8 @@ export function OpsMap() {
                   </div>
                   <p className="mt-1 text-stone-700">{r.detail}</p>
                   <p className="mt-2 flex flex-wrap gap-3">
-                    <button type="button" onClick={() => { setSelected(null); setTimeout(() => setSelected(r.id), 0); }} className="font-semibold text-paprika-700 underline">Show on map</button>
-                    {r.href && <Link href={r.href} className="font-semibold text-paprika-700 underline">Open rescue, history and actions</Link>}
+                    <button type="button" onClick={() => { setSelected(null); setTimeout(() => setSelected(r.id), 0); }} className="font-semibold text-brand-700 underline">Show on map</button>
+                    {r.href && <Link href={r.href} className="font-semibold text-brand-700 underline">Open rescue, history and actions</Link>}
                   </p>
                 </li>
               ))}

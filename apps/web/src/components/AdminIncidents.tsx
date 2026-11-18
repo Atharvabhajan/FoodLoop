@@ -63,7 +63,7 @@ export function IncidentQueue() {
     <>
       <div role="tablist" aria-label="Incident filter" className="inline-flex rounded-xl border border-stone-300 bg-white p-0.5">
         {(['OPEN', 'RESOLVED'] as const).map((s) => (
-          <button key={s} role="tab" aria-selected={scope === s} onClick={() => setScope(s)} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${scope === s ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>
+          <button key={s} role="tab" aria-selected={scope === s} onClick={() => setScope(s)} className={`min-h-10 rounded-lg px-4 py-1.5 text-sm font-semibold ${scope === s ? 'bg-brand-600 text-white' : 'hover:bg-stone-100'}`}>
             {s === 'OPEN' ? 'Open' : 'Resolved'}
           </button>
         ))}
@@ -149,7 +149,7 @@ export function IncidentDetail({ id }: { id: string }) {
         </h2>
         <p className="mt-3 rounded-xl bg-stone-100 p-4 text-base leading-relaxed">{i.description}</p>
         <p className="mt-1 text-xs text-stone-600">Reported by the {i.reporterRole} · {fmtDateTime(i.createdAt)}. The report itself cannot be edited.</p>
-        <p className="mt-3 text-sm"><Link href={`/admin/rescues/${i.rescueId}`} className="font-medium text-paprika-700 underline">Open the rescue (status, map, full history) →</Link></p>
+        <p className="mt-3 text-sm"><Link href={`/admin/rescues/${i.rescueId}`} className="font-medium text-brand-700 underline">Open the rescue (status, map, full history) →</Link></p>
         {data.evidence.length > 0 && (
           <div className="mt-3">
             <h3 className="text-sm font-medium">Photos</h3>
@@ -171,7 +171,7 @@ export function IncidentDetail({ id }: { id: string }) {
           {i.resolvedAt && <p className="mt-1 text-xs text-stone-600">Resolved {fmtDateTime(i.resolvedAt)}</p>}
         </section>
       ) : (
-        <section aria-labelledby="ires" className="rounded-2xl border-2 border-paprika-600 bg-white p-5 shadow-card">
+        <section aria-labelledby="ires" className="rounded-2xl border-2 border-brand-600 bg-white p-5 shadow-card">
           <h2 id="ires" className="text-lg font-semibold">Resolve this incident</h2>
           <p className="mt-1 text-sm text-stone-700">The resolution and your note are recorded permanently with your identity. A rescue is only ever completed by the NGO confirming receipt, or by you entering a verified quantity here.</p>
           <form onSubmit={(e) => void resolve(e)} noValidate className="mt-3 grid gap-3">
@@ -196,7 +196,7 @@ export function IncidentDetail({ id }: { id: string }) {
               {fields.note && <p className="mt-1 text-sm text-red-700">{fields.note}</p>}
             </div>
             <FormError message={error} />
-            <button type="submit" disabled={busy} className="w-fit inline-flex min-h-11 items-center justify-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-700 disabled:opacity-60">{busy ? 'Saving…' : 'Resolve incident'}</button>
+            <button type="submit" disabled={busy} className="w-fit inline-flex min-h-11 items-center justify-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60">{busy ? 'Saving…' : 'Resolve incident'}</button>
           </form>
         </section>
       )}

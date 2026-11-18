@@ -88,14 +88,14 @@ export function RunnerWorkspace({ user }: { user: User }) {
         title={active ? 'You are carrying a rescue' : available ? 'You are available for jobs' : 'You are offline'}
         actions={
           profile && (
-            <button type="button" onClick={() => void toggle()} disabled={busy} aria-pressed={available} className={`inline-flex min-h-12 items-center rounded-xl px-5 py-3 text-base font-bold shadow-lift disabled:opacity-60 ${available ? 'border-2 border-white/60 text-white hover:bg-white/10' : 'bg-saffron-300 text-stone-950 hover:bg-saffron-200'}`}>
+            <button type="button" onClick={() => void toggle()} disabled={busy} aria-pressed={available} className={`inline-flex min-h-12 items-center rounded-xl px-5 py-3 text-base font-bold shadow-lift disabled:opacity-60 ${available ? 'border-2 border-white/60 text-white hover:bg-white/10' : 'bg-zest-300 text-stone-950 hover:bg-zest-200'}`}>
               {available ? 'Go offline' : 'Go available'}
             </button>
           )
         }
       >
         {profile?.vehicleType && <span className="text-stone-200">{vehicleLabels[profile.vehicleType] ?? profile.vehicleType}{profile.capacityKg ? ` · up to ${profile.capacityKg} kg` : ''}{profile.radiusKm ? ` · ${profile.radiusKm} km radius` : ''}</span>}
-        {profile && !profile.complete && <Link href="/profile#transport" className="font-semibold text-saffron-200 underline">Finish your transport profile to receive jobs</Link>}
+        {profile && !profile.complete && <Link href="/profile#transport" className="font-semibold text-zest-200 underline">Finish your transport profile to receive jobs</Link>}
       </Band>
       <div className="mt-3 space-y-2">
         {notice && <SuccessNote>{notice}</SuccessNote>}
@@ -110,17 +110,17 @@ export function RunnerWorkspace({ user }: { user: User }) {
       </KpiRow>
 
       {active && (
-        <section aria-labelledby="rw-active" className="fl-appear mt-4 rounded-2xl border-2 border-paprika-500 bg-white p-4 shadow-card md:p-5">
+        <section aria-labelledby="rw-active" className="fl-appear mt-4 rounded-2xl border-2 border-brand-500 bg-white p-4 shadow-card md:p-5">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <h2 id="rw-active" className="text-xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>{active.listingTitle}</h2>
             <RescueStatusBadge status={active.status} />
           </div>
           <p className="mt-1 text-sm text-stone-700">{active.providerName} → {active.ngoName} · {active.servingsOffered} servings{active.deadlines.pickupBy && active.status === 'PICKUP_ASSIGNED' ? <> · pick up before <TimeLeft deadline={active.deadlines.pickupBy} /></> : null}</p>
           <StageTrack status={active.status} />
-          <div className="mt-3 rounded-xl bg-paprika-50 p-3">
-            <p className="text-xs font-bold uppercase tracking-wide text-paprika-800">{active.nextAction.party === 'runner' ? 'Your next step' : `Waiting for ${active.nextAction.party ?? 'the system'}`}</p>
+          <div className="mt-3 rounded-xl bg-brand-50 p-3">
+            <p className="text-xs font-bold uppercase tracking-wide text-brand-800">{active.nextAction.party === 'runner' ? 'Your next step' : `Waiting for ${active.nextAction.party ?? 'the system'}`}</p>
             <p className="mt-0.5 text-base font-semibold">{active.nextAction.text}</p>
-            <Link href={`/runner/rescues/${active.id}`} className="mt-3 inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-paprika-600 px-5 py-3 text-base font-bold text-white hover:bg-paprika-700 sm:w-auto">Open the rescue and act</Link>
+            <Link href={`/runner/rescues/${active.id}`} className="mt-3 inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-brand-600 px-5 py-3 text-base font-bold text-white hover:bg-brand-700 sm:w-auto">Open the rescue and act</Link>
           </div>
           {view && <RescueMapSection r={view} role="runner" refreshKey={0} />}
         </section>

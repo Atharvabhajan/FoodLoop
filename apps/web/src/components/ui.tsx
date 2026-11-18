@@ -19,7 +19,7 @@ export function Field({
         id={id}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined}
-        className={`mt-1 block w-full rounded-lg border bg-white px-3 py-2.5 text-base shadow-sm placeholder:text-stone-500 ${
+        className={`mt-1 block w-full rounded-xl border bg-white px-3.5 py-2.5 text-base shadow-sm placeholder:text-stone-500 ${
           error ? 'border-red-600 bg-red-50/40' : 'border-stone-300 hover:border-stone-400'
         }`}
         {...props}
@@ -55,7 +55,7 @@ export function SubmitButton({ busy, children }: { busy: boolean; children: Reac
     <button
       type="submit"
       disabled={busy}
-      className="w-full rounded-lg bg-paprika-600 px-4 py-3 font-semibold text-white shadow-sm hover:bg-paprika-700 active:bg-stone-900 disabled:cursor-not-allowed disabled:opacity-60"
+      className="btn-primary w-full rounded-xl px-4 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
     >
       {busy ? 'Please wait…' : children}
     </button>
@@ -64,17 +64,17 @@ export function SubmitButton({ busy, children }: { busy: boolean; children: Reac
 
 type Tone = 'primary' | 'secondary' | 'danger' | 'ghost';
 const tones: Record<Tone, string> = {
-  primary: 'bg-paprika-600 text-white hover:bg-paprika-700 active:bg-stone-900 shadow-sm',
-  secondary: 'border border-stone-300 bg-white text-stone-900 hover:bg-stone-100',
+  primary: 'btn-primary text-white',
+  secondary: 'border border-stone-300 bg-white text-stone-900 shadow-sm hover:border-stone-400 hover:bg-stone-50',
   danger: 'bg-red-700 text-white hover:bg-red-800 shadow-sm',
-  ghost: 'text-paprika-700 hover:bg-paprika-50',
+  ghost: 'text-brand-700 hover:bg-brand-50',
 };
 
 export function Button({ tone = 'primary', className = '', ...props }: { tone?: Tone } & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
       type="button"
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60 ${tones[tone]} ${className}`}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60 ${tones[tone]} ${className}`}
       {...props}
     />
   );
@@ -85,7 +85,7 @@ export function Spinner({ label }: { label: string }) {
     <div role="status" aria-live="polite" className="mt-6 space-y-3">
       <span className="sr-only">{label}</span>
       <div className="flex items-center gap-3 text-stone-700" aria-hidden>
-        <span className="h-5 w-5 animate-spin rounded-full border-2 border-paprika-600 border-t-transparent" />
+        <span className="h-5 w-5 animate-spin rounded-full border-2 border-brand-600 border-t-transparent" />
         {label}
       </div>
       <div className="skeleton h-24 w-full" aria-hidden />
@@ -215,7 +215,7 @@ export function CountUp({ value, className = '' }: { value: number; className?: 
   );
 }
 
-const avatarTones = ['bg-paprika-600 text-white', 'bg-stone-900 text-saffron-200', 'bg-saffron-300 text-stone-950', 'bg-paprika-800 text-saffron-100', 'bg-stone-700 text-white'];
+const avatarTones = ['bg-brand-600 text-white', 'bg-stone-900 text-zest-200', 'bg-zest-300 text-stone-950', 'bg-brand-800 text-zest-100', 'bg-stone-700 text-white'];
 
 /** Initials in a warm colour chosen from the name. Not a photo: FoodLoop has no profile-picture upload. */
 export function Avatar({ name, size = 40 }: { name: string; size?: number }) {

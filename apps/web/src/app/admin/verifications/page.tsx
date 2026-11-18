@@ -62,7 +62,7 @@ export default function VerificationQueuePage() {
         <ul className="stagger mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {items.map((o) => (
             <li key={o.id}>
-              <Link href={`/admin/verifications/${o.id}`} className={`lift block h-full rounded-2xl border border-l-8 bg-white p-4 shadow-card ${o.verificationStatus === 'UNDER_REVIEW' ? 'border-stone-200 border-l-saffron-400' : o.verificationStatus === 'VERIFIED' ? 'border-stone-200 border-l-stone-900' : o.verificationStatus === 'REJECTED' ? 'border-stone-200 border-l-red-700' : 'border-stone-200 border-l-stone-300'}`}>
+              <Link href={`/admin/verifications/${o.id}`} className={`lift block h-full rounded-2xl border border-l-8 bg-white p-4 shadow-card ${o.verificationStatus === 'UNDER_REVIEW' ? 'border-stone-200 border-l-zest-400' : o.verificationStatus === 'VERIFIED' ? 'border-stone-200 border-l-stone-900' : o.verificationStatus === 'REJECTED' ? 'border-stone-200 border-l-red-700' : 'border-stone-200 border-l-stone-300'}`}>
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)' }}>{o.name}</span>
                   <StatusBadge status={o.verificationStatus} />

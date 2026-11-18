@@ -181,7 +181,7 @@ export function ShareLocation({ rescueId, onPosition }: { rescueId: string; onPo
       </p>
       <div className="mt-3 flex flex-wrap gap-3">
         {!on ? (
-          <button onClick={start} className={`${btn} border border-paprika-600 text-paprika-700`}>Start sharing</button>
+          <button onClick={start} className={`${btn} border border-brand-600 text-brand-700`}>Start sharing</button>
         ) : (
           <button onClick={() => stop()} className={`${btn} border border-stone-400`}>Stop sharing</button>
         )}
@@ -198,9 +198,9 @@ export function ShareLocation({ rescueId, onPosition }: { rescueId: string; onPo
         <button type="submit" className={`${btn} border border-stone-300`}>Send this position</button>
       </form>
       {on && (
-        <div role="status" className="fl-appear sticky bottom-3 z-30 mt-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border-2 border-paprika-600 bg-paprika-50 px-4 py-3 text-sm font-semibold text-paprika-900 shadow-lift">
+        <div role="status" className="fl-appear sticky bottom-3 z-30 mt-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border-2 border-brand-600 bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-900 shadow-lift">
           <span><span aria-hidden>● </span>Sharing is ON: the provider, the NGO and admins can see your position (about 100 m).</span>
-          <button onClick={() => stop()} className="inline-flex min-h-11 items-center rounded-lg bg-paprika-600 px-4 py-2 font-semibold text-white hover:bg-paprika-700">Stop sharing</button>
+          <button onClick={() => stop()} className="inline-flex min-h-11 items-center rounded-lg bg-brand-600 px-4 py-2 font-semibold text-white hover:bg-brand-700">Stop sharing</button>
         </div>
       )}
       {message && <p role="status" className="mt-1 text-sm text-stone-700">{message}</p>}

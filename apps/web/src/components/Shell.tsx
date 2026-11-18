@@ -13,9 +13,9 @@ import { Avatar, Spinner } from './ui';
 const statusStyles: Record<VerificationStatus, { label: string; icon: string; cls: string }> = {
   UNSUBMITTED: { label: 'Draft - not submitted', icon: '✎', cls: 'border-dashed border-stone-500 bg-stone-100 text-stone-800' },
   UNDER_REVIEW: { label: 'Pending review', icon: '◔', cls: 'border-amber-600 bg-amber-50 text-amber-900' },
-  VERIFIED: { label: 'Verified', icon: '✓', cls: 'border-stone-900 bg-stone-900 text-white' },
+  VERIFIED: { label: 'Verified', icon: '✓', cls: 'border-brand-700 bg-brand-600 text-white' },
   REJECTED: { label: 'Rejected', icon: '✕', cls: 'border-2 border-red-700 bg-red-50 text-red-900' },
-  RESUBMISSION_REQUESTED: { label: 'Resubmission required', icon: '↻', cls: 'border-saffron-600 bg-saffron-50 text-saffron-700' },
+  RESUBMISSION_REQUESTED: { label: 'Resubmission required', icon: '↻', cls: 'border-zest-600 bg-zest-50 text-zest-700' },
 };
 
 /** Status is conveyed by an icon and text, never by color alone. */
@@ -68,7 +68,7 @@ function AccountMenu({ user, roleLabel, onSignOut }: { user: User; roleLabel: st
   }, [open]);
   const second =
     user.platformRole === 'runner' ? { href: '/profile#transport', label: 'Transport and availability' } : user.platformRole === 'admin' ? null : { href: '/profile#organization', label: 'My organization' };
-  const item = 'block rounded-lg px-3 py-2 text-sm font-medium text-stone-900 hover:bg-saffron-50';
+  const item = 'block rounded-lg px-3 py-2 text-sm font-medium text-stone-900 hover:bg-zest-50';
   return (
     <div ref={root} className="relative">
       <button
@@ -78,11 +78,11 @@ function AccountMenu({ user, roleLabel, onSignOut }: { user: User; roleLabel: st
         aria-expanded={open}
         aria-label={`Account menu for ${user.name}`}
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 rounded-full border border-white/30 py-1 pl-1 pr-3 text-sm hover:bg-white/10"
+        className="flex items-center gap-2 rounded-full bg-white/[0.05] py-1 pl-1 pr-3 text-sm ring-1 ring-white/10 hover:bg-white/10"
       >
         <Avatar name={user.name} size={30} />
         <span className="max-w-40 truncate text-stone-100">{user.name}</span>
-        <span aria-hidden className="text-xs text-saffron-200">▾</span>
+        <span aria-hidden className="text-xs text-zest-200">▾</span>
       </button>
       {open && (
         <div role="menu" className="fl-appear absolute right-0 top-full z-50 mt-2 w-64 rounded-xl border border-stone-200 bg-white p-2 text-stone-900 shadow-lift">
@@ -90,7 +90,7 @@ function AccountMenu({ user, roleLabel, onSignOut }: { user: User; roleLabel: st
             <Avatar name={user.name} size={40} />
             <div className="min-w-0">
               <p className="truncate text-sm font-bold">{user.name}</p>
-              <span className="inline-block rounded-full bg-saffron-300 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-stone-950">{roleLabel}</span>
+              <span className="inline-block rounded-full bg-zest-300 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-stone-950">{roleLabel}</span>
             </div>
           </div>
           <Link role="menuitem" href="/profile" onClick={() => setOpen(false)} className={`${item} mt-1`}>Your profile</Link>
@@ -125,20 +125,20 @@ export interface PageHeaderProps {
   below?: ReactNode;
 }
 
-/** The one page header used by every inner page: back link, eyebrow, serif title, subtitle and actions. */
+/** The one page header used by every inner page: back link, eyebrow, display title, subtitle and actions. */
 export function PageHeader({ title, eyebrow, subtitle, actions, back, below }: PageHeaderProps & { title: string }) {
   return (
-    <header className="mb-5 border-b border-stone-200 pb-4 md:mb-6">
+    <header className="mb-6 md:mb-8">
       {back && (
-        <Link href={back.href} className="inline-flex items-center gap-1 text-sm font-semibold text-paprika-700 underline-offset-4 hover:underline">
+        <Link href={back.href} className="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 underline-offset-4 hover:underline">
           <span aria-hidden>←</span> {back.label}
         </Link>
       )}
       <div className="mt-1 flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0">
-          {eyebrow && <p className="text-xs font-bold uppercase tracking-wider text-paprika-700">{eyebrow}</p>}
-          <h1 className="text-3xl font-bold text-stone-900 md:text-4xl">{title}</h1>
-          {subtitle && <div className="mt-1 max-w-3xl text-sm text-stone-700 md:text-base">{subtitle}</div>}
+          {eyebrow && <p className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-700"><span aria-hidden className="h-1.5 w-1.5 rounded-full bg-zest-400" />{eyebrow}</p>}
+          <h1 className="mt-1 text-3xl font-extrabold text-stone-900 md:text-[2.6rem] md:leading-tight">{title}</h1>
+          {subtitle && <div className="mt-2 max-w-3xl text-sm text-stone-600 md:text-base">{subtitle}</div>}
         </div>
         {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
       </div>
@@ -197,19 +197,19 @@ export function Shell({ user, title, children, hideTitle = false, eyebrow, subti
   return (
     <div className="flex min-h-screen flex-col">
       <a href="#main" className="skip-link">Skip to main content</a>
-      <header ref={headerRef} className="on-dark sticky top-0 z-40 bg-stone-950 text-white shadow-md">
-        <div className={`mx-auto flex ${PAGE_W} items-center gap-3 px-4 py-2`}>
+      <header ref={headerRef} className="on-dark sticky top-0 z-40 border-b border-white/5 bg-stone-950/[0.92] text-white shadow-[0_8px_30px_-12px_rgb(0_0_0/0.5)] backdrop-blur-xl">
+        <div className={`mx-auto flex ${PAGE_W} items-center gap-3 px-4 py-2.5`}>
           <Link href={home} aria-label="FoodLoop home" className="mr-2 shrink-0">
             <Logo size={32} tone="light" />
           </Link>
           <nav aria-label="Main" className="hidden flex-1 md:block">
-            <ul className="flex flex-wrap items-center gap-1">
+            <ul className="inline-flex flex-wrap items-center gap-0.5 rounded-full bg-white/[0.05] p-1 ring-1 ring-white/10">
               {links.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
                     aria-current={isActive(l.href) ? 'page' : undefined}
-                    className={`block rounded-full px-3.5 py-2 text-sm font-semibold ${isActive(l.href) ? 'bg-saffron-300 text-stone-950' : 'text-stone-100 hover:bg-white/10'}`}
+                    className={`block rounded-full px-3.5 py-1.5 text-sm font-semibold ${isActive(l.href) ? 'bg-zest-300 text-stone-950 shadow-[0_4px_14px_-4px_rgb(201_238_82/0.6)]' : 'text-stone-300 hover:bg-white/10 hover:text-white'}`}
                   >
                     {l.label}
                   </Link>
@@ -225,16 +225,16 @@ export function Shell({ user, title, children, hideTitle = false, eyebrow, subti
               className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full ${notifActive ? 'bg-white/15 text-white' : 'text-stone-100 hover:bg-white/10'}`}
             >
               <BellIcon />
-              {unread > 0 && <span aria-hidden className="absolute right-1 top-1 min-w-5 rounded-full bg-saffron-300 px-1 text-center text-[11px] font-bold leading-5 text-stone-950">{unread > 99 ? '99+' : unread}</span>}
+              {unread > 0 && <span aria-hidden className="absolute right-1 top-1 min-w-5 rounded-full bg-zest-300 px-1 text-center text-[11px] font-bold leading-5 text-stone-950">{unread > 99 ? '99+' : unread}</span>}
             </Link>
             <div className="hidden items-center gap-2 md:flex">
               <AccountMenu user={user} roleLabel={roleLabel[user.platformRole]} onSignOut={signOut} />
-              <button onClick={signOut} className="rounded-lg border border-white/30 px-3 py-1.5 text-sm font-semibold hover:bg-white/10">Sign out</button>
+              <button onClick={signOut} className="rounded-full px-3 py-1.5 text-sm font-semibold text-stone-300 hover:bg-white/10 hover:text-white">Sign out</button>
             </div>
             <button
               ref={toggleRef}
               type="button"
-              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/40 px-3 py-2 text-sm font-semibold hover:bg-white/10 md:hidden"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white/[0.06] px-4 py-2 text-sm font-semibold ring-1 ring-white/15 hover:bg-white/10 md:hidden"
               aria-expanded={menuOpen}
               aria-controls="main-nav"
               onClick={() => setMenuOpen((o) => !o)}
@@ -244,14 +244,14 @@ export function Shell({ user, title, children, hideTitle = false, eyebrow, subti
             </button>
           </div>
         </div>
-        <div className="menu-panel border-t border-white/10 bg-stone-900 md:hidden" data-open={menuOpen}>
+        <div className="menu-panel border-t border-white/10 bg-stone-950 md:hidden" data-open={menuOpen}>
           <div>
             <nav aria-label="Main menu" id="main-nav">
               <div className="flex items-center gap-3 px-4 pb-1 pt-3">
                 <Avatar name={user.name} size={36} />
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold">{user.name}</p>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-saffron-200">{roleLabel[user.platformRole]}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-zest-200">{roleLabel[user.platformRole]}</p>
                 </div>
               </div>
               <ul className="flex flex-col gap-0.5 px-2 py-2">
@@ -260,7 +260,7 @@ export function Shell({ user, title, children, hideTitle = false, eyebrow, subti
                     <Link
                       href={l.href}
                       aria-current={isActive(l.href) ? 'page' : undefined}
-                      className={`block rounded-lg px-3 py-3 text-sm font-semibold ${isActive(l.href) ? 'bg-saffron-300 text-stone-950' : 'text-stone-100 hover:bg-white/10'}`}
+                      className={`block rounded-lg px-3 py-3 text-sm font-semibold ${isActive(l.href) ? 'bg-zest-300 text-stone-950' : 'text-stone-200 hover:bg-white/10'}`}
                     >
                       {l.label}
                     </Link>
@@ -280,7 +280,7 @@ export function Shell({ user, title, children, hideTitle = false, eyebrow, subti
         {hideTitle ? <h1 className="sr-only">{title}</h1> : <PageHeader title={title} eyebrow={eyebrow} subtitle={subtitle} actions={actions} back={back} below={below} />}
         {children}
       </main>
-      <footer className="border-t border-stone-200 bg-stone-100">
+      <footer className="border-t border-stone-200 bg-white/70 backdrop-blur">
         <div className={`mx-auto flex ${PAGE_W} flex-wrap items-center justify-between gap-2 px-4 py-4 text-xs text-stone-600`}>
           <span className="inline-flex items-center gap-2"><Logo size={20} /> Rescuing surplus food, closing the loop.</span>
           <span>Distances are straight-line estimates · <Link href="/credits" className="underline underline-offset-2">Photo credits</Link></span>

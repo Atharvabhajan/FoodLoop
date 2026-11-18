@@ -57,30 +57,45 @@ export default function RegisterPage() {
   }
 
   return (
-    <main id="main" className="mx-auto grid min-h-screen max-w-5xl gap-8 px-4 py-8 md:grid-cols-[1fr_1.1fr] md:items-start md:py-12">
-      <aside className="md:sticky md:top-8">
-        <Link href="/" aria-label="FoodLoop home"><Logo size={38} /></Link>
-        <div className="zoom relative mt-6 hidden overflow-hidden rounded-2xl shadow-card md:block">
-          <Photo key={role} name={rolePhoto[role]} className="fl-appear h-72 w-full object-cover" />
-          <p className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-950/85 to-transparent px-5 pb-4 pt-12 font-semibold text-white" style={{ fontFamily: 'var(--font-display)' }}>
-            {roleOptions.find((o) => o.value === role)?.help}
+    <main id="main" className="mx-auto grid min-h-screen max-w-6xl gap-8 px-4 py-6 md:grid-cols-[1fr_1.1fr] md:items-start md:gap-12 md:py-10">
+      <aside className="on-dark fl-night relative isolate overflow-hidden rounded-[2rem] p-6 text-white md:sticky md:top-8 md:min-h-[calc(100vh-5rem)] md:p-9">
+        <div className="fl-grid absolute inset-0 -z-10" aria-hidden />
+        <Link href="/" aria-label="FoodLoop home" className="inline-block"><Logo size={38} tone="light" /></Link>
+        <div className="hidden md:block">
+          <h2 className="mt-12 text-4xl font-extrabold leading-tight lg:text-5xl">
+            Join the loop. <span className="text-zest-gradient">Feed people,</span> not landfills.
+          </h2>
+          <p className="mt-4 max-w-md text-stone-300">
+            {role === 'provider' ? 'List surplus food in a minute and follow every rescue to the plate.' : role === 'ngo' ? 'Get told about live food near you and accept what fits your needs.' : 'Pick up nearby jobs, verify the pickup code and hand the food over.'}
           </p>
+          <div className="zoom relative mt-8 overflow-hidden rounded-2xl border border-white/10 shadow-2xl">
+            <Photo key={role} name={rolePhoto[role]} className="fl-appear h-64 w-full object-cover" />
+            <p className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-950/90 to-transparent px-5 pb-4 pt-12 font-semibold text-white" style={{ fontFamily: 'var(--font-display)' }}>
+              {roleOptions.find((o) => o.value === role)?.help}
+            </p>
+          </div>
+          <ul className="mt-8 space-y-2.5 text-sm text-stone-200">
+            {['Organizations are verified before they post or accept food', 'Pickup codes are one-time and shown only once', 'Impact counts only food the NGO confirms it received'].map((t) => (
+              <li key={t} className="flex items-start gap-2.5">
+                <span aria-hidden className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-zest-300 text-[10px] font-black text-stone-950">✓</span>
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
-        <p className="mt-4 hidden text-stone-700 md:block">
-          {role === 'provider' ? 'List surplus food in a minute and follow every rescue to the plate.' : role === 'ngo' ? 'Get told about live food near you and accept what fits your needs.' : 'Pick up nearby jobs, verify the pickup code and hand the food over.'}
-        </p>
       </aside>
-      <section>
-        <Link href="/" className="text-sm font-semibold text-paprika-700 underline underline-offset-2">
-          ← Back to sign in
+      <section className="md:pt-4">
+        <Link href="/" className="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 underline-offset-4 hover:underline">
+          <span aria-hidden>←</span> Back to sign in
         </Link>
-        <h1 className="mt-4 text-3xl font-bold text-stone-900">Create your account</h1>
-        <form onSubmit={onSubmit} noValidate className="mt-6 space-y-5 rounded-2xl border border-stone-200 bg-white p-6 shadow-card">
+        <h1 className="mt-4 text-4xl font-extrabold text-stone-900">Create your account</h1>
+        <p className="mt-2 text-stone-600">It takes a minute. You can add organization details after signing in.</p>
+        <form onSubmit={onSubmit} noValidate className="mt-6 space-y-5 rounded-3xl border border-stone-200 bg-white p-6 shadow-card sm:p-7">
           <fieldset>
             <legend className="text-sm font-semibold">I am joining as</legend>
             <div className="mt-2 grid gap-2">
               {roleOptions.map((o) => (
-                <label key={o.value} className={`lift flex cursor-pointer gap-3 rounded-xl border-2 p-3 ${role === o.value ? 'border-paprika-600 bg-paprika-50' : 'border-stone-200'}`}>
+                <label key={o.value} className={`lift flex cursor-pointer gap-3 rounded-2xl border-2 p-3.5 ${role === o.value ? 'border-brand-600 bg-brand-50 shadow-[0_8px_20px_-12px_rgb(6_120_88/0.6)]' : 'border-stone-200 hover:border-stone-300'}`}>
                   <input type="radio" name="role" value={o.value} checked={role === o.value} onChange={() => setRole(o.value)} className="mt-1" />
                   <span>
                     <span className="block font-semibold">{o.label}</span>

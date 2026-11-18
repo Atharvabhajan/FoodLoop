@@ -164,7 +164,7 @@ function RequirementEditor({ requirement, onChanged }: { requirement: Requiremen
             {requirement.intakeEnabled ? (
               <button onClick={() => void toggle(false)} disabled={busy} className="rounded-md border border-stone-400 px-4 py-2 text-sm font-semibold hover:bg-stone-100 disabled:opacity-60">Pause intake</button>
             ) : (
-              <button onClick={() => void toggle(true)} disabled={busy} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-paprika-600 px-4 py-2 text-sm font-semibold text-white hover:bg-paprika-700 disabled:opacity-60">Resume intake</button>
+              <button onClick={() => void toggle(true)} disabled={busy} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60">Resume intake</button>
             )}
           </div>
         </section>

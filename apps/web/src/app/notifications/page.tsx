@@ -66,7 +66,7 @@ export default function NotificationsPage() {
   const filters = (
     <div role="group" aria-label="Filter notifications" className="inline-flex flex-wrap rounded-xl border border-stone-300 bg-white p-0.5">
       {([['all', 'All'], ['action', 'Needs action'], ['food', 'Food and jobs'], ['rescue', 'Rescue updates']] as const).map(([k, label]) => (
-        <button key={k} type="button" aria-pressed={filter === k} onClick={() => setFilter(k)} className={`min-h-10 rounded-lg px-3.5 py-1.5 text-sm font-semibold ${filter === k ? 'bg-paprika-600 text-white' : 'hover:bg-stone-100'}`}>
+        <button key={k} type="button" aria-pressed={filter === k} onClick={() => setFilter(k)} className={`min-h-10 rounded-lg px-3.5 py-1.5 text-sm font-semibold ${filter === k ? 'bg-brand-600 text-white' : 'hover:bg-stone-100'}`}>
           {label}
           {k === 'action' && items ? ` (${items.filter((n) => n.actionable).length})` : ''}
         </button>
@@ -89,7 +89,7 @@ export default function NotificationsPage() {
                 const a = action(n);
                 return (
                   <li key={n.id} className={`row-hover flex gap-3 border-t border-stone-200 p-4 first:border-t-0 ${a ? '' : 'opacity-80'}`}>
-                    <span aria-hidden className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ${a ? 'bg-paprika-600 text-white' : 'bg-stone-200 text-stone-700'}`}>{icon(n)}</span>
+                    <span aria-hidden className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ${a ? 'bg-brand-600 text-white' : 'bg-stone-200 text-stone-700'}`}>{icon(n)}</span>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-start justify-between gap-2">
                         <p className="font-semibold">{n.title}</p>
@@ -97,7 +97,7 @@ export default function NotificationsPage() {
                       </div>
                       <p className="mt-0.5 text-sm text-stone-800">{niceBody(n.body)}</p>
                       {a ? (
-                        <Link href={a.href} className="mt-2 inline-flex min-h-9 items-center rounded-lg border border-paprika-600 px-3 py-1 text-sm font-semibold text-paprika-700 hover:bg-paprika-50">{a.label}</Link>
+                        <Link href={a.href} className="mt-2 inline-flex min-h-9 items-center rounded-lg border border-brand-600 px-3 py-1 text-sm font-semibold text-brand-700 hover:bg-brand-50">{a.label}</Link>
                       ) : (
                         <p className="mt-1 text-xs text-stone-600">No longer actionable: this {n.type === 'LISTING_MATCH' ? 'listing is no longer available to you' : n.type === 'RUNNER_JOB' ? 'job has been taken or has closed' : n.type === 'LISTING_RUNNER_ALERT' || n.type === 'ESCALATION_ADMIN' ? 'listing has been accepted or has closed' : 'rescue has finished'}.</p>
                       )}

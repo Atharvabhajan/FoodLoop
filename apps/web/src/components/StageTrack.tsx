@@ -28,16 +28,16 @@ export function StageTrack({ status, compact = false }: { status: RescueStatus; 
         return (
           <li key={label} aria-current={current ? 'step' : undefined} className="min-w-0 flex-1 text-center">
             <div className="flex items-center">
-              <span className={`h-1 flex-1 rounded ${i === 0 ? 'opacity-0' : done || current ? 'bg-paprika-500' : 'bg-stone-200'}`} aria-hidden />
+              <span className={`h-1 flex-1 rounded ${i === 0 ? 'opacity-0' : done || current ? 'bg-brand-500' : 'bg-stone-200'}`} aria-hidden />
               <span
                 aria-hidden
                 className={`mx-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 text-[10px] font-bold ${
-                  done ? 'border-stone-900 bg-stone-900 text-white' : current ? 'border-paprika-600 bg-white text-paprika-700 ring-4 ring-paprika-100' : 'border-stone-300 bg-white text-stone-400'
+                  done ? 'border-brand-600 bg-brand-600 text-white' : current ? 'border-brand-600 bg-white text-brand-700 ring-4 ring-brand-100' : 'border-stone-300 bg-white text-stone-400'
                 }`}
               >
                 {done ? '✓' : i + 1}
               </span>
-              <span className={`h-1 flex-1 rounded ${i === steps.length - 1 ? 'opacity-0' : done ? 'bg-paprika-500' : 'bg-stone-200'}`} aria-hidden />
+              <span className={`h-1 flex-1 rounded ${i === steps.length - 1 ? 'opacity-0' : done ? 'bg-brand-500' : 'bg-stone-200'}`} aria-hidden />
             </div>
             <span className={`mt-1 block text-[11px] leading-tight ${compact ? 'sr-only' : 'hidden sm:block'} ${current ? 'font-bold text-stone-900' : done ? 'text-stone-700' : 'text-stone-500'}`}>{label}</span>
             <span className="sr-only">{`${label}: ${done ? 'done' : current ? 'current step' : 'not yet'}`}</span>

@@ -147,12 +147,12 @@ function DecisionForm({ org, onDecided }: { org: Organization; onDecided: (messa
   }
 
   return (
-    <form onSubmit={submit} noValidate aria-labelledby="decide-h" className="rounded-2xl border-2 border-paprika-600 bg-white p-5 shadow-card">
+    <form onSubmit={submit} noValidate aria-labelledby="decide-h" className="rounded-2xl border-2 border-brand-600 bg-white p-5 shadow-card">
       <h2 id="decide-h" className="text-lg font-semibold">Decision</h2>
       <fieldset className="mt-3 space-y-2">
         <legend className="sr-only">Choose a decision</legend>
         {decisions.map((d) => (
-          <label key={d.value} className={`lift flex cursor-pointer gap-3 rounded-xl border-2 p-3 ${decision === d.value ? 'border-paprika-600 bg-paprika-50' : 'border-stone-300'}`}>
+          <label key={d.value} className={`lift flex cursor-pointer gap-3 rounded-xl border-2 p-3 ${decision === d.value ? 'border-brand-600 bg-brand-50' : 'border-stone-300'}`}>
             <input type="radio" name="decision" value={d.value} checked={decision === d.value} onChange={() => setDecision(d.value)} className="mt-1" />
             <span>
               <span className="block font-medium">{d.label}</span>
@@ -169,7 +169,7 @@ function DecisionForm({ org, onDecided }: { org: Organization; onDecided: (messa
         {reasonError && <p id="reason-error" className="mt-1 text-sm text-red-700">{reasonError}</p>}
       </div>
       <div className="mt-3"><FormError message={error} /></div>
-      <button type="submit" disabled={busy || !decision} className="mt-4 w-full rounded-lg bg-paprika-600 px-5 py-3 font-semibold text-white hover:bg-paprika-700 disabled:cursor-not-allowed disabled:opacity-60">
+      <button type="submit" disabled={busy || !decision} className="mt-4 w-full rounded-lg bg-brand-600 px-5 py-3 font-semibold text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-60">
         {busy ? 'Saving…' : 'Record decision'}
       </button>
     </form>
